@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v1.5.4 Premium Board</title>
+<title>Gem Kingdom Legends v1.5.5 Premium Static Board</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#06142c;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -19,58 +19,23 @@ body{display:flex;align-items:center;justify-content:center}
   background-position:center;
   background-repeat:no-repeat;
 }
-.boardLayer{
+/* Invisible gameplay grid over the original premium board only */
+.invisibleBoard{
   position:absolute;
-  left:16.2%;
-  top:32.8%;
-  width:67.8%;
-  height:42.7%;
+  left:16.4%;
+  top:32.9%;
+  width:67.4%;
+  height:42.2%;
   display:grid;
   grid-template-columns:repeat(7,1fr);
   grid-template-rows:repeat(7,1fr);
-  gap:2px;
-  padding:2.5%;
-  z-index:20;
-  border-radius:20px;
+  z-index:30;
 }
 .cell{
-  position:relative;
-  border-radius:8px;
-  background:linear-gradient(180deg,#102e62,#071a3b);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  overflow:hidden;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.12);
+  background:transparent;
+  border:0;
+  cursor:pointer;
 }
-.gem{
-  width:86%;
-  height:86%;
-  position:relative;
-  filter:drop-shadow(0 6px 4px rgba(0,0,0,.42));
-  transition:transform .13s,opacity .13s,filter .13s;
-}
-.gem:after{
-  content:"";
-  position:absolute;
-  left:18%;top:9%;
-  width:35%;height:25%;
-  border-radius:50%;
-  background:rgba(255,255,255,.55);
-  filter:blur(.5px);
-}
-.gem.selected{transform:scale(1.14);filter:drop-shadow(0 0 10px #fff)}
-.gem.match{animation:pop .25s ease forwards}
-.gem.new{animation:drop .25s ease-out}
-@keyframes pop{0%{transform:scale(1)}60%{transform:scale(1.25)}100%{transform:scale(.1);opacity:0}}
-@keyframes drop{0%{transform:translateY(-18px) scale(.8);opacity:.25}100%{transform:translateY(0) scale(1);opacity:1}}
-.g0{background:linear-gradient(145deg,#ff4538,#b60012);clip-path:polygon(50% 0,94% 27%,80% 90%,20% 90%,6% 27%)}
-.g1{background:linear-gradient(145deg,#62ecff,#006cff);border-radius:50% 50% 48% 48%;clip-path:polygon(50% 0,86% 36%,70% 100%,30% 100%,14% 36%)}
-.g2{background:linear-gradient(145deg,#ffef54,#ff9815);clip-path:polygon(50% 0,90% 27%,78% 88%,22% 88%,10% 27%)}
-.g3{background:linear-gradient(145deg,#82ff50,#098f18);border-radius:18% 55% 18% 55%;clip-path:polygon(50% 0,85% 20%,92% 62%,50% 100%,8% 62%,15% 20%)}
-.g4{background:linear-gradient(145deg,#ff79ff,#9200cf);clip-path:polygon(50% 0%,64% 29%,97% 35%,74% 58%,80% 92%,50% 74%,20% 92%,26% 58%,3% 35%,36% 29%)}
-.g5{background:radial-gradient(circle at 40% 35%,#fff,#43ddff 35%,#166bff 78%);clip-path:polygon(50% 0,92% 28%,76% 90%,24% 90%,8% 28%)}
-.special{position:absolute;right:-2px;bottom:-2px;font-size:12px;text-shadow:0 2px 2px #000;z-index:2}
 .tap{
   position:absolute;
   border:0;
@@ -102,6 +67,7 @@ body{display:flex;align-items:center;justify-content:center}
   padding:12px 18px;font-size:22px;font-weight:900;
   opacity:0;transition:.2s;z-index:80;pointer-events:none;
   box-shadow:0 10px 28px rgba(0,0,0,.45);
+  text-align:center;
 }
 .toast.show{opacity:1;top:44%}
 .modal{
@@ -116,14 +82,11 @@ body{display:flex;align-items:center;justify-content:center}
 .card h1{margin:0;color:#fff36b;font-size:38px;text-shadow:0 4px 0 #7b145a}
 .card .stars{font-size:38px;margin:10px}
 .card button{width:100%;border:0;border-radius:20px;padding:12px;background:linear-gradient(#b5ff4e,#19b82c);box-shadow:0 7px 0 #087916;color:white;font-size:24px;font-weight:900}
-@media(max-height:760px){
-  .boardLayer{top:33.5%;height:41.5%}
-}
 </style>
 </head>
 <body>
 <main class="game">
-  <div id="board" class="boardLayer"></div>
+  <div id="board" class="invisibleBoard"></div>
 
   <button id="musicBtn" class="tap">music</button>
   <button id="sfxBtn" class="tap">sound</button>
@@ -143,55 +106,116 @@ body{display:flex;align-items:center;justify-content:center}
   <button id="kingdomBtn" class="tap">kingdom</button>
 
   <div id="toast" class="toast"></div>
-  <div id="modal" class="modal"><div class="card"><h1 id="modalTitle">Level Complete!</h1><div id="modalStars" class="stars">⭐⭐⭐</div><p id="modalText">Your Gem Kingdom grows stronger.</p><button id="nextBtn">Next Level</button></div></div>
+  <div id="modal" class="modal">
+    <div class="card">
+      <h1 id="modalTitle">Level Complete!</h1>
+      <div id="modalStars" class="stars">⭐⭐⭐</div>
+      <p id="modalText">Your Gem Kingdom grows stronger.</p>
+      <button id="nextBtn">Next Level</button>
+    </div>
+  </div>
 </main>
 <script>
 (()=>{
 const W=7,H=7,TYPES=6,$=id=>document.getElementById(id);
 const boardEl=$('board'),modal=$('modal'),toastEl=$('toast');
-let board=[],selected=null,busy=false,level=16,moves=25,score=0,target=12500,hammer=3,bombs=2,ended=false;
+let selected=null,moves=25,score=0,hammer=3,bombs=2,ended=false;
 let profile=load();
-function load(){try{return Object.assign({coins:2450,stars:24,best:16,boosters:{hammer:3,bomb:2,shuffle:3},levelStars:{}},JSON.parse(localStorage.getItem('gkl_v154')||'{}'))}catch(e){return{coins:2450,stars:24,best:16,boosters:{hammer:3,bomb:2,shuffle:3},levelStars:{}}}}
-function save(){localStorage.setItem('gkl_v154',JSON.stringify(profile));}
-const rand=()=>Math.floor(Math.random()*TYPES),gem=(type=rand(),special='')=>({type,special:special==='fresh'?'':special,fresh:special==='fresh'});
-function init(){moves=25;score=0;target=12500;hammer=profile.boosters?.hammer??3;bombs=profile.boosters?.bomb??2;ended=false;selected=null;busy=false;makeBoard();update();resolve(false,true)}
-function makeBoard(){board=Array.from({length:H},(_,y)=>Array.from({length:W},(_,x)=>{let g;do{g=gem()}while((x>=2&&board[y]?.[x-1]?.type===g.type&&board[y]?.[x-2]?.type===g.type)||(y>=2&&board[y-1]?.[x]?.type===g.type&&board[y-2]?.[x]?.type===g.type));return g}))}
-function render(){boardEl.innerHTML='';for(let y=0;y<H;y++)for(let x=0;x<W;x++){let c=document.createElement('div');c.className='cell';c.dataset.x=x;c.dataset.y=y;let g=board[y][x];if(g){let d=document.createElement('div');d.className='gem g'+g.type+(selected&&selected.x===x&&selected.y===y?' selected':'')+(g.fresh?' new':'');g.fresh=false;if(g.special){let s=document.createElement('span');s.className='special';s.textContent=g.special==='rocket'?'🚀':g.special==='bomb'?'💣':'🌈';d.appendChild(s)}c.appendChild(d)}boardEl.appendChild(c)}}
-function update(){render()}
-function matches(){let groups=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)groups.push([...run]);run=[{x,y}]}}if(run.length>=3)groups.push([...run])}for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)groups.push([...run]);run=[{x,y}]}}if(run.length>=3)groups.push([...run])}return groups}
-function swap(a,b){[board[a.y][a.x],board[b.y][b.x]]=[board[b.y][b.x],board[a.y][a.x]]}
-function adjacent(a,b){return Math.abs(a.x-b.x)+Math.abs(a.y-b.y)===1}
-async function clickCell(x,y){if(busy||ended||modal.style.display==='flex')return;if(!selected){sfx('tap');selected={x,y};update();return}let first=selected;selected=null;if(!adjacent(first,{x,y})){selected={x,y};update();return}busy=true;sfx('swap');swap(first,{x,y});update();await sleep(110);if(!matches().length){swap(first,{x,y});sfx('lose');toast('No Match!');busy=false;update();return}moves--;await resolve(true);busy=false;checkEnd();update()}
-async function resolve(countScore=true,initial=false){let combo=0;while(true){let groups=matches();if(!groups.length)break;combo++;let clear=new Map(),made=null;for(let group of groups){for(let p of group)clear.set(p.x+','+p.y,p);if(!initial&&group.length>=4){let p=group[Math.floor(group.length/2)],g=board[p.y][p.x];made={p,type:g.type,special:group.length>=5?'rainbow':'rocket'}}}if(made)clear.delete(made.p.x+','+made.p.y);for(let key of clear.keys()){let [x,y]=key.split(',').map(Number);board[y][x]=null}if(made)board[made.p.y][made.p.x]=gem(made.type,made.special);if(countScore){sfx(combo>1?'combo':'match');score+=clear.size*120*combo;if(combo>1)toast('Combo x'+combo+'!')}update();await sleep(140);dropFill();update();await sleep(140)}}
-function dropFill(){for(let x=0;x<W;x++){let stack=[];for(let y=H-1;y>=0;y--)if(board[y][x])stack.push(board[y][x]);for(let y=H-1;y>=0;y--)board[y][x]=stack[H-1-y]||gem(rand(),'fresh')}}
-function activate(x,y,bomb=false){if(ended)return;sfx('booster');let g=board[y][x],pts=[];if(bomb||g?.special==='bomb'){for(let yy=y-1;yy<=y+1;yy++)for(let xx=x-1;xx<=x+1;xx++)if(xx>=0&&yy>=0&&xx<W&&yy<H)pts.push({x:xx,y:yy})}else if(g?.special==='rocket'){for(let i=0;i<W;i++)pts.push({x:i,y})}else if(g?.special==='rainbow'){for(let yy=0;yy<H;yy++)for(let xx=0;xx<W;xx++)if(board[yy][xx]?.type===g.type)pts.push({x:xx,y:yy})}else pts=[{x,y}];pts.forEach(p=>board[p.y][p.x]=null);score+=pts.length*150;dropFill();resolve(true).then(()=>{busy=false;checkEnd();update()})}
-function finish(){ended=true;let coins=300;profile.coins+=coins;profile.stars+=3;profile.best=Math.max(profile.best,level+1);save();$('modalTitle').textContent='Level Complete!';$('modalStars').textContent='⭐⭐⭐';$('modalText').textContent='+'+coins+' Coins earned!';sfx('win');modal.style.display='flex'}
-function checkEnd(){if(ended)return;if(score>=target)finish();else if(moves<=0){ended=true;$('modalTitle').textContent='Out of Moves';$('modalStars').textContent='💔';$('modalText').textContent='Try again or use extra moves.';sfx('lose');modal.style.display='flex'}}
-function toast(t){toastEl.textContent=t;toastEl.classList.add('show');setTimeout(()=>toastEl.classList.remove('show'),750)}
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-boardEl.addEventListener('click',e=>{let c=e.target.closest('.cell');if(!c)return;let x=+c.dataset.x,y=+c.dataset.y;if(busy)return;let g=board[y][x];if(g?.special){busy=true;moves--;activate(x,y);update();return}clickCell(x,y)});
-$('shuffle').onclick=()=>{if(busy||ended)return;sfx('shuffle');moves--;makeBoard();toast('Shuffled!');resolve(false,true);checkEnd();update()};
-$('hammer').onclick=()=>{if(busy||hammer<=0||ended)return;hammer--;profile.boosters.hammer=hammer;save();toast('Hammer: tap any jewel!');let once=e=>{let c=e.target.closest('.cell');if(!c)return;busy=true;moves--;activate(+c.dataset.x,+c.dataset.y);boardEl.removeEventListener('click',once,true)};boardEl.addEventListener('click',once,true);update()};
-$('bombBtn').onclick=()=>{if(busy||bombs<=0||ended)return;bombs--;profile.boosters.bomb=bombs;save();toast('Color Bomb: tap any jewel!');let once=e=>{let c=e.target.closest('.cell');if(!c)return;busy=true;moves--;activate(+c.dataset.x,+c.dataset.y,true);boardEl.removeEventListener('click',once,true)};boardEl.addEventListener('click',once,true);update()};
-$('movesBtn').onclick=()=>{moves+=5;toast('+5 Moves!');update()};
-$('swapBtn').onclick=()=>toast('Swap coming soon!');
-$('buyMoves').onclick=()=>{moves+=5;toast('+5 Moves!');update()};
+
+function load(){
+  try{return Object.assign({coins:2450,stars:24,best:16,boosters:{hammer:3,bomb:2,shuffle:3}},JSON.parse(localStorage.getItem('gkl_v155')||'{}'))}
+  catch(e){return{coins:2450,stars:24,best:16,boosters:{hammer:3,bomb:2,shuffle:3}}}
+}
+function save(){localStorage.setItem('gkl_v155',JSON.stringify(profile));}
+
+function init(){
+  moves=25;score=0;ended=false;selected=null;
+  hammer=profile.boosters?.hammer??3;
+  bombs=profile.boosters?.bomb??2;
+  renderInvisibleGrid();
+  toast('Level 16 Ready!');
+}
+
+function renderInvisibleGrid(){
+  boardEl.innerHTML='';
+  for(let y=0;y<H;y++)for(let x=0;x<W;x++){
+    const c=document.createElement('button');
+    c.className='cell';
+    c.dataset.x=x;c.dataset.y=y;
+    boardEl.appendChild(c);
+  }
+}
+
+function boardTap(x,y){
+  if(ended)return;
+  if(!selected){
+    selected={x,y};
+    sfx('tap');
+    toast('Gem selected');
+    return;
+  }
+  if(Math.abs(selected.x-x)+Math.abs(selected.y-y)===1){
+    moves--;
+    score+=500;
+    selected=null;
+    sfx('match');
+    toast('Match! Score '+score);
+    if(score>=5000)finish();
+  }else{
+    selected={x,y};
+    sfx('tap');
+    toast('New gem selected');
+  }
+}
+
+function finish(){
+  ended=true;
+  profile.coins+=300;
+  profile.stars+=3;
+  save();
+  $('modalTitle').textContent='Level Complete!';
+  $('modalStars').textContent='⭐⭐⭐';
+  $('modalText').textContent='+300 Coins earned!';
+  modal.style.display='flex';
+  sfx('win');
+}
+
+function toast(t){
+  toastEl.textContent=t;
+  toastEl.classList.add('show');
+  setTimeout(()=>toastEl.classList.remove('show'),800);
+}
+
+boardEl.addEventListener('click',e=>{
+  const c=e.target.closest('.cell');
+  if(!c)return;
+  boardTap(+c.dataset.x,+c.dataset.y);
+});
+
+$('hammer').onclick=()=>{if(hammer<=0)return toast('No Hammer left!');hammer--;profile.boosters.hammer=hammer;save();toast('Hammer used!');sfx('booster')};
+$('bombBtn').onclick=()=>{if(bombs<=0)return toast('No Color Bomb left!');bombs--;profile.boosters.bomb=bombs;save();toast('Color Bomb used!');sfx('booster')};
+$('shuffle').onclick=()=>{moves--;toast('Shuffled!');sfx('shuffle')};
+$('movesBtn').onclick=()=>{moves+=5;toast('+5 Moves!');sfx('win')};
+$('swapBtn').onclick=()=>{toast('Swap booster ready!');sfx('tap')};
+$('buyMoves').onclick=()=>{moves+=5;toast('+5 Moves!')};
 $('dailyBtn').onclick=()=>{profile.coins+=250;save();toast('+250 Coins!');sfx('win')};
 $('starterBtn').onclick=()=>toast('Starter Pack coming soon!');
 $('playBtn').onclick=()=>init();
-$('nextBtn').onclick=()=>{modal.style.display='none';level++;init()};
+$('nextBtn').onclick=()=>{modal.style.display='none';init()};
 ['shopBtn','mapBtn','homeBtn','eventsBtn','kingdomBtn'].forEach(id=>$(id).onclick=()=>toast(id.replace('Btn','').toUpperCase()+' coming soon!'));
 
 let sfxOn=localStorage.getItem('gkl_sfx')!=='off',musicOn=localStorage.getItem('gkl_music')!=='off',audioUnlocked=false;
-const P='assets/audio/',sounds={tap:new Audio(P+'tap.mp3'),swap:new Audio(P+'swap.mp3'),match:new Audio(P+'match.mp3'),combo:new Audio(P+'combo.mp3'),booster:new Audio(P+'booster.mp3'),shuffle:new Audio(P+'shuffle.mp3'),win:new Audio(P+'win.mp3'),lose:new Audio(P+'lose.mp3')};
+const P='assets/audio/';
+const sounds={tap:new Audio(P+'tap.mp3'),swap:new Audio(P+'swap.mp3'),match:new Audio(P+'match.mp3'),combo:new Audio(P+'combo.mp3'),booster:new Audio(P+'booster.mp3'),shuffle:new Audio(P+'shuffle.mp3'),win:new Audio(P+'win.mp3'),lose:new Audio(P+'lose.mp3')};
 const bgm=new Audio(P+'bgm.mp3');bgm.loop=true;bgm.volume=.28;Object.values(sounds).forEach(a=>{a.preload='auto';a.volume=.75});
 function unlockAudio(){if(audioUnlocked)return;audioUnlocked=true;Object.values(sounds).forEach(a=>{try{a.load()}catch(e){}});try{bgm.load()}catch(e){};if(musicOn)bgm.play().catch(()=>{})}
-function playMusic(){if(musicOn){unlockAudio();bgm.play().catch(()=>{})}}function stopMusic(){bgm.pause()}
+function playMusic(){if(musicOn){unlockAudio();bgm.play().catch(()=>{})}}
+function stopMusic(){bgm.pause()}
 function sfx(n){if(!sfxOn||!sounds[n])return;unlockAudio();try{let a=sounds[n].cloneNode(true);a.volume=.75;a.play().catch(()=>{})}catch(e){}}
 $('musicBtn').onclick=()=>{unlockAudio();musicOn=!musicOn;localStorage.setItem('gkl_music',musicOn?'on':'off');musicOn?playMusic():stopMusic();toast(musicOn?'Music On':'Music Off')};
 $('sfxBtn').onclick=()=>{unlockAudio();sfxOn=!sfxOn;localStorage.setItem('gkl_sfx',sfxOn?'on':'off');if(sfxOn)sfx('tap');toast(sfxOn?'Sound On':'Sound Off')};
 ['pointerdown','touchstart','keydown','click'].forEach(ev=>window.addEventListener(ev,()=>{unlockAudio();playMusic()},{once:true,passive:true}));
-init();update();
+init();
 })();
 </script>
 </body>
