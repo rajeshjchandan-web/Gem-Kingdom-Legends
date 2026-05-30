@@ -19,34 +19,60 @@ body{display:flex;align-items:center;justify-content:center}
   background-position:center;
   background-repeat:no-repeat;
 }
-/* gameplay board only, aligned to the premium artwork board */
-.playLayer{
+
+/* FIX: cover the artwork board first, then draw one clean playable board */
+.boardShell{
   position:absolute;
-  left:21.8%;
-  top:37.25%;
-  width:56.4%;
-  height:31.35%;
+  left:16.2%;
+  top:37.05%;
+  width:67.6%;
+  height:35.95%;
+  border-radius:21px;
+  background:#061b3f;
+  border:3px solid #f5a91f;
+  box-shadow:
+    0 5px 0 #7b430b,
+    0 10px 18px rgba(0,0,0,.45),
+    inset 0 0 18px rgba(55,160,255,.18);
+  z-index:15;
+  padding:2.6%;
+}
+.playLayer{
+  width:100%;
+  height:100%;
   display:grid;
   grid-template-columns:repeat(6,1fr);
   grid-template-rows:repeat(7,1fr);
-  gap:2px;
-  padding:2px;
-  border-radius:18px;
-  background:rgba(3,18,48,.08);
+  gap:3px;
 }
-.cell{position:relative;border-radius:8px;display:flex;align-items:center;justify-content:center}
+.cell{
+  position:relative;
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(180deg,#102e62,#071a3b);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10);
+}
 .jewel{
-  width:84%;
-  height:84%;
+  width:86%;
+  height:86%;
   position:relative;
   border-radius:28%;
-  box-shadow:inset 0 2px 3px rgba(255,255,255,.72), inset 0 -5px 7px rgba(0,0,0,.28), 0 4px 5px rgba(0,0,0,.38);
+  box-shadow:
+    inset 0 2px 3px rgba(255,255,255,.72),
+    inset 0 -5px 7px rgba(0,0,0,.28),
+    0 4px 5px rgba(0,0,0,.38);
   transition:transform .12s,filter .12s;
 }
 .jewel:after{
   content:"";
-  position:absolute;left:18%;top:10%;width:35%;height:25%;
-  border-radius:50%;background:rgba(255,255,255,.55);filter:blur(.5px);
+  position:absolute;
+  left:18%;top:10%;
+  width:35%;height:25%;
+  border-radius:50%;
+  background:rgba(255,255,255,.55);
+  filter:blur(.5px);
 }
 .jewel.selected{transform:scale(1.16);filter:drop-shadow(0 0 10px #fff)}
 .t0{background:linear-gradient(145deg,#ff3b2f,#b60012)}
@@ -56,8 +82,9 @@ body{display:flex;align-items:center;justify-content:center}
 .t4{background:linear-gradient(145deg,#ff72ff,#9b00d9);clip-path:polygon(50% 0%,65% 28%,98% 35%,74% 57%,80% 92%,50% 74%,20% 92%,26% 57%,2% 35%,35% 28%)}
 .t5{background:linear-gradient(145deg,#fff,#55ddff,#157dff);clip-path:polygon(50% 0,92% 28%,76% 90%,24% 90%,8% 28%)}
 .special{position:absolute;right:-2px;bottom:-3px;font-size:12px;text-shadow:0 2px 2px #000;z-index:2}
+
 /* invisible working tap zones */
-.tap{position:absolute;border:0;background:transparent;color:transparent;z-index:20}
+.tap{position:absolute;border:0;background:transparent;color:transparent;z-index:30}
 #musicBtn{right:4.2%;top:11.4%;width:12%;height:5.6%}
 #sfxBtn{right:4.2%;top:17.2%;width:12%;height:5.6%}
 #dailyBtn{left:2.2%;top:57.7%;width:16.5%;height:8.7%}
@@ -74,19 +101,14 @@ body{display:flex;align-items:center;justify-content:center}
 #homeBtn{left:39.3%;bottom:1.2%;width:21.4%;height:10.2%}
 #eventsBtn{left:61.3%;bottom:1.2%;width:18.5%;height:10.2%}
 #kingdomBtn{right:1.5%;bottom:1.2%;width:18.5%;height:10.2%}
-/* small dynamic text overlays only where needed, no duplicate score overlap */
-.hudText{
-  position:absolute;font-weight:900;text-shadow:0 3px 2px #391049,0 0 4px #000;text-align:center;pointer-events:none;z-index:18;
-}
-#movesText{left:28.2%;top:31.7%;width:12%;font-size:24px}
-#goalText{left:45.5%;top:31.7%;width:16%;font-size:23px}
-#coinsText{left:11.8%;top:10.1%;width:20%;font-size:16px}
-#starsText{left:10.8%;top:15.1%;width:16%;font-size:16px}
-#levelMini{left:10.7%;top:29.8%;width:9%;font-size:31px}
+
+/* FIX: no duplicate HUD text overlays anymore */
 .toast{
   position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);
-  background:linear-gradient(#ff5acb,#7b18c3);border:3px solid #ffdf45;border-radius:22px;
-  padding:12px 18px;font-size:22px;font-weight:900;opacity:0;transition:.2s;z-index:60;pointer-events:none;
+  background:linear-gradient(#ff5acb,#7b18c3);
+  border:3px solid #ffdf45;border-radius:22px;
+  padding:12px 18px;font-size:22px;font-weight:900;
+  opacity:0;transition:.2s;z-index:60;pointer-events:none;
   box-shadow:0 10px 28px rgba(0,0,0,.45);
 }
 .toast.show{opacity:1;top:44%}
@@ -103,20 +125,14 @@ body{display:flex;align-items:center;justify-content:center}
 .card .stars{font-size:38px;margin:10px}
 .card button{width:100%;border:0;border-radius:20px;padding:12px;background:linear-gradient(#b5ff4e,#19b82c);box-shadow:0 7px 0 #087916;color:white;font-size:24px;font-weight:900}
 @media(max-height:760px){
-  .playLayer{top:36.7%;height:31.8%}
+  .boardShell{top:36.75%;height:36.1%}
   #shopBtn,#mapBtn,#homeBtn,#eventsBtn,#kingdomBtn{bottom:1.4%}
 }
 </style>
 </head>
 <body>
 <main class="game">
-  <div id="coinsText" class="hudText">2,450</div>
-  <div id="starsText" class="hudText">24</div>
-  <div id="levelMini" class="hudText">15</div>
-  <div id="movesText" class="hudText">25</div>
-  <div id="goalText" class="hudText">125</div>
-
-  <div id="board" class="playLayer"></div>
+  <div class="boardShell"><div id="board" class="playLayer"></div></div>
 
   <button id="musicBtn" class="tap">music</button>
   <button id="sfxBtn" class="tap">sound</button>
@@ -144,13 +160,13 @@ const W=6,H=7,TYPES=6,$=id=>document.getElementById(id);
 const boardEl=$('board'),modal=$('modal'),toastEl=$('toast');
 let board=[],selected=null,busy=false,level=15,moves=25,score=0,target=12500,hammer=3,bombs=2,ended=false;
 let profile=load();
-function load(){try{return Object.assign({coins:2450,stars:24,best:15},JSON.parse(localStorage.getItem('gkl_premium_fixed_v1')||'{}'))}catch(e){return{coins:2450,stars:24,best:15}}}
-function save(){localStorage.setItem('gkl_premium_fixed_v1',JSON.stringify(profile));}
+function load(){try{return Object.assign({coins:2450,stars:24,best:15},JSON.parse(localStorage.getItem('gkl_premium_fixed_v2')||'{}'))}catch(e){return{coins:2450,stars:24,best:15}}}
+function save(){localStorage.setItem('gkl_premium_fixed_v2',JSON.stringify(profile));}
 const rand=()=>Math.floor(Math.random()*TYPES),gem=(type=rand(),special='')=>({type,special});
 function init(){moves=25;score=0;target=12500;hammer=3;bombs=2;ended=false;selected=null;busy=false;makeBoard();update();resolve(false,true)}
 function makeBoard(){board=Array.from({length:H},(_,y)=>Array.from({length:W},(_,x)=>{let g;do{g=gem()}while((x>=2&&board[y]?.[x-1]?.type===g.type&&board[y]?.[x-2]?.type===g.type)||(y>=2&&board[y-1]?.[x]?.type===g.type&&board[y-2]?.[x]?.type===g.type));return g}))}
 function render(){boardEl.innerHTML='';for(let y=0;y<H;y++)for(let x=0;x<W;x++){let c=document.createElement('div');c.className='cell';c.dataset.x=x;c.dataset.y=y;let g=board[y][x];if(g){let d=document.createElement('div');d.className='jewel t'+g.type+(selected&&selected.x===x&&selected.y===y?' selected':'');if(g.special){let s=document.createElement('span');s.className='special';s.textContent=g.special==='rocket'?'🚀':g.special==='bomb'?'💣':'🌈';d.appendChild(s)}c.appendChild(d)}boardEl.appendChild(c)}}
-function update(){$('movesText').textContent=moves;$('goalText').textContent=Math.ceil(target/100);$('coinsText').textContent=profile.coins.toLocaleString();$('starsText').textContent=profile.stars;$('levelMini').textContent=level;render()}
+function update(){render()}
 function matches(){let groups=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)groups.push([...run]);run=[{x,y}]}}if(run.length>=3)groups.push([...run])}for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)groups.push([...run]);run=[{x,y}]}}if(run.length>=3)groups.push([...run])}return groups}
 function swap(a,b){[board[a.y][a.x],board[b.y][b.x]]=[board[b.y][b.x],board[a.y][a.x]]}
 function adjacent(a,b){return Math.abs(a.x-b.x)+Math.abs(a.y-b.y)===1}
@@ -158,7 +174,7 @@ async function clickCell(x,y){if(busy||ended||modal.style.display==='flex')retur
 async function resolve(countScore=true,initial=false){let combo=0;while(true){let groups=matches();if(!groups.length)break;combo++;let clear=new Map(),made=null;for(let group of groups){for(let p of group)clear.set(p.x+','+p.y,p);if(!initial&&group.length>=4){let p=group[Math.floor(group.length/2)],g=board[p.y][p.x];made={p,type:g.type,special:group.length>=5?'rainbow':'rocket'}}}if(made)clear.delete(made.p.x+','+made.p.y);for(let key of clear.keys()){let [x,y]=key.split(',').map(Number);board[y][x]=null}if(made)board[made.p.y][made.p.x]=gem(made.type,made.special);if(countScore){sfx(combo>1?'combo':'match');score+=clear.size*120*combo;if(combo>1)toast('Combo x'+combo+'!')}update();await sleep(140);dropFill();update();await sleep(140)}}
 function dropFill(){for(let x=0;x<W;x++){let stack=[];for(let y=H-1;y>=0;y--)if(board[y][x])stack.push(board[y][x]);for(let y=H-1;y>=0;y--)board[y][x]=stack[H-1-y]||gem()}}
 function activate(x,y,bomb=false){if(ended)return;sfx('booster');let g=board[y][x],pts=[];if(bomb||g?.special==='bomb'){for(let yy=y-1;yy<=y+1;yy++)for(let xx=x-1;xx<=x+1;xx++)if(xx>=0&&yy>=0&&xx<W&&yy<H)pts.push({x:xx,y:yy})}else if(g?.special==='rocket'){for(let i=0;i<W;i++)pts.push({x:i,y})}else if(g?.special==='rainbow'){for(let yy=0;yy<H;yy++)for(let xx=0;xx<W;xx++)if(board[yy][xx]?.type===g.type)pts.push({x:xx,y:yy})}else pts=[{x,y}];pts.forEach(p=>board[p.y][p.x]=null);score+=pts.length*150;dropFill();resolve(true).then(()=>{busy=false;checkEnd();update()})}
-function finish(){ended=true;let st=score>=target*1.6?3:score>=target*1.25?2:1,coins=st*100;profile.coins+=coins;profile.stars+=st;profile.best=Math.max(profile.best,level+1);save();update();$('modalTitle').textContent='Level Complete!';$('modalStars').textContent='⭐'.repeat(st);$('modalText').textContent='+'+coins+' Coins earned!';sfx('win');modal.style.display='flex'}
+function finish(){ended=true;let st=score>=target*1.6?3:score>=target*1.25?2:1,coins=st*100;profile.coins+=coins;profile.stars+=st;profile.best=Math.max(profile.best,level+1);save();$('modalTitle').textContent='Level Complete!';$('modalStars').textContent='⭐'.repeat(st);$('modalText').textContent='+'+coins+' Coins earned!';sfx('win');modal.style.display='flex'}
 function checkEnd(){if(ended)return;if(score>=target)finish();else if(moves<=0){ended=true;$('modalTitle').textContent='Out of Moves';$('modalStars').textContent='💔';$('modalText').textContent='Try again or use extra moves.';sfx('lose');modal.style.display='flex'}}
 function toast(t){toastEl.textContent=t;toastEl.classList.add('show');setTimeout(()=>toastEl.classList.remove('show'),750)}
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
@@ -176,7 +192,6 @@ $('starterBtn').onclick=()=>toast('Starter Pack coming soon!');
 $('dailyBtn').onclick=()=>{profile.coins+=250;save();toast('+250 Coins!');sfx('win');update()};
 $('playBtn').onclick=()=>init();
 $('nextBtn').onclick=()=>{modal.style.display='none';if(ended&&score>=target)level++;init()};
-
 ['shopBtn','mapBtn','homeBtn','eventsBtn','kingdomBtn'].forEach(id=>$(id).onclick=()=>toast(id.replace('Btn','').toUpperCase()+' coming soon!'));
 
 let sfxOn=localStorage.getItem('gkl_sfx')!=='off',musicOn=localStorage.getItem('gkl_music')!=='off',audioUnlocked=false;
