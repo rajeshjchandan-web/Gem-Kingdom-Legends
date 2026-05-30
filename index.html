@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends</title>
+<title>Gem Kingdom Legends v1.3</title>
+<!-- Version 1.3 World Map & Retention -->
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#06142c;font-family:Arial,Helvetica,sans-serif;color:#fff}
@@ -182,6 +183,62 @@ body{display:flex;align-items:center;justify-content:center}
   color:white;font-weight:900;
 }
 
+
+/* v1.3 World Map System */
+.worldMapPanel{
+  max-height:54vh;
+  overflow:auto;
+  padding:10px 4px;
+  margin:12px 0;
+  border-radius:18px;
+  background:linear-gradient(180deg,rgba(6,23,69,.82),rgba(47,8,89,.82));
+  border:2px solid #ffdf45;
+}
+.zoneTitle{
+  margin:8px 0 10px;
+  color:#fff36b;
+  font-weight:900;
+  text-shadow:0 2px 0 #7b145a;
+}
+.levelGrid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:9px;
+}
+.levelNode{
+  min-height:48px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  color:white;
+  border:2px solid rgba(255,255,255,.7);
+  box-shadow:0 5px 0 rgba(0,0,0,.32);
+  background:linear-gradient(#9b9b9b,#4b4b4b);
+  position:relative;
+}
+.levelNode.unlocked{background:linear-gradient(#adff52,#20a928)}
+.levelNode.current{background:linear-gradient(#ff62dc,#a913d2);filter:drop-shadow(0 0 10px #fff)}
+.levelNode.chest{background:linear-gradient(#ffe65b,#ff9814)}
+.levelNode.locked:after{content:'🔒';position:absolute;bottom:-8px;font-size:12px}
+.levelNode .miniStars{position:absolute;bottom:-12px;font-size:10px;white-space:nowrap}
+.dailyChallenge{
+  margin:12px 0;
+  padding:10px;
+  border-radius:16px;
+  background:linear-gradient(180deg,#36eaff,#1557dd);
+  box-shadow:0 5px 0 #0b3387;
+  font-weight:900;
+}
+.chestReward{
+  margin:10px 0;
+  padding:10px;
+  border-radius:16px;
+  background:linear-gradient(180deg,#ffcf4c,#ff7d18);
+  color:#43105a;
+  font-weight:900;
+}
+
 </style>
 </head>
 <body>
@@ -212,10 +269,10 @@ body{display:flex;align-items:center;justify-content:center}
 (()=>{
 const W=6,H=7,TYPES=6,$=id=>document.getElementById(id);
 const boardEl=$('board'),modal=$('modal'),toastEl=$('toast');
-let board=[],selected=null,busy=false,level=15,moves=25,score=0,target=12500,hammer=3,bombs=2,ended=false, maxLevel=50;
-const levelData = Array.from({length:maxLevel},(_,i)=>({moves:Math.max(16,28-Math.floor((i+1)*0.22)),target:9000+(i+1)*700}));
+let board=[],selected=null,busy=false,level=15,moves=25,score=0,target=12500,hammer=3,bombs=2,ended=false, maxLevel=150;
+const levelData = Array.from({length:maxLevel},(_,i)=>({moves:Math.max(14,28-Math.floor((i+1)*0.12)),target:9000+(i+1)*520}));
 
-let profile=load(); profile.boosters=profile.boosters||{hammer:3,bomb:2,shuffle:3}; profile.levelStars=profile.levelStars||{};
+let profile=load(); profile.boosters=profile.boosters||{hammer:3,bomb:2,shuffle:3}; profile.levelStars=profile.levelStars||{}; profile.chests=profile.chests||{};
 function load(){try{return Object.assign({coins:2450,stars:24,best:15,levelStars:{},boosters:{hammer:3,bomb:2,shuffle:3},lastDaily:'',dailyDay:0},JSON.parse(localStorage.getItem('gkl_premium_fixed_v2')||'{}'))}catch(e){return{coins:2450,stars:24,best:15,levelStars:{},boosters:{hammer:3,bomb:2,shuffle:3},lastDaily:'',dailyDay:0}}}
 function save(){localStorage.setItem('gkl_premium_fixed_v2',JSON.stringify(profile));}
 const rand=()=>Math.floor(Math.random()*TYPES),gem=(type=rand(),special='')=>({type,special:special==='fresh'?'':special,fresh:special==='fresh'});
@@ -244,7 +301,7 @@ profile.best=Math.max(profile.best,Math.min(maxLevel,level+1));
 save();
 $('modalTitle').textContent='Level Complete!';
 $('modalStars').textContent='⭐'.repeat(st);
-$('modalText').textContent='+'+coins+' Coins earned! Level '+Math.min(maxLevel,level+1)+' unlocked.';
+const chestMsg=awardChestIfNeeded(); $('modalText').textContent='+'+coins+' Coins earned! Level '+Math.min(maxLevel,level+1)+' unlocked.'+chestMsg;
 sfx('win');modal.style.display='flex';
 }
 function checkEnd(){if(ended)return;if(score>=target)finish();else if(moves<=0){ended=true;$('modalTitle').textContent='Out of Moves';$('modalStars').textContent='💔';$('modalText').textContent='Try again or use extra moves.';sfx('lose');modal.style.display='flex'}}
@@ -334,14 +391,60 @@ function buyBooster(key){
   save(); sfx('booster'); toast('Purchased!');
   showShop(); update();
 }
+
+function zoneNameForLevel(lv){
+  if(lv<=50)return 'Forest Kingdom';
+  if(lv<=100)return 'Crystal Caves';
+  return 'Sky Kingdom';
+}
 function showMap(){
-  let completed=Object.keys(profile.levelStars||{}).length;
+  let html='<div class="dailyChallenge">⚡ Daily Challenge: Complete any level today for +100 coins</div>';
+  html+='<div class="worldMapPanel">';
+  const start=Math.max(1,Math.min(maxLevel-24,level-12));
+  const end=Math.min(maxLevel,start+24);
+  html+='<div class="zoneTitle">🗺️ '+zoneNameForLevel(level)+' • Levels '+start+'-'+end+'</div>';
+  html+='<div class="levelGrid">';
+  for(let i=start;i<=end;i++){
+    const stars=profile.levelStars[i]||0;
+    const unlocked=i<=profile.best;
+    const isCurrent=i===level;
+    const isChest=i%10===0;
+    let cls='levelNode '+(unlocked?'unlocked':'locked')+(isCurrent?' current':'')+(isChest?' chest':'');
+    html+='<button class="'+cls+'" data-level="'+i+'" '+(unlocked?'':'disabled')+'>'+ (isChest?'🎁':i) + '<span class="miniStars">'+(stars?'⭐'.repeat(stars):'')+'</span></button>';
+  }
+  html+='</div>';
+  html+='</div>';
+  html+='<div class="chestReward">🎁 Treasure Chests unlock every 10 levels.</div>';
   $('modalTitle').textContent='World Map';
-  $('modalStars').textContent='🗺️';
-  $('modalText').innerHTML='Forest Kingdom unlocked.<br><br>Best Level: '+profile.best+' / 50<br>Completed Levels: '+completed+'<br>Total Stars: '+profile.stars;
+  $('modalStars').textContent='🏰';
+  $('modalText').innerHTML=html;
   $('nextBtn').textContent='Back';
   modal.style.display='flex';
+  setTimeout(()=>{
+    document.querySelectorAll('[data-level]').forEach(btn=>{
+      btn.onclick=()=>{
+        level=parseInt(btn.dataset.level,10);
+        localStorage.setItem('gkl_current_level',level);
+        modal.style.display='none';
+        init();
+        toast('Level '+level);
+      };
+    });
+  },50);
 }
+function awardChestIfNeeded(){
+  if(level%10!==0)return '';
+  const key='chest_'+level;
+  profile.chests=profile.chests||{};
+  if(profile.chests[key])return '';
+  profile.chests[key]=true;
+  profile.coins+=500;
+  profile.boosters.hammer=(profile.boosters.hammer||0)+1;
+  profile.boosters.bomb=(profile.boosters.bomb||0)+1;
+  save();
+  return ' Treasure Chest: +500 coins, +1 hammer, +1 bomb!';
+}
+
 function showRewardedMoves(){
   moves+=5;
   toast('+5 Moves!');
