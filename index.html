@@ -143,6 +143,45 @@ body{display:flex;align-items:center;justify-content:center}
 .comboText.show{animation:comboFloat .9s ease forwards}
 @keyframes comboFloat{0%{opacity:0;transform:translate(-50%,-35%) scale(.6)}20%{opacity:1;transform:translate(-50%,-50%) scale(1.12)}100%{opacity:0;transform:translate(-50%,-82%) scale(1)}}
 
+
+/* v1.2 real economy screens */
+.shopGrid,.dailyGrid{
+  display:grid;
+  gap:10px;
+  margin:14px 0;
+}
+.shopGrid{grid-template-columns:repeat(3,1fr)}
+.dailyGrid{grid-template-columns:repeat(7,1fr)}
+.shopItem,.dailyItem{
+  border-radius:16px;
+  padding:10px 6px;
+  background:linear-gradient(180deg,#8b2ee8,#3c0b78);
+  border:2px solid #ffdf45;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.25),0 5px 0 rgba(0,0,0,.25);
+  font-weight:900;
+  text-align:center;
+}
+.shopItem .ico{font-size:28px;display:block}
+.shopItem button,.dailyClaim{
+  margin-top:8px;
+  border:0;border-radius:12px;
+  padding:7px 8px;
+  background:linear-gradient(#b5ff4e,#19b82c);
+  color:#fff;font-weight:900;
+  box-shadow:0 4px 0 #087916;
+}
+.dailyItem.claimed{opacity:.55}
+.dailyItem.today{filter:drop-shadow(0 0 10px #fff)}
+.adBtn{
+  margin-top:8px;
+  width:100%;
+  border:0;border-radius:14px;
+  padding:9px;
+  background:linear-gradient(#6cf7ff,#176eff);
+  box-shadow:0 5px 0 #0b3387;
+  color:white;font-weight:900;
+}
+
 </style>
 </head>
 <body>
@@ -176,18 +215,18 @@ const boardEl=$('board'),modal=$('modal'),toastEl=$('toast');
 let board=[],selected=null,busy=false,level=15,moves=25,score=0,target=12500,hammer=3,bombs=2,ended=false, maxLevel=50;
 const levelData = Array.from({length:maxLevel},(_,i)=>({moves:Math.max(16,28-Math.floor((i+1)*0.22)),target:9000+(i+1)*700}));
 
-let profile=load();
-function load(){try{return Object.assign({coins:2450,stars:24,best:15,levelStars:{}},JSON.parse(localStorage.getItem('gkl_premium_fixed_v2')||'{}'))}catch(e){return{coins:2450,stars:24,best:15,levelStars:{}}}}
+let profile=load(); profile.boosters=profile.boosters||{hammer:3,bomb:2,shuffle:3}; profile.levelStars=profile.levelStars||{};
+function load(){try{return Object.assign({coins:2450,stars:24,best:15,levelStars:{},boosters:{hammer:3,bomb:2,shuffle:3},lastDaily:'',dailyDay:0},JSON.parse(localStorage.getItem('gkl_premium_fixed_v2')||'{}'))}catch(e){return{coins:2450,stars:24,best:15,levelStars:{},boosters:{hammer:3,bomb:2,shuffle:3},lastDaily:'',dailyDay:0}}}
 function save(){localStorage.setItem('gkl_premium_fixed_v2',JSON.stringify(profile));}
 const rand=()=>Math.floor(Math.random()*TYPES),gem=(type=rand(),special='')=>({type,special:special==='fresh'?'':special,fresh:special==='fresh'});
 function init(){
 level=Math.max(1,Math.min(maxLevel,parseInt(localStorage.getItem('gkl_current_level')||profile.best||15,10)));
 let cfg=levelData[level-1]||levelData[0];
-moves=cfg.moves;score=0;target=cfg.target;hammer=3;bombs=2;ended=false;selected=null;busy=false;$('nextBtn').textContent='Next Level';makeBoard();update();resolve(false,true);
+moves=cfg.moves;score=0;target=cfg.target;hammer=profile.boosters.hammer||0;bombs=profile.boosters.bomb||0;ended=false;selected=null;busy=false;$('nextBtn').textContent='Next Level';makeBoard();update();resolve(false,true);
 }
 function makeBoard(){board=Array.from({length:H},(_,y)=>Array.from({length:W},(_,x)=>{let g;do{g=gem()}while((x>=2&&board[y]?.[x-1]?.type===g.type&&board[y]?.[x-2]?.type===g.type)||(y>=2&&board[y-1]?.[x]?.type===g.type&&board[y-2]?.[x]?.type===g.type));return g}))}
 function render(){boardEl.innerHTML='';for(let y=0;y<H;y++)for(let x=0;x<W;x++){let c=document.createElement('div');c.className='cell';c.dataset.x=x;c.dataset.y=y;let g=board[y][x];if(g){let d=document.createElement('div');d.className='jewel t'+g.type+(selected&&selected.x===x&&selected.y===y?' selected':'')+(g.fresh?' new':''); g.fresh=false;if(g.special){let s=document.createElement('span');s.className='special';s.textContent=g.special==='rocket'?'🚀':g.special==='bomb'?'💣':'🌈';d.appendChild(s)}c.appendChild(d)}boardEl.appendChild(c)}}
-function update(){render()}
+function update(){profile.boosters.hammer=hammer;profile.boosters.bomb=bombs;render()}
 function matches(){let groups=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)groups.push([...run]);run=[{x,y}]}}if(run.length>=3)groups.push([...run])}for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)groups.push([...run]);run=[{x,y}]}}if(run.length>=3)groups.push([...run])}return groups}
 function swap(a,b){[board[a.y][a.x],board[b.y][b.x]]=[board[b.y][b.x],board[a.y][a.x]]}
 function adjacent(a,b){return Math.abs(a.x-b.x)+Math.abs(a.y-b.y)===1}
@@ -222,24 +261,95 @@ let sx=0,sy=0;boardEl.addEventListener('touchstart',e=>{let t=e.touches[0],c=e.t
 boardEl.addEventListener('touchend',e=>{if(!selected)return;let t=e.changedTouches[0],dx=t.clientX-sx,dy=t.clientY-sy;if(Math.max(Math.abs(dx),Math.abs(dy))<20){update();return}let x=selected.x+(Math.abs(dx)>Math.abs(dy)?(dx>0?1:-1):0),y=selected.y+(Math.abs(dy)>Math.abs(dx)?(dy>0?1:-1):0);if(x>=0&&y>=0&&x<W&&y<H)clickCell(x,y)},{passive:true});
 
 $('shuffle').onclick=()=>{if(busy||ended)return;sfx('shuffle');moves--;makeBoard();toast('Shuffled!');resolve(false,true);checkEnd();update()};
-$('hammer').onclick=()=>{if(busy||hammer<=0||ended)return;hammer--;toast('Tap a jewel!');let once=e=>{let c=e.target.closest('.cell');if(!c)return;busy=true;moves--;activate(+c.dataset.x,+c.dataset.y);boardEl.removeEventListener('click',once,true)};boardEl.addEventListener('click',once,true);update()};
-$('bombBtn').onclick=()=>{if(busy||bombs<=0||ended)return;bombs--;toast('Tap for blast!');let once=e=>{let c=e.target.closest('.cell');if(!c)return;busy=true;moves--;activate(+c.dataset.x,+c.dataset.y,true);boardEl.removeEventListener('click',once,true)};boardEl.addEventListener('click',once,true);update()};
+$('hammer').onclick=()=>{if(busy||hammer<=0||ended)return;hammer--;profile.boosters.hammer=hammer;save();toast('Tap a jewel!');let once=e=>{let c=e.target.closest('.cell');if(!c)return;busy=true;moves--;activate(+c.dataset.x,+c.dataset.y);boardEl.removeEventListener('click',once,true)};boardEl.addEventListener('click',once,true);update()};
+$('bombBtn').onclick=()=>{if(busy||bombs<=0||ended)return;bombs--;profile.boosters.bomb=bombs;save();toast('Tap for blast!');let once=e=>{let c=e.target.closest('.cell');if(!c)return;busy=true;moves--;activate(+c.dataset.x,+c.dataset.y,true);boardEl.removeEventListener('click',once,true)};boardEl.addEventListener('click',once,true);update()};
 $('swapBtn').onclick=()=>toast('Swap coming soon!');
 $('movesBtn').onclick=()=>{moves+=5;toast('+5 Moves!');update()};
 $('buyMoves').onclick=()=>{if(profile.coins>=1500){profile.coins-=1500;moves+=5;save();toast('+5 Moves!');update()}else toast('Need coins!')};
 $('starterBtn').onclick=()=>toast('Starter Pack coming soon!');
-$('dailyBtn').onclick=()=>{profile.coins+=250;save();toast('+250 Coins!');sfx('win');update()};
+$('dailyBtn').onclick=showDaily;
 $('playBtn').onclick=()=>init();
-$('nextBtn').onclick=()=>{modal.style.display='none';if(ended&&score>=target){level=Math.min(maxLevel,level+1);localStorage.setItem('gkl_current_level',level)}init()};
-['shopBtn','mapBtn','homeBtn','eventsBtn','kingdomBtn'].forEach(id=>$(id).onclick=()=>{
-  const name=id.replace('Btn','').toUpperCase();
-  $('modalTitle').textContent=name;
-  $('modalStars').textContent=id==='homeBtn'?'🏰':id==='shopBtn'?'🏪':id==='mapBtn'?'🗺️':id==='eventsBtn'?'🏆':'🛡️';
-  $('modalText').textContent = name+' feature foundation is active. Full content will be added in the next upgrade.';
+$('nextBtn').onclick=()=>{modal.style.display='none'; if($('nextBtn').textContent==='Back')return; if(ended&&score>=target){level=Math.min(maxLevel,level+1);localStorage.setItem('gkl_current_level',level)}init()};
+$('shopBtn').onclick=showShop; $('mapBtn').onclick=showMap; $('homeBtn').onclick=()=>toast('Home active!'); $('eventsBtn').onclick=()=>toast('Events coming soon!'); $('kingdomBtn').onclick=()=>toast('Kingdom coming soon!');
+
+
+function todayKey(){return new Date().toISOString().slice(0,10)}
+function showDaily(){
+  const today=todayKey();
+  const canClaim=profile.lastDaily!==today;
+  let html='<div class="dailyGrid">';
+  for(let i=1;i<=7;i++){
+    const reward=[100,150,200,250,300,400,700][i-1];
+    const cls=i===((profile.dailyDay%7)+1)&&canClaim?'dailyItem today':'dailyItem '+(i<=profile.dailyDay&&!canClaim?'claimed':'');
+    html+='<div class="'+cls+'">Day '+i+'<br>💰 '+reward+'</div>';
+  }
+  html+='</div>';
+  html+='<button class="dailyClaim" id="claimDailyBtn">'+(canClaim?'CLAIM DAILY REWARD':'CLAIMED TODAY')+'</button>';
+  $('modalTitle').textContent='Daily Rewards';
+  $('modalStars').textContent='🎁';
+  $('modalText').innerHTML=html;
   $('nextBtn').textContent='Back';
   modal.style.display='flex';
-});
+  setTimeout(()=>{const b=document.getElementById('claimDailyBtn'); if(b)b.onclick=claimDaily;},50);
+}
+function claimDaily(){
+  const today=todayKey();
+  if(profile.lastDaily===today){toast('Already claimed!');return}
+  profile.dailyDay=(profile.dailyDay%7)+1;
+  const reward=[100,150,200,250,300,400,700][profile.dailyDay-1];
+  profile.coins+=reward;
+  profile.lastDaily=today;
+  save();
+  sfx('win');
+  toast('+'+reward+' Coins!');
+  showDaily();
+}
+function showShop(){
+  const items=[
+    {name:'Hammer',ico:'🔨',cost:300,key:'hammer'},
+    {name:'Bomb',ico:'💣',cost:500,key:'bomb'},
+    {name:'Shuffle',ico:'🔀',cost:250,key:'shuffle'}
+  ];
+  let html='<div class="shopGrid">';
+  items.forEach(it=>{
+    html+='<div class="shopItem"><span class="ico">'+it.ico+'</span>'+it.name+'<br>💰 '+it.cost+'<br><button data-buy="'+it.key+'">BUY</button></div>';
+  });
+  html+='</div><button class="adBtn" id="freeCoinsBtn">🎬 Rewarded Ad Placeholder: +250 Coins</button>';
+  $('modalTitle').textContent='Booster Shop';
+  $('modalStars').textContent='💰 '+profile.coins;
+  $('modalText').innerHTML=html;
+  $('nextBtn').textContent='Back';
+  modal.style.display='flex';
+  setTimeout(()=>{
+    document.querySelectorAll('[data-buy]').forEach(btn=>btn.onclick=()=>buyBooster(btn.dataset.buy));
+    const ad=document.getElementById('freeCoinsBtn'); if(ad)ad.onclick=()=>{profile.coins+=250;save();sfx('win');toast('+250 Coins!');showShop();}
+  },50);
+}
+function buyBooster(key){
+  const costs={hammer:300,bomb:500,shuffle:250};
+  if(profile.coins<costs[key]){toast('Need more coins!');return}
+  profile.coins-=costs[key];
+  profile.boosters[key]=(profile.boosters[key]||0)+1;
+  hammer=profile.boosters.hammer||0; bombs=profile.boosters.bomb||0;
+  save(); sfx('booster'); toast('Purchased!');
+  showShop(); update();
+}
+function showMap(){
+  let completed=Object.keys(profile.levelStars||{}).length;
+  $('modalTitle').textContent='World Map';
+  $('modalStars').textContent='🗺️';
+  $('modalText').innerHTML='Forest Kingdom unlocked.<br><br>Best Level: '+profile.best+' / 50<br>Completed Levels: '+completed+'<br>Total Stars: '+profile.stars;
+  $('nextBtn').textContent='Back';
+  modal.style.display='flex';
+}
+function showRewardedMoves(){
+  moves+=5;
+  toast('+5 Moves!');
+  sfx('win');
+  update();
+}
 
+$('dailyBtn').onclick=showDaily; $('shopBtn').onclick=showShop; $('mapBtn').onclick=showMap; $('movesBtn').onclick=showRewardedMoves; $('buyMoves').onclick=showRewardedMoves;
 let sfxOn=localStorage.getItem('gkl_sfx')!=='off',musicOn=localStorage.getItem('gkl_music')!=='off',audioUnlocked=false;
 const P='assets/audio/',sounds={tap:new Audio(P+'tap.mp3'),swap:new Audio(P+'swap.mp3'),match:new Audio(P+'match.mp3'),combo:new Audio(P+'combo.mp3'),booster:new Audio(P+'booster.mp3'),shuffle:new Audio(P+'shuffle.mp3'),win:new Audio(P+'win.mp3'),lose:new Audio(P+'lose.mp3')};
 const bgm=new Audio(P+'bgm.mp3');bgm.loop=true;bgm.volume=.28;Object.values(sounds).forEach(a=>{a.preload='auto';a.volume=.75});
