@@ -26,7 +26,7 @@
     <section class="bottom">
       <button class="btn blue" id="shuffle">Shuffle</button>
       <button class="btn pink" id="hammer">Hammer x3</button>
-      <button class="btn" id="restart">Restart</button>
+      <button class="btn" id="restart">Restart</button><button class="btn blue" id="soundBtn" style="position:absolute;right:10px;top:10px;padding:8px 10px;">🔊</button>
     </section>
     <div id="toast" class="toast"></div>
     <div id="modal" class="modal"><div class="card"><h1 id="modalTitle">Victory!</h1><div id="stars" class="stars">⭐⭐⭐</div><p id="modalText"></p><button class="btn" id="next">Next Level</button></div></div>
@@ -65,7 +65,25 @@
   document.getElementById('hammer').onclick=()=>{if(busy||hammer<=0)return;hammer--;toast('Tap any gem to smash!');const once=e=>{const c=e.target.closest('.cell');if(!c)return;busy=true;activate(+c.dataset.x,+c.dataset.y);moves--;boardEl.removeEventListener('click',once,true)};boardEl.addEventListener('click',once,true);update()};
   document.getElementById('restart').onclick=()=>{modal.style.display='none';init()};
   document.getElementById('next').onclick=()=>{modal.style.display='none';if(score>=target)level++;init()};
-  init();
+  
+let soundOn = localStorage.getItem('gkl_sound') !== 'off';
+level = parseInt(localStorage.getItem('gkl_level') || '1',10);
+const soundBtn=document.getElementById('soundBtn');
+if(soundBtn){
+ soundBtn.textContent=soundOn?'🔊':'🔇';
+ soundBtn.onclick=()=>{
+   soundOn=!soundOn;
+   localStorage.setItem('gkl_sound',soundOn?'on':'off');
+   soundBtn.textContent=soundOn?'🔊':'🔇';
+ };
+}
+const oldInit=init;
+init=function(){
+ oldInit();
+ localStorage.setItem('gkl_level', level);
+}
+
+init();
 })();
 </script>
 </body>
