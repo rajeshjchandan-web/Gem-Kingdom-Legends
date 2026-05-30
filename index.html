@@ -128,6 +128,21 @@ body{display:flex;align-items:center;justify-content:center}
   .boardShell{top:36.75%;height:36.1%}
   #shopBtn,#mapBtn,#homeBtn,#eventsBtn,#kingdomBtn{bottom:1.4%}
 }
+
+/* v1.1 gameplay polish */
+.jewel.matching{animation:matchPop .26s ease forwards}
+.jewel.new{animation:gemDrop .28s ease-out}
+@keyframes matchPop{0%{transform:scale(1)}55%{transform:scale(1.35);filter:drop-shadow(0 0 14px #fff)}100%{transform:scale(.15);opacity:0}}
+@keyframes gemDrop{0%{transform:translateY(-18px) scale(.75);opacity:.25}100%{transform:translateY(0) scale(1);opacity:1}}
+.comboText{
+  position:absolute;left:50%;top:43%;transform:translate(-50%,-50%);
+  z-index:65;font-size:34px;font-weight:900;color:#fff36b;
+  text-shadow:0 4px 0 #7b145a,0 0 12px #fff;
+  opacity:0;pointer-events:none;
+}
+.comboText.show{animation:comboFloat .9s ease forwards}
+@keyframes comboFloat{0%{opacity:0;transform:translate(-50%,-35%) scale(.6)}20%{opacity:1;transform:translate(-50%,-50%) scale(1.12)}100%{opacity:0;transform:translate(-50%,-82%) scale(1)}}
+
 </style>
 </head>
 <body>
@@ -151,31 +166,55 @@ body{display:flex;align-items:center;justify-content:center}
   <button id="eventsBtn" class="tap">events</button>
   <button id="kingdomBtn" class="tap">kingdom</button>
 
-  <div id="toast" class="toast"></div>
+  <div id="comboText" class="comboText"></div><div id="toast" class="toast"></div>
   <div id="modal" class="modal"><div class="card"><h1 id="modalTitle">Level Complete!</h1><div id="modalStars" class="stars">⭐⭐⭐</div><p id="modalText">Your Gem Kingdom grows stronger.</p><button id="nextBtn">Next Level</button></div></div>
 </main>
 <script>
 (()=>{
 const W=6,H=7,TYPES=6,$=id=>document.getElementById(id);
 const boardEl=$('board'),modal=$('modal'),toastEl=$('toast');
-let board=[],selected=null,busy=false,level=15,moves=25,score=0,target=12500,hammer=3,bombs=2,ended=false;
+let board=[],selected=null,busy=false,level=15,moves=25,score=0,target=12500,hammer=3,bombs=2,ended=false, maxLevel=50;
+const levelData = Array.from({length:maxLevel},(_,i)=>({moves:Math.max(16,28-Math.floor((i+1)*0.22)),target:9000+(i+1)*700}));
+
 let profile=load();
-function load(){try{return Object.assign({coins:2450,stars:24,best:15},JSON.parse(localStorage.getItem('gkl_premium_fixed_v2')||'{}'))}catch(e){return{coins:2450,stars:24,best:15}}}
+function load(){try{return Object.assign({coins:2450,stars:24,best:15,levelStars:{}},JSON.parse(localStorage.getItem('gkl_premium_fixed_v2')||'{}'))}catch(e){return{coins:2450,stars:24,best:15,levelStars:{}}}}
 function save(){localStorage.setItem('gkl_premium_fixed_v2',JSON.stringify(profile));}
-const rand=()=>Math.floor(Math.random()*TYPES),gem=(type=rand(),special='')=>({type,special});
-function init(){moves=25;score=0;target=12500;hammer=3;bombs=2;ended=false;selected=null;busy=false;makeBoard();update();resolve(false,true)}
+const rand=()=>Math.floor(Math.random()*TYPES),gem=(type=rand(),special='')=>({type,special:special==='fresh'?'':special,fresh:special==='fresh'});
+function init(){
+level=Math.max(1,Math.min(maxLevel,parseInt(localStorage.getItem('gkl_current_level')||profile.best||15,10)));
+let cfg=levelData[level-1]||levelData[0];
+moves=cfg.moves;score=0;target=cfg.target;hammer=3;bombs=2;ended=false;selected=null;busy=false;$('nextBtn').textContent='Next Level';makeBoard();update();resolve(false,true);
+}
 function makeBoard(){board=Array.from({length:H},(_,y)=>Array.from({length:W},(_,x)=>{let g;do{g=gem()}while((x>=2&&board[y]?.[x-1]?.type===g.type&&board[y]?.[x-2]?.type===g.type)||(y>=2&&board[y-1]?.[x]?.type===g.type&&board[y-2]?.[x]?.type===g.type));return g}))}
-function render(){boardEl.innerHTML='';for(let y=0;y<H;y++)for(let x=0;x<W;x++){let c=document.createElement('div');c.className='cell';c.dataset.x=x;c.dataset.y=y;let g=board[y][x];if(g){let d=document.createElement('div');d.className='jewel t'+g.type+(selected&&selected.x===x&&selected.y===y?' selected':'');if(g.special){let s=document.createElement('span');s.className='special';s.textContent=g.special==='rocket'?'🚀':g.special==='bomb'?'💣':'🌈';d.appendChild(s)}c.appendChild(d)}boardEl.appendChild(c)}}
+function render(){boardEl.innerHTML='';for(let y=0;y<H;y++)for(let x=0;x<W;x++){let c=document.createElement('div');c.className='cell';c.dataset.x=x;c.dataset.y=y;let g=board[y][x];if(g){let d=document.createElement('div');d.className='jewel t'+g.type+(selected&&selected.x===x&&selected.y===y?' selected':'')+(g.fresh?' new':''); g.fresh=false;if(g.special){let s=document.createElement('span');s.className='special';s.textContent=g.special==='rocket'?'🚀':g.special==='bomb'?'💣':'🌈';d.appendChild(s)}c.appendChild(d)}boardEl.appendChild(c)}}
 function update(){render()}
 function matches(){let groups=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)groups.push([...run]);run=[{x,y}]}}if(run.length>=3)groups.push([...run])}for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)groups.push([...run]);run=[{x,y}]}}if(run.length>=3)groups.push([...run])}return groups}
 function swap(a,b){[board[a.y][a.x],board[b.y][b.x]]=[board[b.y][b.x],board[a.y][a.x]]}
 function adjacent(a,b){return Math.abs(a.x-b.x)+Math.abs(a.y-b.y)===1}
 async function clickCell(x,y){if(busy||ended||modal.style.display==='flex')return;if(!selected){sfx('tap');selected={x,y};update();return}let first=selected;selected=null;if(!adjacent(first,{x,y})){selected={x,y};update();return}busy=true;sfx('swap');swap(first,{x,y});update();await sleep(110);if(!matches().length){swap(first,{x,y});sfx('lose');toast('No Match!');busy=false;update();return}moves--;await resolve(true);busy=false;checkEnd();update()}
-async function resolve(countScore=true,initial=false){let combo=0;while(true){let groups=matches();if(!groups.length)break;combo++;let clear=new Map(),made=null;for(let group of groups){for(let p of group)clear.set(p.x+','+p.y,p);if(!initial&&group.length>=4){let p=group[Math.floor(group.length/2)],g=board[p.y][p.x];made={p,type:g.type,special:group.length>=5?'rainbow':'rocket'}}}if(made)clear.delete(made.p.x+','+made.p.y);for(let key of clear.keys()){let [x,y]=key.split(',').map(Number);board[y][x]=null}if(made)board[made.p.y][made.p.x]=gem(made.type,made.special);if(countScore){sfx(combo>1?'combo':'match');score+=clear.size*120*combo;if(combo>1)toast('Combo x'+combo+'!')}update();await sleep(140);dropFill();update();await sleep(140)}}
-function dropFill(){for(let x=0;x<W;x++){let stack=[];for(let y=H-1;y>=0;y--)if(board[y][x])stack.push(board[y][x]);for(let y=H-1;y>=0;y--)board[y][x]=stack[H-1-y]||gem()}}
+async function resolve(countScore=true,initial=false){let combo=0;while(true){let groups=matches();if(!groups.length)break;combo++;let clear=new Map(),made=null;for(let group of groups){for(let p of group)clear.set(p.x+','+p.y,p);if(!initial&&group.length>=4){let p=group[Math.floor(group.length/2)],g=board[p.y][p.x];made={p,type:g.type,special:group.length>=5?'rainbow':'rocket'}}}if(made)clear.delete(made.p.x+','+made.p.y);for(let key of clear.keys()){let [x,y]=key.split(',').map(Number);board[y][x]=null}if(made)board[made.p.y][made.p.x]=gem(made.type,made.special);if(countScore){sfx(combo>1?'combo':'match');score+=clear.size*120*combo;if(combo>1){toast('Combo x'+combo+'!');showCombo(combo)}}update();await sleep(140);dropFill();update();await sleep(140)}}
+function dropFill(){for(let x=0;x<W;x++){let stack=[];for(let y=H-1;y>=0;y--)if(board[y][x])stack.push(board[y][x]);for(let y=H-1;y>=0;y--)board[y][x]=stack[H-1-y]||gem(rand(),'fresh')}}
 function activate(x,y,bomb=false){if(ended)return;sfx('booster');let g=board[y][x],pts=[];if(bomb||g?.special==='bomb'){for(let yy=y-1;yy<=y+1;yy++)for(let xx=x-1;xx<=x+1;xx++)if(xx>=0&&yy>=0&&xx<W&&yy<H)pts.push({x:xx,y:yy})}else if(g?.special==='rocket'){for(let i=0;i<W;i++)pts.push({x:i,y})}else if(g?.special==='rainbow'){for(let yy=0;yy<H;yy++)for(let xx=0;xx<W;xx++)if(board[yy][xx]?.type===g.type)pts.push({x:xx,y:yy})}else pts=[{x,y}];pts.forEach(p=>board[p.y][p.x]=null);score+=pts.length*150;dropFill();resolve(true).then(()=>{busy=false;checkEnd();update()})}
-function finish(){ended=true;let st=score>=target*1.6?3:score>=target*1.25?2:1,coins=st*100;profile.coins+=coins;profile.stars+=st;profile.best=Math.max(profile.best,level+1);save();$('modalTitle').textContent='Level Complete!';$('modalStars').textContent='⭐'.repeat(st);$('modalText').textContent='+'+coins+' Coins earned!';sfx('win');modal.style.display='flex'}
+function finish(){
+ended=true;
+let st=score>=target*1.6?3:score>=target*1.25?2:1,coins=st*100;
+let old=profile.levelStars[level]||0;
+if(st>old){profile.stars+=st-old;profile.levelStars[level]=st}
+profile.coins+=coins;
+profile.best=Math.max(profile.best,Math.min(maxLevel,level+1));
+save();
+$('modalTitle').textContent='Level Complete!';
+$('modalStars').textContent='⭐'.repeat(st);
+$('modalText').textContent='+'+coins+' Coins earned! Level '+Math.min(maxLevel,level+1)+' unlocked.';
+sfx('win');modal.style.display='flex';
+}
 function checkEnd(){if(ended)return;if(score>=target)finish();else if(moves<=0){ended=true;$('modalTitle').textContent='Out of Moves';$('modalStars').textContent='💔';$('modalText').textContent='Try again or use extra moves.';sfx('lose');modal.style.display='flex'}}
+function showCombo(combo){
+  const words=['Nice!','Great!','Amazing!','Royal Combo!','Legendary!'];
+  const el=document.getElementById('comboText');
+  el.textContent=words[Math.min(words.length-1,combo-1)];
+  el.classList.remove('show'); void el.offsetWidth; el.classList.add('show');
+}
 function toast(t){toastEl.textContent=t;toastEl.classList.add('show');setTimeout(()=>toastEl.classList.remove('show'),750)}
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 boardEl.addEventListener('click',e=>{let c=e.target.closest('.cell');if(!c)return;let x=+c.dataset.x,y=+c.dataset.y;if(busy)return;let g=board[y][x];if(g?.special){busy=true;moves--;activate(x,y);update();return}clickCell(x,y)});
@@ -191,8 +230,15 @@ $('buyMoves').onclick=()=>{if(profile.coins>=1500){profile.coins-=1500;moves+=5;
 $('starterBtn').onclick=()=>toast('Starter Pack coming soon!');
 $('dailyBtn').onclick=()=>{profile.coins+=250;save();toast('+250 Coins!');sfx('win');update()};
 $('playBtn').onclick=()=>init();
-$('nextBtn').onclick=()=>{modal.style.display='none';if(ended&&score>=target)level++;init()};
-['shopBtn','mapBtn','homeBtn','eventsBtn','kingdomBtn'].forEach(id=>$(id).onclick=()=>toast(id.replace('Btn','').toUpperCase()+' coming soon!'));
+$('nextBtn').onclick=()=>{modal.style.display='none';if(ended&&score>=target){level=Math.min(maxLevel,level+1);localStorage.setItem('gkl_current_level',level)}init()};
+['shopBtn','mapBtn','homeBtn','eventsBtn','kingdomBtn'].forEach(id=>$(id).onclick=()=>{
+  const name=id.replace('Btn','').toUpperCase();
+  $('modalTitle').textContent=name;
+  $('modalStars').textContent=id==='homeBtn'?'🏰':id==='shopBtn'?'🏪':id==='mapBtn'?'🗺️':id==='eventsBtn'?'🏆':'🛡️';
+  $('modalText').textContent = name+' feature foundation is active. Full content will be added in the next upgrade.';
+  $('nextBtn').textContent='Back';
+  modal.style.display='flex';
+});
 
 let sfxOn=localStorage.getItem('gkl_sfx')!=='off',musicOn=localStorage.getItem('gkl_music')!=='off',audioUnlocked=false;
 const P='assets/audio/',sounds={tap:new Audio(P+'tap.mp3'),swap:new Audio(P+'swap.mp3'),match:new Audio(P+'match.mp3'),combo:new Audio(P+'combo.mp3'),booster:new Audio(P+'booster.mp3'),shuffle:new Audio(P+'shuffle.mp3'),win:new Audio(P+'win.mp3'),lose:new Audio(P+'lose.mp3')};
