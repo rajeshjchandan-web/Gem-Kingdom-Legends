@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v3.0.2 Pixel Perfect HUD</title>
+<title>Gem Kingdom Legends v3.0.3 Final HUD Polish</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -1154,6 +1154,157 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
   .mission{left:9.2%!important;right:9.2%!important;font-size:12px!important}
 }
 
+
+/* v3.0.3 FINAL HUD POLISH - fix KINGDOM + XP only */
+.logo{
+  left:52.5%!important;
+  width:50%!important;
+  top:calc(.8% + env(safe-area-inset-top))!important;
+  transform:translateX(-50%) scale(.92)!important;
+  z-index:18!important;
+}
+.logo .gem{
+  font-size:44px!important;
+}
+.logo .kingdom{
+  font-size:34px!important;
+  letter-spacing:0!important;
+  white-space:nowrap!important;
+}
+.logo .legends{
+  font-size:16px!important;
+  padding:2px 22px!important;
+}
+
+/* Move resource bars very slightly left/smaller so K is no longer hidden */
+.topBars{
+  left:1.0%!important;
+  width:29.5%!important;
+  z-index:42!important;
+}
+.pill{
+  font-size:13px!important;
+  height:32px!important;
+  padding:0 5px!important;
+}
+.pill .ic{
+  font-size:20px!important;
+}
+.pill .plus{
+  width:22px!important;
+  height:22px!important;
+}
+
+/* Keep quest/settings compact so logo has breathing room */
+.questTopBtn{
+  right:15.0%!important;
+  width:51px!important;
+  height:53px!important;
+}
+.sideBtns{
+  right:1.3%!important;
+}
+.roundBtn{
+  width:46px!important;
+  height:46px!important;
+}
+
+/* XP bar: clear star + visible progress track */
+.metaHud{
+  top:calc(15.3% + env(safe-area-inset-top))!important;
+  left:5.8%!important;
+  right:5.8%!important;
+  grid-template-columns:76px 1fr!important;
+}
+.metaLevel{
+  height:78px!important;
+}
+.xpHud{
+  height:48px!important;
+  grid-template-columns:78px 1fr 62px!important;
+  padding:0 10px 0 20px!important;
+  gap:8px!important;
+  overflow:visible!important;
+}
+.xpLabel{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:4px!important;
+  font-size:16px!important;
+  color:#fff!important;
+  white-space:nowrap!important;
+}
+.xpTrack{
+  display:block!important;
+  height:23px!important;
+  min-width:115px!important;
+  border-radius:14px!important;
+  background:#140022!important;
+  border:2px solid #b33dff!important;
+  overflow:hidden!important;
+  box-shadow:inset 0 2px 8px rgba(0,0,0,.85),0 0 4px rgba(255,255,255,.28)!important;
+}
+.xpHudFill{
+  display:block!important;
+  position:static!important;
+  height:100%!important;
+  min-width:0!important;
+  background:linear-gradient(90deg,#ff42ff,#ff8cff,#fff36b)!important;
+  opacity:1!important;
+}
+.xpHudText{
+  display:block!important;
+  font-size:14px!important;
+  color:#fff!important;
+  white-space:nowrap!important;
+}
+
+/* Preserve approved lower layout */
+.versionTag{
+  font-size:11px!important;
+}
+
+@media(max-height:820px){
+  .logo{
+    left:52.8%!important;
+    width:49%!important;
+    transform:translateX(-50%) scale(.86)!important;
+  }
+  .logo .gem{font-size:42px!important}
+  .logo .kingdom{font-size:32px!important}
+  .topBars{
+    width:29%!important;
+  }
+  .pill{
+    height:30px!important;
+    font-size:12px!important;
+  }
+  .metaHud{
+    top:calc(14.5% + env(safe-area-inset-top))!important;
+    grid-template-columns:66px 1fr!important;
+  }
+  .xpHud{
+    grid-template-columns:58px 1fr 50px!important;
+    padding:0 8px 0 16px!important;
+  }
+  .xpLabel{font-size:12px!important}
+  .xpTrack{
+    min-width:90px!important;
+    height:18px!important;
+  }
+  .xpHudText{font-size:12px!important}
+}
+
+@media(max-width:380px){
+  .logo{
+    left:53%!important;
+    width:48%!important;
+  }
+  .logo .kingdom{font-size:29px!important}
+  .topBars{width:30%!important}
+}
+
 </style>
 </head>
 <body>
@@ -1174,7 +1325,7 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     </div>
   </div>
   <div class="levelUpPop" id="levelUpPop">LEVEL UP!</div>
-  <div class="versionTag">v3.0.2</div>
+  <div class="versionTag">v3.0.3</div>
 <div class="castle">🏰</div>
   <div class="logo"><div class="gem">GEM</div><div class="kingdom">KINGDOM</div><div class="legends">LEGENDS</div></div>
   <div class="topBars">
@@ -1331,7 +1482,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v3.0.2 • Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v3.0.3 • Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
