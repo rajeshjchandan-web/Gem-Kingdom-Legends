@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v2.7 Monetization & Economy Build</title>
+<title>Gem Kingdom Legends v2.7.1 Economy Balancing & Objective Banner Fix</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -656,6 +656,37 @@ body{display:flex;align-items:center;justify-content:center}
   text-shadow:0 3px #5e0047;
 }
 
+
+/* v2.7.1 Economy Balancing & Objective Banner Fix */
+.mission{
+  left:15%!important;
+  right:15%!important;
+  font-size:11.5px!important;
+  padding:5px 5px!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+@media(max-width:420px){
+  .mission{
+    left:13.5%!important;
+    right:13.5%!important;
+    font-size:11px!important;
+  }
+}
+@media(max-height:760px){
+  .mission{
+    left:14%!important;
+    right:14%!important;
+    font-size:10.5px!important;
+  }
+}
+.economyNote{
+  font-size:10px;
+  opacity:.9;
+  margin-top:4px;
+}
+
 </style>
 </head>
 <body>
@@ -715,12 +746,12 @@ body{display:flex;align-items:center;justify-content:center}
     </div>
     <div class="shopTitle">COINS & OFFERS</div>
     <div class="shopGrid">
-      <div class="shopItem">🪙 Small Coins<br>+1000<br><span class="offerBadge">Mock IAP</span><br><button data-buy="coinSmall">CLAIM TEST</button></div>
-      <div class="shopItem">🪙 Best Value<br>+5000<br><span class="offerBadge">Mock IAP</span><br><button data-buy="coinMedium">CLAIM TEST</button></div>
-      <div class="shopItem">👑 Starter Pack<br>1000 Coins + Boosters<br><span class="offerBadge">Best Start</span><br><button data-buy="starter">CLAIM TEST</button></div>
-      <div class="shopItem">🚀 Royal Bundle<br>5000 Coins + 15 Boosters<br><span class="offerBadge">Premium</span><br><button data-buy="royal">CLAIM TEST</button></div>
+      <div class="shopItem">🪙 Small Coins<br>+500<br><span class="offerBadge">Mock IAP</span><br><button data-buy="coinSmall">CLAIM TEST</button></div>
+      <div class="shopItem">🪙 Best Value<br>+2000<br><span class="offerBadge">Mock IAP</span><br><button data-buy="coinMedium">CLAIM TEST</button></div>
+      <div class="shopItem">👑 Starter Pack<br>500 Coins + Boosters<br><span class="offerBadge">Best Start</span><br><button data-buy="starter">CLAIM TEST</button></div>
+      <div class="shopItem">🚀 Royal Bundle<br>2000 Coins + 8 Boosters<br><span class="offerBadge">Premium</span><br><button data-buy="royal">CLAIM TEST</button></div>
     </div>
-    <div class="adBox">Rewarded Ad<br><button id="adCoinsBtn" class="greenBtn">Watch Ad +500 Coins</button></div><div class="adBox"><b>Daily Streak</b><br><span id="streakText">Day 1</span><br><button id="streakBtn" class="greenBtn">Claim Streak</button></div><div class="adBox"><b>Free Chest</b><br><button id="chestBtn" class="greenBtn">Open Chest</button></div>
+    <div class="adBox">Rewarded Ad<br><button id="adCoinsBtn" class="greenBtn">Watch Ad +250 Coins</button></div><div class="adBox"><b>Daily Streak</b><br><span id="streakText">Day 1</span><br><button id="streakBtn" class="greenBtn">Claim Streak</button></div><div class="adBox"><b>Free Chest</b><br><button id="chestBtn" class="greenBtn">Open Chest</button></div>
     <button class="back">Back to Game</button>
   </section>
 
@@ -763,7 +794,7 @@ const LEVELS=Array.from({length:50},(_,i)=>({
   target:3500+i*550,
   type:i<10?'score':i<20?'red':i<30?'blue':i<40?'green':'mixed',
   goal: i<10 ? 3500+i*550 : 8+Math.floor(i/4),
-  reward:100+Math.floor(i/5)*30
+  reward:35+Math.floor(i/4)*15
 }));
 let profile=load();
 
@@ -1114,7 +1145,7 @@ function checkEnd(){const L=lv();const won=L.type==='score'?score>=L.target:coll
 function win(){
   ended=true;
   const L=lv(),s=Math.max(1,starsEarned()),old=profile.levelStars[L.level]||0;
-  const reward=Math.max(L.reward, L.level*25);
+  const reward=Math.max(L.reward, Math.floor(L.level*14));
   profile.pendingReward=reward;
   profile.pendingRewardLevel=L.level;
   profile.pendingRewardClaimed=false;
@@ -1124,7 +1155,7 @@ function win(){
   save();updateTop();drawPath();
   $('modalTitle').textContent='Level '+L.level+' Complete!';
   $('modalStars').textContent='⭐'.repeat(s);
-  $('modalText').textContent='Reward: '+reward+' coins • Level '+profile.current+' unlocked';
+  $('modalText').textContent='Reward: '+reward+' coins • Level '+profile.current+' unlocked • Double with Ad';
   modal.style.display='flex';
   if($('continueBtn'))$('continueBtn').style.display='none';
   if($('doubleRewardBtn'))$('doubleRewardBtn').style.display='inline-block';
@@ -1157,23 +1188,23 @@ function buy(item){
   const cost={hammer:300,swap:250,shuffle:250,bomb:500,moves:600,mixedpack:900}[item]||0;
 
   // Mock IAP packs for web testing. Replace with Google Play Billing later.
-  if(item==='coinSmall'){profile.coins+=1000;toast('+1000 Coins');try{flyCoin()}catch(e){} save();updateTop();return}
-  if(item==='coinMedium'){profile.coins+=5000;toast('+5000 Coins');try{flyCoin()}catch(e){} save();updateTop();return}
+  if(item==='coinSmall'){profile.coins+=500;toast('+500 Coins');try{flyCoin()}catch(e){} save();updateTop();return}
+  if(item==='coinMedium'){profile.coins+=2000;toast('+2000 Coins');try{flyCoin()}catch(e){} save();updateTop();return}
   if(item==='starter'){
-    profile.coins+=1000;
-    profile.boosters.hammer=(profile.boosters.hammer||0)+5;
-    profile.boosters.swap=(profile.boosters.swap||0)+5;
-    profile.boosters.bomb=(profile.boosters.bomb||0)+5;
+    profile.coins+=500;
+    profile.boosters.hammer=(profile.boosters.hammer||0)+2;
+    profile.boosters.swap=(profile.boosters.swap||0)+2;
+    profile.boosters.bomb=(profile.boosters.bomb||0)+2;
     toast('Starter Pack Claimed');
     try{flyCoin()}catch(e){}
     save();updateTop();return;
   }
   if(item==='royal'){
-    profile.coins+=5000;
-    profile.boosters.hammer=(profile.boosters.hammer||0)+5;
-    profile.boosters.swap=(profile.boosters.swap||0)+5;
-    profile.boosters.shuffle=(profile.boosters.shuffle||0)+5;
-    profile.boosters.bomb=(profile.boosters.bomb||0)+5;
+    profile.coins+=2000;
+    profile.boosters.hammer=(profile.boosters.hammer||0)+2;
+    profile.boosters.swap=(profile.boosters.swap||0)+2;
+    profile.boosters.shuffle=(profile.boosters.shuffle||0)+2;
+    profile.boosters.bomb=(profile.boosters.bomb||0)+2;
     toast('Royal Bundle Claimed');
     try{flyCoin()}catch(e){}
     save();updateTop();return;
@@ -1203,7 +1234,7 @@ $('swapBtn').onclick=()=>{
   tool='swap';
 };$('movesBtn').onclick=()=>buy('moves');$('extraMovesBtn').onclick=()=>buy('moves');$('playBtn').onclick=()=>startLevel(profile.current);
 $('dailyBtn').onclick=()=>{const d=new Date().toDateString();if(profile.dailyDate===d)return toast('Already claimed');profile.dailyDate=d;profile.coins+=250;try{flyCoin()}catch(e){} save();updateTop();toast('+250 Coins')};
-$('eventReward').onclick=()=>{profile.coins+=100;try{flyCoin()}catch(e){} save();updateTop();toast('+100 Event Coins')};$('adCoinsBtn').onclick=()=>{profile.coins+=500;try{flyCoin()}catch(e){} save();updateTop();toast('Rewarded Ad +500')};
+$('eventReward').onclick=()=>{profile.coins+=100;try{flyCoin()}catch(e){} save();updateTop();toast('+100 Event Coins')};$('adCoinsBtn').onclick=()=>{profile.coins+=250;try{flyCoin()}catch(e){} save();updateTop();toast('Rewarded Ad +250')};
 $('upgradeKingdom').onclick=()=>{if(profile.stars<10)return toast('Need 10 stars');profile.stars-=10;profile.kingdom++;save();updateTop();toast('Kingdom upgraded')};$('nextBtn').onclick=()=>{if(!profile.pendingRewardClaimed&&profile.pendingReward>0)claimPendingReward(1);modal.style.display='none';showInterstitialAd();startLevel(profile.current)}; if($('replayBtn'))$('replayBtn').onclick=()=>{modal.style.display='none';startLevel(profile.current)};$('settingsBtn').onclick=()=>toast('Settings soon');
 
 let audioOn=true,bgmOn=true,audioReady=false;let ctx=null,osc=null,gain=null;
@@ -1341,7 +1372,7 @@ profile.streak=profile.streak||1;
 profile.lastStreak=profile.lastStreak||'';
 profile.lastChest=profile.lastChest||0;
 if($('streakText'))$('streakText').textContent='Day '+profile.streak;
-const streakRewards=[100,200,'hammer',300,'shuffle','bomb',1000];
+const streakRewards=[75,125,'hammer',175,'shuffle','bomb',500];
 if($('streakBtn'))$('streakBtn').onclick=()=>{
   const today=new Date().toDateString();
   if(profile.lastStreak===today)return toast('Already claimed');
@@ -1357,13 +1388,24 @@ if($('chestBtn'))$('chestBtn').onclick=()=>{
   if(now-profile.lastChest<4*60*60*1000)return toast('Chest recharges in 4h');
   profile.lastChest=now;
   const r=Math.floor(Math.random()*6);
-  if(r===0){profile.coins+=300;toast('Chest: 300 Coins');try{flyCoin()}catch(e){}}
-  if(r===1){profile.coins+=1000;toast('JACKPOT 1000 Coins');try{flyCoin()}catch(e){}}
+  if(r===0){profile.coins+=150;toast('Chest: 150 Coins');try{flyCoin()}catch(e){}}
+  if(r===1){profile.coins+=500;toast('JACKPOT 500 Coins');try{flyCoin()}catch(e){}}
   if(r===2){profile.boosters.hammer=(profile.boosters.hammer||0)+1;toast('Chest: Hammer')}
   if(r===3){profile.boosters.swap=(profile.boosters.swap||0)+1;toast('Chest: Swap')}
   if(r===4){profile.boosters.shuffle=(profile.boosters.shuffle||0)+1;toast('Chest: Shuffle')}
   if(r===5){profile.boosters.bomb=(profile.boosters.bomb||0)+1;toast('Chest: Bomb')}
   save();updateTop();
+};
+
+
+// v2.7.1 optional testing helper: run GKLSoftResetEconomy() in browser console if needed.
+window.GKLSoftResetEconomy=function(){
+  try{
+    profile.coins=1200;
+    profile.stars=Math.min(profile.stars||0,24);
+    profile.boosters={hammer:3,swap:3,shuffle:3,bomb:2};
+    save();updateTop();toast('Economy reset for testing');
+  }catch(e){}
 };
 
 // v2.7 monetization and economy hooks
