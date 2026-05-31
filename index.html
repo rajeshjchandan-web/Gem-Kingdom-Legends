@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v3.0.3 Final HUD Polish</title>
+<title>Gem Kingdom Legends v3.1 Lucky Spin Wheel</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -1305,6 +1305,235 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
   .topBars{width:30%!important}
 }
 
+
+/* v3.1 Lucky Spin Wheel */
+.nav{
+  grid-template-columns:repeat(6,1fr)!important;
+  gap:2px!important;
+}
+.nav button{
+  font-size:9.2px!important;
+  padding:2px 0!important;
+  position:relative;
+}
+.nav span{
+  font-size:20px!important;
+}
+.spinNavBtn{
+  background:linear-gradient(#ff6bef,#7d18cd)!important;
+  border-color:#ffdf45!important;
+}
+#spinDot{
+  position:absolute;
+  right:5px;
+  top:4px;
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:#ff1c1c;
+  border:2px solid #fff;
+  display:none;
+  box-shadow:0 0 8px #ff3333;
+}
+.spinCard{
+  position:relative;
+  margin:8px auto 14px;
+  padding:16px 10px 18px;
+  border-radius:28px;
+  background:linear-gradient(#ff67d3,#7622c7 54%,#26064c);
+  border:4px solid #ffdf45;
+  box-shadow:0 18px 55px rgba(0,0,0,.6);
+  max-width:380px;
+}
+.spinPointer{
+  position:absolute;
+  left:50%;
+  top:4px;
+  transform:translateX(-50%);
+  z-index:5;
+  color:#fff36b;
+  font-size:34px;
+  text-shadow:0 3px #5a0038;
+}
+.wheel{
+  width:min(76vw,300px);
+  height:min(76vw,300px);
+  max-width:300px;
+  max-height:300px;
+  margin:22px auto 12px;
+  border-radius:50%;
+  border:8px solid #ffdf45;
+  position:relative;
+  overflow:hidden;
+  background:conic-gradient(
+    #ff3faa 0deg 45deg,
+    #8736ff 45deg 90deg,
+    #19c9ff 90deg 135deg,
+    #26d943 135deg 180deg,
+    #ff9f00 180deg 225deg,
+    #ffef3d 225deg 270deg,
+    #ff4c4c 270deg 315deg,
+    #28ffb1 315deg 360deg
+  );
+  box-shadow:0 8px 0 #7a3c00,0 16px 28px rgba(0,0,0,.55), inset 0 0 40px rgba(255,255,255,.22);
+  transition:transform 4.2s cubic-bezier(.12,.75,.08,1);
+}
+.wheel:after{
+  content:"";
+  position:absolute;
+  inset:12px;
+  border-radius:50%;
+  border:3px solid rgba(255,255,255,.7);
+  box-shadow:inset 0 0 25px rgba(0,0,0,.25);
+}
+.wheelLabel{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:78px;
+  height:38px;
+  margin-left:-39px;
+  margin-top:-19px;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  font-size:12px;
+  line-height:13px;
+  font-weight:1000;
+  color:white;
+  text-shadow:0 2px #000;
+  z-index:2;
+}
+.wheelLabel.l0{transform:rotate(22.5deg) translateY(-104px) rotate(-22.5deg)}
+.wheelLabel.l1{transform:rotate(67.5deg) translateY(-104px) rotate(-67.5deg)}
+.wheelLabel.l2{transform:rotate(112.5deg) translateY(-104px) rotate(-112.5deg);font-size:28px}
+.wheelLabel.l3{transform:rotate(157.5deg) translateY(-104px) rotate(-157.5deg);font-size:28px}
+.wheelLabel.l4{transform:rotate(202.5deg) translateY(-104px) rotate(-202.5deg);font-size:28px}
+.wheelLabel.l5{transform:rotate(247.5deg) translateY(-104px) rotate(-247.5deg);font-size:24px}
+.wheelLabel.l6{transform:rotate(292.5deg) translateY(-104px) rotate(-292.5deg);font-size:28px}
+.wheelLabel.l7{transform:rotate(337.5deg) translateY(-104px) rotate(-337.5deg);font-size:10px;line-height:11px}
+.wheelHub{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:78px;
+  height:78px;
+  border-radius:50%;
+  background:radial-gradient(circle,#fff8bd,#ff9f00 65%,#8b2d00);
+  border:5px solid #fff;
+  display:grid;
+  place-items:center;
+  font-size:35px;
+  z-index:4;
+  box-shadow:0 5px 12px rgba(0,0,0,.45);
+}
+.spinStatus{
+  font-size:15px;
+  font-weight:1000;
+  color:#fff36b;
+  text-shadow:0 2px #4d0037;
+  margin:6px 0;
+}
+.spinBtn{
+  border:0;
+  border-radius:20px;
+  background:linear-gradient(#fff36b,#ff9f00);
+  color:#5d1800;
+  font-size:24px;
+  font-weight:1000;
+  padding:12px 28px;
+  box-shadow:0 6px #8b3d00;
+  margin:8px auto 4px;
+  display:block;
+}
+.spinBtn:disabled,
+#adSpinBtn:disabled{
+  opacity:.55;
+  filter:grayscale(.4);
+}
+.spinRewardModal{
+  position:absolute;
+  inset:0;
+  z-index:260;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(3,5,30,.78);
+  padding:20px;
+}
+.spinRewardCard{
+  width:90%;
+  max-width:330px;
+  border-radius:28px;
+  background:linear-gradient(#fff36b,#ff9f00);
+  border:5px solid #fff;
+  color:#5d1800;
+  text-align:center;
+  padding:20px 16px;
+  box-shadow:0 20px 60px rgba(0,0,0,.65);
+  animation:spinRewardPop .45s ease-out;
+}
+.spinRewardCard h1{
+  margin:0;
+  font-size:33px;
+  text-shadow:0 2px rgba(255,255,255,.6);
+}
+.spinRewardIcon{
+  font-size:60px;
+  margin:10px 0;
+}
+.spinRewardText{
+  font-size:22px;
+  font-weight:1000;
+  margin-bottom:12px;
+}
+@keyframes spinRewardPop{
+  0%{transform:scale(.55);opacity:0}
+  70%{transform:scale(1.08);opacity:1}
+  100%{transform:scale(1);opacity:1}
+}
+
+/* v3.1 bundled polish: clearer level path locks */
+.node.lock{
+  background:linear-gradient(#3a3a3a,#101010)!important;
+  border-color:#ffffff!important;
+  color:#ffffff!important;
+  font-size:12px!important;
+}
+.node.lock:before{
+  content:"🔒";
+  position:absolute;
+  top:-15px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:14px;
+  filter:drop-shadow(0 2px 2px #000);
+}
+.node.lock:after{
+  content:"";
+}
+.node.current{
+  border-color:#fff36b!important;
+  box-shadow:0 0 14px #fff36b,0 4px #7a3c00!important;
+}
+
+@media(max-height:820px){
+  .wheel{
+    width:min(70vw,260px);
+    height:min(70vw,260px);
+  }
+  .wheelLabel.l0{transform:rotate(22.5deg) translateY(-91px) rotate(-22.5deg)}
+  .wheelLabel.l1{transform:rotate(67.5deg) translateY(-91px) rotate(-67.5deg)}
+  .wheelLabel.l2{transform:rotate(112.5deg) translateY(-91px) rotate(-112.5deg)}
+  .wheelLabel.l3{transform:rotate(157.5deg) translateY(-91px) rotate(-157.5deg)}
+  .wheelLabel.l4{transform:rotate(202.5deg) translateY(-91px) rotate(-202.5deg)}
+  .wheelLabel.l5{transform:rotate(247.5deg) translateY(-91px) rotate(-247.5deg)}
+  .wheelLabel.l6{transform:rotate(292.5deg) translateY(-91px) rotate(-292.5deg)}
+  .wheelLabel.l7{transform:rotate(337.5deg) translateY(-91px) rotate(-337.5deg)}
+  .spinCard{padding-top:10px}
+}
+
 </style>
 </head>
 <body>
@@ -1325,7 +1554,7 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     </div>
   </div>
   <div class="levelUpPop" id="levelUpPop">LEVEL UP!</div>
-  <div class="versionTag">v3.0.3</div>
+  <div class="versionTag">v3.1</div>
 <div class="castle">🏰</div>
   <div class="logo"><div class="gem">GEM</div><div class="kingdom">KINGDOM</div><div class="legends">LEGENDS</div></div>
   <div class="topBars">
@@ -1363,6 +1592,7 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     <button id="shopNav"><span>🏪</span>SHOP</button>
     <button id="mapNav"><span>🗺️</span>MAP</button>
     <button id="homeNav"><span>🏰</span>HOME</button>
+    <button id="spinNav" class="spinNavBtn"><span>🎡</span>SPIN<i id="spinDot"></i></button>
     <button id="eventsNav"><span>🏆</span>EVENTS</button>
     <button id="kingdomNav"><span>🛡️</span>KINGDOM</button>
   </div>
@@ -1404,6 +1634,29 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     <button class="back">Back to Game</button>
   </section>
 
+
+  <section class="screen" id="spinScreen">
+    <h1>LUCKY SPIN</h1>
+    <div class="spinCard">
+      <div class="spinPointer">▼</div>
+      <div class="wheel" id="spinWheel">
+        <div class="wheelLabel l0">500<br>Coins</div>
+        <div class="wheelLabel l1">1000<br>Coins</div>
+        <div class="wheelLabel l2">🔨</div>
+        <div class="wheelLabel l3">💣</div>
+        <div class="wheelLabel l4">🔀</div>
+        <div class="wheelLabel l5">+5</div>
+        <div class="wheelLabel l6">🎁</div>
+        <div class="wheelLabel l7">5000<br>JACKPOT</div>
+        <div class="wheelHub">🎡</div>
+      </div>
+      <div class="spinStatus" id="spinStatus">Free Spin Available</div>
+      <button class="spinBtn" id="spinBtn">SPIN NOW</button>
+      <button class="greenBtn" id="adSpinBtn">Watch Ad Spin</button>
+    </div>
+    <button class="back">Back to Game</button>
+  </section>
+
   <section class="screen" id="kingdomScreen">
     <h1>KINGDOM</h1>
     <div class="card"><h2>Castle Upgrade</h2><p>Use stars to rebuild the kingdom.</p><button id="upgradeKingdom" class="greenBtn">Upgrade - 10⭐</button></div>
@@ -1414,6 +1667,16 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
   <div id="specialHint" class="specialHint">Rocket Created!</div>
   <div id="adBanner" class="adBanner">Banner Ad Space</div>
   <div id="toast" class="toast"></div>
+  
+  <div id="spinRewardModal" class="spinRewardModal">
+    <div class="spinRewardCard">
+      <h1>YOU WON!</h1>
+      <div id="spinRewardIcon" class="spinRewardIcon">🎁</div>
+      <div id="spinRewardText" class="spinRewardText">Reward</div>
+      <button id="spinRewardOk" class="greenBtn">CLAIM</button>
+    </div>
+  </div>
+
   <div id="modal" class="modal"><div class="card"><h1 id="modalTitle">Level Complete!</h1><div id="modalStars" style="font-size:38px;margin:10px">⭐⭐⭐</div><p id="modalText"></p><button id="collectBtn" class="greenBtn">Collect</button><button id="doubleRewardBtn" class="premiumBtn">2× Reward Ad</button><button id="continueBtn" class="premiumBtn">+5 Moves Ad</button><button id="nextBtn" class="greenBtn">Next Level</button><button id="replayBtn" class="greenBtn secondary">Replay</button></div></div>
 </div>
 
@@ -1482,7 +1745,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v3.0.3 • Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v3.1 • Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
@@ -2303,6 +2566,104 @@ try{
   },500);
 }catch(e){console.log('v2.9 meta init failed',e)}
 })();
+
+// v3.1 Lucky Spin Wheel
+(function(){
+  const KEY='gkl_v22';
+  const DAY=24*60*60*1000;
+  const rewards=[
+    {id:'coins500',label:'500 Coins',icon:'🪙',deg:22.5,apply:p=>{p.coins=(p.coins||0)+500}},
+    {id:'coins1000',label:'1000 Coins',icon:'🪙',deg:67.5,apply:p=>{p.coins=(p.coins||0)+1000}},
+    {id:'hammer',label:'Hammer ×1',icon:'🔨',deg:112.5,apply:p=>{p.boosters=p.boosters||{};p.boosters.hammer=(p.boosters.hammer||0)+1}},
+    {id:'bomb',label:'Bomb ×1',icon:'💣',deg:157.5,apply:p=>{p.boosters=p.boosters||{};p.boosters.bomb=(p.boosters.bomb||0)+1}},
+    {id:'shuffle',label:'Shuffle ×1',icon:'🔀',deg:202.5,apply:p=>{p.boosters=p.boosters||{};p.boosters.shuffle=(p.boosters.shuffle||0)+1}},
+    {id:'moves',label:'+5 Moves',icon:'+5',deg:247.5,apply:p=>{p.pendingExtraMoves=(p.pendingExtraMoves||0)+5}},
+    {id:'pack',label:'Booster Pack',icon:'🎁',deg:292.5,apply:p=>{p.boosters=p.boosters||{};p.boosters.hammer=(p.boosters.hammer||0)+1;p.boosters.shuffle=(p.boosters.shuffle||0)+1;p.boosters.bomb=(p.boosters.bomb||0)+1}},
+    {id:'jackpot',label:'JACKPOT 5000 Coins',icon:'💰',deg:337.5,apply:p=>{p.coins=(p.coins||0)+5000}}
+  ];
+  const weighted=[0,0,0,0,0,1,1,1,1,2,2,2,3,3,3,4,4,5,6,7];
+
+  function read(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return {}}}
+  function write(p){localStorage.setItem(KEY,JSON.stringify(p))}
+  function available(){
+    const p=read();
+    return !p.lastSpinTime || Date.now()-p.lastSpinTime>=DAY;
+  }
+  function timeLeftText(){
+    const p=read();
+    if(!p.lastSpinTime)return 'Free Spin Available';
+    const left=Math.max(0,DAY-(Date.now()-p.lastSpinTime));
+    if(left<=0)return 'Free Spin Available';
+    const h=Math.floor(left/3600000), m=Math.floor((left%3600000)/60000);
+    return 'Next free spin in '+h+'h '+m+'m';
+  }
+  function updateSpinUI(){
+    const spinBtn=document.getElementById('spinBtn');
+    const adBtn=document.getElementById('adSpinBtn');
+    const status=document.getElementById('spinStatus');
+    const dot=document.getElementById('spinDot');
+    const ok=available();
+    if(spinBtn){spinBtn.disabled=!ok;spinBtn.textContent=ok?'SPIN NOW':'WAIT'}
+    if(adBtn){adBtn.textContent=ok?'Bonus Ad Spin':'Watch Ad Spin'}
+    if(status)status.textContent=timeLeftText();
+    if(dot)dot.style.display=ok?'block':'none';
+  }
+  function grant(r){
+    const p=read();
+    r.apply(p);
+    write(p);
+    try{
+      if(window.profile){
+        Object.assign(profile,p);
+        if(p.pendingExtraMoves){moves+=p.pendingExtraMoves;p.pendingExtraMoves=0;profile.pendingExtraMoves=0;write(profile)}
+        updateTop();
+      }
+    }catch(e){}
+    const modal=document.getElementById('spinRewardModal');
+    const icon=document.getElementById('spinRewardIcon');
+    const txt=document.getElementById('spinRewardText');
+    if(icon)icon.textContent=r.icon;
+    if(txt)txt.textContent=r.label;
+    if(modal)modal.style.display='flex';
+    try{toast(r.label)}catch(e){}
+  }
+  let spinning=false,rot=0;
+  function doSpin(isAd){
+    if(spinning)return;
+    if(!isAd && !available()){try{toast(timeLeftText())}catch(e){};return}
+    spinning=true;
+    const wheel=document.getElementById('spinWheel');
+    const idx=weighted[Math.floor(Math.random()*weighted.length)];
+    const r=rewards[idx];
+    rot += 360*6 + (360-r.deg);
+    if(wheel)wheel.style.transform='rotate('+rot+'deg)';
+    if(!isAd){
+      const p=read();
+      p.lastSpinTime=Date.now();
+      write(p);
+    }
+    updateSpinUI();
+    setTimeout(()=>{
+      spinning=false;
+      grant(r);
+      updateSpinUI();
+    },4300);
+  }
+
+  setTimeout(()=>{
+    const spinNav=document.getElementById('spinNav');
+    if(spinNav)spinNav.onclick=()=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));const s=document.getElementById('spinScreen');if(s)s.classList.add('active');updateSpinUI();};
+    const spinBtn=document.getElementById('spinBtn');
+    if(spinBtn)spinBtn.onclick=()=>doSpin(false);
+    const adBtn=document.getElementById('adSpinBtn');
+    if(adBtn)adBtn.onclick=()=>{try{if(typeof showRewardedAd==='function')showRewardedAd(()=>doSpin(true));else doSpin(true)}catch(e){doSpin(true)}};
+    const ok=document.getElementById('spinRewardOk');
+    if(ok)ok.onclick=()=>{const m=document.getElementById('spinRewardModal');if(m)m.style.display='none';};
+    updateSpinUI();
+    setInterval(updateSpinUI,60000);
+  },500);
+})();
+
 </script>
 </body>
 </html>
