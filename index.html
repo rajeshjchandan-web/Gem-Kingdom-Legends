@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v2.8 Meta Progression & Retention</title>
+<title>Gem Kingdom Legends v2.9 Visible Retention Update</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -710,11 +710,169 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
   pointer-events:none;
 }
 
+
+/* v2.9 Visible Retention Update */
+.versionTag{font-size:11px!important}
+.xpHud{
+  position:absolute;
+  left:35%;
+  right:35%;
+  top:calc(83px + env(safe-area-inset-top));
+  z-index:7;
+  height:25px;
+  border-radius:14px;
+  background:linear-gradient(#531375,#21043f);
+  border:2px solid #ffdf45;
+  box-shadow:0 4px 0 rgba(0,0,0,.4);
+  overflow:hidden;
+  text-align:center;
+  font-size:10px;
+  font-weight:1000;
+  color:#fff;
+  text-shadow:0 2px #000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.xpHudFill{
+  position:absolute;
+  left:0;top:0;bottom:0;
+  width:0%;
+  background:linear-gradient(90deg,#2bff7a,#fff36b,#ff9f00);
+  opacity:.9;
+}
+.xpHudText{position:relative;z-index:2}
+.profileBadge{
+  position:absolute;
+  left:35%;
+  top:calc(52px + env(safe-area-inset-top));
+  z-index:8;
+  background:linear-gradient(#ff6bef,#7d18cd);
+  border:2px solid #ffdf45;
+  border-radius:14px;
+  padding:3px 8px;
+  font-size:11px;
+  font-weight:1000;
+  box-shadow:0 4px 0 rgba(0,0,0,.35);
+  text-shadow:0 2px #000;
+}
+.questFab{
+  position:absolute;
+  left:2%;
+  bottom:19.2%;
+  z-index:20;
+  width:48px;
+  height:42px;
+  border-radius:16px;
+  border:2px solid #ffdf45;
+  background:linear-gradient(#ff6bef,#7d18cd);
+  color:#fff36b;
+  font-size:20px;
+  font-weight:1000;
+  box-shadow:0 5px 0 #4d0037;
+}
+.questPanel{
+  position:absolute;
+  inset:0;
+  z-index:210;
+  display:none;
+  background:rgba(5,7,35,.82);
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+}
+.questCard{
+  width:92%;
+  max-height:88%;
+  overflow:auto;
+  border-radius:24px;
+  background:linear-gradient(#ff67d3,#7622c7 55%,#26064c);
+  border:4px solid #ffdf45;
+  box-shadow:0 20px 60px rgba(0,0,0,.65);
+  padding:14px;
+  text-align:center;
+}
+.questCard h1{margin:4px 0 10px;color:#fff36b;text-shadow:0 4px #7b145a}
+.questItem{
+  background:rgba(0,0,0,.24);
+  border:2px solid rgba(255,223,69,.8);
+  border-radius:16px;
+  padding:10px;
+  margin:8px 0;
+  font-weight:1000;
+}
+.questBar{
+  height:12px;
+  border-radius:10px;
+  background:#18032e;
+  overflow:hidden;
+  margin-top:6px;
+  border:1px solid #ffdf45;
+}
+.questFill{height:100%;width:0%;background:linear-gradient(90deg,#2bff7a,#fff36b)}
+.achievementRow{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+.achievement{
+  background:rgba(0,0,0,.22);
+  border:2px solid #ffdf45;
+  border-radius:14px;
+  padding:8px;
+  font-size:12px;
+  font-weight:1000;
+}
+.levelUpPop{
+  position:absolute;
+  left:50%;
+  top:33%;
+  transform:translate(-50%,-50%);
+  z-index:230;
+  border-radius:24px;
+  border:4px solid #ffdf45;
+  background:linear-gradient(#fff36b,#ff9f00);
+  color:#5d1800;
+  padding:16px 24px;
+  font-size:24px;
+  font-weight:1000;
+  text-align:center;
+  box-shadow:0 14px 40px rgba(0,0,0,.65);
+  opacity:0;
+  pointer-events:none;
+}
+.levelUpPop.show{animation:levelUpShow 1.6s ease-out forwards}
+@keyframes levelUpShow{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.5)}
+  15%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}
+  80%{opacity:1}
+  100%{opacity:0;transform:translate(-50%,-75%) scale(.95)}
+}
+@media(max-width:420px){
+  .xpHud{left:36%;right:31%;top:calc(88px + env(safe-area-inset-top));height:22px;font-size:9px}
+  .profileBadge{left:36%;top:calc(57px + env(safe-area-inset-top));font-size:10px;padding:2px 7px}
+  .questFab{bottom:19%;width:44px;height:38px}
+}
+
 </style>
 </head>
 <body>
 <div id="game">
-  <div class="versionTag">v2.8</div>
+  <div class="profileBadge" id="profileBadge">P-Lv 1</div>
+  <div class="xpHud" id="xpHud"><div class="xpHudFill" id="xpHudFill"></div><span class="xpHudText" id="xpHudText">XP 0/100</span></div>
+  <button class="questFab" id="questFab">📜</button>
+  <div class="questPanel" id="questPanel">
+    <div class="questCard">
+      <h1>Daily Quests</h1>
+      <div id="questList"></div>
+      <h1>Achievements</h1>
+      <div class="achievementRow" id="achievementList"></div>
+      <button class="greenBtn" id="claimQuestBtn">Claim Completed</button>
+      <button class="back" id="closeQuestBtn">Back</button>
+    </div>
+  </div>
+  <div class="levelUpPop" id="levelUpPop">LEVEL UP!</div>
+  <div class="versionTag">v2.9</div>
 <div class="castle">🏰</div>
   <div class="logo"><div class="gem">GEM</div><div class="kingdom">KINGDOM</div><div class="legends">LEGENDS</div></div>
   <div class="topBars">
@@ -849,6 +1007,7 @@ function updateTop(){
   if($('shopSwapOwn'))$('shopSwapOwn').textContent=profile.boosters.swap||0;
   $('shopShuffleOwn').textContent=profile.boosters.shuffle||0;
   $('shopBombOwn').textContent=profile.boosters.bomb||0;
+  try{ if(window.GKLRenderMeta) window.GKLRenderMeta(); }catch(e){}
 }
 function missionText(){const L=lv();return L.type==='score'?'Reach '+L.target+' Score':L.type==='red'?'Collect Red Gems':L.type==='blue'?'Collect Blue Gems':L.type==='green'?'Collect Green Gems':'Collect Mixed Gems'}
 function starPreview(){const s=starsEarned();return '★'.repeat(s)+'☆'.repeat(3-s)}
@@ -870,7 +1029,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v2.8 • Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v2.9 • Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
@@ -1144,6 +1303,7 @@ async function resolve(count,initial){
     }
 
     if(count){
+      try{ if(window.GKLQuestEvent)GKLQuestEvent('match',clear.size); const meta=JSON.parse(localStorage.getItem('gkl_v22')||'{}'); meta.totalMatchesMade=(meta.totalMatchesMade||0)+clear.size; localStorage.setItem('gkl_v22',JSON.stringify(meta)); }catch(e){}
       const bonus=createdSpecial?350:0;
       score+=clear.size*125*loop + bonus;
       try{
@@ -1185,6 +1345,13 @@ function win(){
   if($('doubleRewardBtn'))$('doubleRewardBtn').style.display='inline-block';
   if($('collectBtn'))$('collectBtn').style.display='inline-block';
   if($('nextBtn'))$('nextBtn').style.display='inline-block';
+  try{
+    const meta=JSON.parse(localStorage.getItem('gkl_v22')||'{}');
+    meta.totalLevelsWon=(meta.totalLevelsWon||0)+1;
+    localStorage.setItem('gkl_v22',JSON.stringify(meta));
+    if(window.GKLAddXP)GKLAddXP(55+L.level*5);
+    if(window.GKLQuestEvent)GKLQuestEvent('level',1);
+  }catch(e){}
   sfx('win')
 }
 function lose(){
@@ -1247,12 +1414,12 @@ function buy(item){
   else{profile.boosters[item]=(profile.boosters[item]||0)+1;toast('Purchased')}
   save();updateTop();sfx('booster')
 }
-$('hammerBtn').onclick=()=>{if((profile.boosters.hammer||0)<=0)return toast('Buy Hammer');profile.boosters.hammer--;tool='hammer';save();updateTop();toast('Tap a gem')};
-$('bombBtn').onclick=()=>{if((profile.boosters.bomb||0)<=0)return toast('Buy Bomb');profile.boosters.bomb--;tool='bomb';save();updateTop();toast('Tap a gem')};
-$('shuffleBtn').onclick=()=>{if((profile.boosters.shuffle||0)<=0)return toast('Buy Shuffle');profile.boosters.shuffle--;moves--;makeBoard();resolve(false,true);save();updateTop();toast('Shuffled');sfx('shuffle')};
+$('hammerBtn').onclick=()=>{if((profile.boosters.hammer||0)<=0)return toast('Buy Hammer');profile.boosters.hammer--;try{if(window.GKLQuestEvent)GKLQuestEvent('booster',1); const m=JSON.parse(localStorage.getItem('gkl_v22')||'{}'); m.totalBoostersUsed=(m.totalBoostersUsed||0)+1; localStorage.setItem('gkl_v22',JSON.stringify(m));}catch(e){} tool='hammer';save();updateTop();toast('Tap a gem')};
+$('bombBtn').onclick=()=>{if((profile.boosters.bomb||0)<=0)return toast('Buy Bomb');profile.boosters.bomb--;try{if(window.GKLQuestEvent)GKLQuestEvent('booster',1); const m=JSON.parse(localStorage.getItem('gkl_v22')||'{}'); m.totalBoostersUsed=(m.totalBoostersUsed||0)+1; localStorage.setItem('gkl_v22',JSON.stringify(m));}catch(e){} tool='bomb';save();updateTop();toast('Tap a gem')};
+$('shuffleBtn').onclick=()=>{if((profile.boosters.shuffle||0)<=0)return toast('Buy Shuffle');profile.boosters.shuffle--;try{if(window.GKLQuestEvent)GKLQuestEvent('booster',1); const m=JSON.parse(localStorage.getItem('gkl_v22')||'{}'); m.totalBoostersUsed=(m.totalBoostersUsed||0)+1; localStorage.setItem('gkl_v22',JSON.stringify(m));}catch(e){} moves--;makeBoard();resolve(false,true);save();updateTop();toast('Shuffled');sfx('shuffle')};
 $('swapBtn').onclick=()=>{
   if((profile.boosters.swap||0)<=0)return toast('Buy Swap');
-  profile.boosters.swap--;
+  profile.boosters.swap--;try{if(window.GKLQuestEvent)GKLQuestEvent('booster',1); const m=JSON.parse(localStorage.getItem('gkl_v22')||'{}'); m.totalBoostersUsed=(m.totalBoostersUsed||0)+1; localStorage.setItem('gkl_v22',JSON.stringify(m));}catch(e){}
   save();updateTop();
   toast('Swap booster active');
   tool='swap';
@@ -1559,18 +1726,124 @@ window.GKLAds = {
 };
 
 
-// v2.8 Meta Progression & Retention System
+
+// v2.9 Visible Retention Update
 (function(){
 try{
- let p=JSON.parse(localStorage.getItem('gkl_v22')||'{}');
- p.playerXP=p.playerXP||0;
- p.playerLevel=p.playerLevel||1;
- p.quests=p.quests||["Complete 1 Level","Match 25 Gems","Use 1 Booster"];
- localStorage.setItem('gkl_v22',JSON.stringify(p));
- console.log("v2.8 Meta Progression loaded");
-}catch(e){}
+  const key='gkl_v22';
+  function pget(){try{return JSON.parse(localStorage.getItem(key)||'{}')}catch(e){return {}}}
+  function pset(p){localStorage.setItem(key,JSON.stringify(p))}
+  function needXP(lv){return 100+(Math.max(1,lv)-1)*60}
+  function ensureMeta(){
+    const p=pget();
+    p.playerXP=p.playerXP||0;
+    p.playerLevel=p.playerLevel||1;
+    p.questProgress=p.questProgress||{levels:0,matches:0,boosters:0};
+    p.questClaimed=p.questClaimed||{};
+    p.achievements=p.achievements||{};
+    p.totalLevelsWon=p.totalLevelsWon||0;
+    p.totalBoostersUsed=p.totalBoostersUsed||0;
+    p.totalMatchesMade=p.totalMatchesMade||0;
+    p.lastQuestDay=p.lastQuestDay||new Date().toDateString();
+    if(p.lastQuestDay!==new Date().toDateString()){
+      p.lastQuestDay=new Date().toDateString();
+      p.questProgress={levels:0,matches:0,boosters:0};
+      p.questClaimed={};
+    }
+    pset(p);return p;
+  }
+  function syncMetaToProfile(){
+    const p=ensureMeta();
+    if(window.profile){
+      profile.playerXP=p.playerXP;profile.playerLevel=p.playerLevel;
+    }
+    return p;
+  }
+  window.GKLRenderMeta=function(){
+    const p=ensureMeta();
+    const need=needXP(p.playerLevel);
+    const pct=Math.max(0,Math.min(100,Math.floor((p.playerXP/need)*100)));
+    const badge=document.getElementById('profileBadge');
+    const fill=document.getElementById('xpHudFill');
+    const txt=document.getElementById('xpHudText');
+    if(badge)badge.textContent='P-Lv '+p.playerLevel;
+    if(fill)fill.style.width=pct+'%';
+    if(txt)txt.textContent='XP '+p.playerXP+'/'+need;
+    renderQuestPanel();
+  };
+  window.GKLAddXP=function(amount){
+    const p=ensureMeta();
+    p.playerXP+=amount||0;
+    let leveled=false;
+    while(p.playerXP>=needXP(p.playerLevel)){
+      p.playerXP-=needXP(p.playerLevel);
+      p.playerLevel++;
+      p.coins=(p.coins||0)+150;
+      p.boosters=p.boosters||{};
+      p.boosters.hammer=(p.boosters.hammer||0)+1;
+      leveled=true;
+    }
+    pset(p);
+    if(leveled){
+      const pop=document.getElementById('levelUpPop');
+      if(pop){pop.innerHTML='LEVEL UP!<br><small>+150 Coins + Hammer</small>';pop.classList.remove('show');void pop.offsetWidth;pop.classList.add('show');}
+    }
+    window.GKLRenderMeta();
+  };
+  window.GKLQuestEvent=function(type,amount){
+    const p=ensureMeta();
+    p.questProgress=p.questProgress||{levels:0,matches:0,boosters:0};
+    if(type==='level')p.questProgress.levels=(p.questProgress.levels||0)+(amount||1);
+    if(type==='match')p.questProgress.matches=(p.questProgress.matches||0)+(amount||1);
+    if(type==='booster')p.questProgress.boosters=(p.questProgress.boosters||0)+(amount||1);
+    pset(p);window.GKLRenderMeta();
+  };
+  function qrow(id,title,cur,goal,reward){
+    const pct=Math.max(0,Math.min(100,Math.floor(cur/goal*100)));
+    const done=cur>=goal;
+    return '<div class="questItem">'+(done?'✅ ':'🎯 ')+title+'<br><small>'+Math.min(cur,goal)+'/'+goal+' • Reward '+reward+'</small><div class="questBar"><div class="questFill" style="width:'+pct+'%"></div></div></div>';
+  }
+  function renderQuestPanel(){
+    const p=ensureMeta();
+    const qp=p.questProgress||{};
+    const q=document.getElementById('questList');
+    if(q){
+      q.innerHTML=
+        qrow('levels','Complete 2 Levels',qp.levels||0,2,'150 Coins')+
+        qrow('matches','Make 40 Matches',qp.matches||0,40,'1 Shuffle')+
+        qrow('boosters','Use 2 Boosters',qp.boosters||0,2,'1 Bomb');
+    }
+    const a=document.getElementById('achievementList');
+    if(a){
+      const lv=p.totalLevelsWon||0, mt=p.totalMatchesMade||0, bu=p.totalBoostersUsed||0;
+      a.innerHTML=
+        '<div class="achievement">'+(lv>=10?'🏆':'🔒')+' Win 10 Levels<br>'+lv+'/10</div>'+
+        '<div class="achievement">'+(mt>=250?'🏆':'🔒')+' Make 250 Matches<br>'+mt+'/250</div>'+
+        '<div class="achievement">'+(bu>=25?'🏆':'🔒')+' Use 25 Boosters<br>'+bu+'/25</div>'+
+        '<div class="achievement">'+((p.playerLevel||1)>=5?'🏆':'🔒')+' Reach P-Lv 5<br>'+(p.playerLevel||1)+'/5</div>';
+    }
+  }
+  window.GKLClaimQuests=function(){
+    const p=ensureMeta();
+    p.boosters=p.boosters||{};
+    let claimed=false;
+    if((p.questProgress.levels||0)>=2&&!p.questClaimed.levels){p.coins=(p.coins||0)+150;p.questClaimed.levels=true;claimed=true;}
+    if((p.questProgress.matches||0)>=40&&!p.questClaimed.matches){p.boosters.shuffle=(p.boosters.shuffle||0)+1;p.questClaimed.matches=true;claimed=true;}
+    if((p.questProgress.boosters||0)>=2&&!p.questClaimed.boosters){p.boosters.bomb=(p.boosters.bomb||0)+1;p.questClaimed.boosters=true;claimed=true;}
+    pset(p);
+    if(claimed){try{toast('Quest Reward Claimed')}catch(e){}}
+    else{try{toast('No completed quest')}catch(e){}}
+    location.reload();
+  };
+  setTimeout(()=>{
+    const q=document.getElementById('questFab'),p=document.getElementById('questPanel'),c=document.getElementById('closeQuestBtn'),cl=document.getElementById('claimQuestBtn');
+    if(q&&p)q.onclick=()=>{p.style.display='flex';window.GKLRenderMeta();};
+    if(c&&p)c.onclick=()=>p.style.display='none';
+    if(cl)cl.onclick=()=>window.GKLClaimQuests();
+    window.GKLRenderMeta();
+  },500);
+}catch(e){console.log('v2.9 meta init failed',e)}
 })();
-
 </script>
 </body>
 </html>
