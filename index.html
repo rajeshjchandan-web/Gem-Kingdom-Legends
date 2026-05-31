@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v2.9 Visible Retention Update</title>
+<title>Gem Kingdom Legends v3.0 Premium UI Refresh</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -855,32 +855,71 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
 }
 
 
-/* v3.0 Premium UI Refresh */
+
+/* v3.0 Premium UI Refresh - FINAL OVERRIDE */
+.logo{
+  top:calc(4px + env(safe-area-inset-top))!important;
+  width:70%!important;
+  z-index:4!important;
+}
+.logo .gem{font-size:42px!important}
+.logo .kingdom{font-size:33px!important}
+.logo .legends{font-size:15px!important}
+
 .profileBadge{
- left:50%!important;
- transform:translateX(-50%)!important;
- top:calc(48px + env(safe-area-inset-top))!important;
+  left:39%!important;
+  top:calc(72px + env(safe-area-inset-top))!important;
+  transform:none!important;
+  z-index:18!important;
+  font-size:10px!important;
+  padding:2px 8px!important;
 }
 .xpHud{
- left:27%!important;
- right:27%!important;
- top:calc(76px + env(safe-area-inset-top))!important;
- height:20px!important;
-}
-.questFab{
- width:42px!important;
- height:42px!important;
- bottom:20.5%!important;
- left:1%!important;
-}
-.sidePanel.left{
- width:9%!important;
-}
-.sidePanel.right{
- width:9%!important;
+  left:49%!important;
+  right:12%!important;
+  top:calc(75px + env(safe-area-inset-top))!important;
+  height:20px!important;
+  z-index:17!important;
+  font-size:9px!important;
 }
 .mission{
- top:17.2%!important;
+  top:17.2%!important;
+  left:14%!important;
+  right:14%!important;
+  font-size:11px!important;
+  padding:5px!important;
+  z-index:6!important;
+}
+.stats{
+  top:23.2%!important;
+}
+.levelBadge,.king{
+  top:22.5%!important;
+}
+.questFab{
+  left:1.2%!important;
+  bottom:19.3%!important;
+  width:40px!important;
+  height:38px!important;
+  font-size:18px!important;
+  z-index:19!important;
+}
+.versionTag{
+  right:6px!important;
+  bottom:8.9%!important;
+  z-index:40!important;
+  font-size:11px!important;
+}
+@media(max-width:420px){
+  .profileBadge{
+    left:38%!important;
+    top:calc(72px + env(safe-area-inset-top))!important;
+  }
+  .xpHud{
+    left:49%!important;
+    right:11%!important;
+    top:calc(75px + env(safe-area-inset-top))!important;
+  }
 }
 
 </style>
@@ -901,7 +940,7 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     </div>
   </div>
   <div class="levelUpPop" id="levelUpPop">LEVEL UP!</div>
-  <div class="versionTag">v2.9</div>
+  <div class="versionTag">v3.0</div>
 <div class="castle">🏰</div>
   <div class="logo"><div class="gem">GEM</div><div class="kingdom">KINGDOM</div><div class="legends">LEGENDS</div></div>
   <div class="topBars">
@@ -1058,7 +1097,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v2.9 • Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v3.0 • Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
