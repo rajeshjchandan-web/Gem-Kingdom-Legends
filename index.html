@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v2.6.2 Special Gem Creation Fix</title>
+<title>Gem Kingdom Legends v2.6.3 Advanced Special Gems & Combo System</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -584,6 +584,40 @@ body{display:flex;align-items:center;justify-content:center}
   100%{opacity:0;transform:translate(-50%,-72%) scale(.9)}
 }
 
+
+/* v2.6.3 Advanced Special Gems & Combo System */
+.tile.hasSpecial{
+  box-shadow:0 0 0 3px rgba(255,223,69,.95),0 0 22px #fff65a,0 0 34px rgba(255,88,216,.8)!important;
+}
+.special{
+  font-size:23px!important;
+  right:-1px!important;
+  bottom:-1px!important;
+}
+.boardShake{
+  animation:boardShake .34s ease-in-out;
+}
+@keyframes boardShake{
+  0%,100%{transform:translate(0,0)}
+  20%{transform:translate(-4px,2px)}
+  40%{transform:translate(4px,-2px)}
+  60%{transform:translate(-3px,-2px)}
+  80%{transform:translate(3px,2px)}
+}
+.megaFlash{
+  position:absolute;
+  inset:0;
+  z-index:186;
+  pointer-events:none;
+  background:radial-gradient(circle,#fff 0%,rgba(255,230,80,.75) 18%,rgba(255,0,210,.28) 45%,transparent 72%);
+  animation:megaFlash .5s ease-out forwards;
+}
+@keyframes megaFlash{
+  0%{opacity:0;transform:scale(.3)}
+  25%{opacity:1}
+  100%{opacity:0;transform:scale(1.5)}
+}
+
 </style>
 </head>
 <body>
@@ -727,7 +761,7 @@ function render(){
   for(let y=0;y<H;y++)for(let x=0;x<W;x++){
     const c=document.createElement('div');c.className='cell';c.dataset.x=x;c.dataset.y=y;
     const g=board[y][x];
-    if(g){const t=document.createElement('div');t.className='tile t'+g.type+(g.special?' hasSpecial':'')+(selected&&selected.x===x&&selected.y===y?' selected':'')+(g.fresh?' new':'');g.fresh=false;c.appendChild(t);if(g.special){const s=document.createElement('span');s.className='special';s.textContent=g.special==='rocket'?'🚀':'🌈';c.appendChild(s)}}
+    if(g){const t=document.createElement('div');t.className='tile t'+g.type+(g.special?' hasSpecial':'')+(selected&&selected.x===x&&selected.y===y?' selected':'')+(g.fresh?' new':'');g.fresh=false;c.appendChild(t);if(g.special){const s=document.createElement('span');s.className='special';s.textContent=g.special==='rocket'?'🚀':g.special==='bomb'?'💣':'🌈';c.appendChild(s)}}
     boardEl.appendChild(c);
   }
   updateTop();
@@ -804,16 +838,28 @@ function rainbowEffect(x,y){
     setTimeout(()=>el.remove(),520);
   }catch(e){}
 }
+
 function expandSpecialClear(clear){
   const extras=[];
   for(const p of clear.values()){
     const g=board[p.y][p.x];
     if(!g||!g.special)continue;
+
     if(g.special==='rocket'){
       const row=Math.random()<.5;
       if(row){for(let x=0;x<W;x++) extras.push({x,y:p.y}); flashLine(p.x,p.y,'row');}
       else{for(let y=0;y<H;y++) extras.push({x:p.x,y}); flashLine(p.x,p.y,'col');}
     }
+
+    if(g.special==='bomb'){
+      for(let yy=p.y-1;yy<=p.y+1;yy++){
+        for(let xx=p.x-1;xx<=p.x+1;xx++){
+          extras.push({x:xx,y:yy});
+        }
+      }
+      try{boardShake();}catch(e){}
+    }
+
     if(g.special==='rainbow'){
       const target=rand();
       for(let yy=0;yy<H;yy++)for(let xx=0;xx<W;xx++)if(board[yy][xx]&&board[yy][xx].type===target)extras.push({x:xx,y:yy});
@@ -822,40 +868,101 @@ function expandSpecialClear(clear){
   }
   extras.forEach(p=>addToClear(clear,p.x,p.y));
 }
+
 async function activateSpecialSwap(a,b,sa,sb){
   const clear=new Map();
-  function allType(t){for(let yy=0;yy<H;yy++)for(let xx=0;xx<W;xx++)if(board[yy][xx]&&board[yy][xx].type===t)addToClear(clear,xx,yy)}
-  if(sa&&sa.special==='rainbow'&&sb&&sb.special==='rainbow'){
+  const specials=[sa&&sa.special?{g:sa,pos:b}:null, sb&&sb.special?{g:sb,pos:a}:null].filter(Boolean);
+  const hasRocket=specials.some(s=>s.g.special==='rocket');
+  const hasBomb=specials.some(s=>s.g.special==='bomb');
+  const hasRainbow=specials.some(s=>s.g.special==='rainbow');
+
+  function allType(t){
+    for(let yy=0;yy<H;yy++)for(let xx=0;xx<W;xx++)if(board[yy][xx]&&board[yy][xx].type===t)addToClear(clear,xx,yy);
+  }
+  function allBoard(){
     for(let yy=0;yy<H;yy++)for(let xx=0;xx<W;xx++)addToClear(clear,xx,yy);
-    rainbowEffect(b.x,b.y);rainbowEffect(a.x,a.y);
-  }else if(sa&&sa.special==='rainbow'){
-    allType(sb?sb.type:rand()); addToClear(clear,b.x,b.y); rainbowEffect(b.x,b.y);
-  }else if(sb&&sb.special==='rainbow'){
-    allType(sa?sa.type:rand()); addToClear(clear,a.x,a.y); rainbowEffect(a.x,a.y);
-  }else{
-    if(sa&&sa.special==='rocket'){
-      for(let x=0;x<W;x++)addToClear(clear,x,b.y);
-      for(let y=0;y<H;y++)addToClear(clear,b.x,y);
-      flashLine(b.x,b.y,'row');flashLine(b.x,b.y,'col');
+  }
+  function rocketCross(pos){
+    for(let x=0;x<W;x++)addToClear(clear,x,pos.y);
+    for(let y=0;y<H;y++)addToClear(clear,pos.x,y);
+    flashLine(pos.x,pos.y,'row');flashLine(pos.x,pos.y,'col');
+  }
+  function bombArea(pos,size){
+    for(let yy=pos.y-size;yy<=pos.y+size;yy++)for(let xx=pos.x-size;xx<=pos.x+size;xx++)addToClear(clear,xx,yy);
+  }
+
+  // Rainbow + Rainbow clears board.
+  if(specials.length>=2 && specials.every(s=>s.g.special==='rainbow')){
+    allBoard();
+    rainbowEffect(a.x,a.y);rainbowEffect(b.x,b.y);
+    megaFlash();boardShake();
+    showSpecialHint('LEGENDARY!');
+  }
+  // Rainbow + Rocket converts all gems of rocket color into rocket-like clears.
+  else if(hasRainbow && hasRocket){
+    const rocket=specials.find(s=>s.g.special==='rocket') || specials[0];
+    const color=rocket.g.type;
+    for(let yy=0;yy<H;yy++)for(let xx=0;xx<W;xx++){
+      if(board[yy][xx]&&board[yy][xx].type===color){
+        for(let x=0;x<W;x++)addToClear(clear,x,yy);
+        flashLine(xx,yy,'row');
+      }
     }
-    if(sb&&sb.special==='rocket'){
-      for(let x=0;x<W;x++)addToClear(clear,x,a.y);
-      for(let y=0;y<H;y++)addToClear(clear,a.x,y);
-      flashLine(a.x,a.y,'row');flashLine(a.x,a.y,'col');
+    rainbowEffect(a.x,a.y);boardShake();
+    showSpecialHint('Rainbow Rocket!');
+  }
+  // Rainbow + Bomb clears all of bomb color and surrounding gems.
+  else if(hasRainbow && hasBomb){
+    const bomb=specials.find(s=>s.g.special==='bomb') || specials[0];
+    const color=bomb.g.type;
+    for(let yy=0;yy<H;yy++)for(let xx=0;xx<W;xx++){
+      if(board[yy][xx]&&board[yy][xx].type===color){
+        for(let y2=yy-1;y2<=yy+1;y2++)for(let x2=xx-1;x2<=xx+1;x2++)addToClear(clear,x2,y2);
+      }
+    }
+    rainbowEffect(a.x,a.y);boardShake();
+    showSpecialHint('Rainbow Bomb!');
+  }
+  // Rocket + Rocket = cross blast.
+  else if(specials.length>=2 && specials.every(s=>s.g.special==='rocket')){
+    rocketCross(a);rocketCross(b);boardShake();showSpecialHint('Rocket Combo!');
+  }
+  // Bomb + Bomb = 5x5 explosion.
+  else if(specials.length>=2 && specials.every(s=>s.g.special==='bomb')){
+    bombArea(a,2);bombArea(b,2);megaFlash();boardShake();showSpecialHint('Mega Bomb!');
+  }
+  // Bomb + Rocket = cross plus 3x3 blast.
+  else if(hasBomb && hasRocket){
+    rocketCross(a);rocketCross(b);bombArea(a,1);bombArea(b,1);boardShake();showSpecialHint('Bomb Rocket!');
+  }
+  // Single special activation.
+  else{
+    for(const s of specials){
+      if(s.g.special==='rainbow'){
+        allType((s===specials[0] && specials[1])?specials[1].g.type:(sa&&sb?sb.type:rand()));
+        rainbowEffect(s.pos.x,s.pos.y);
+      }else if(s.g.special==='rocket'){
+        rocketCross(s.pos);
+      }else if(s.g.special==='bomb'){
+        bombArea(s.pos,1);
+        boardShake();
+      }
     }
   }
+
   expandSpecialClear(clear);
+
   for(const p of clear.values()){
     if(goalGem(board[p.y][p.x]))collectCount++;
-    try{burstAt(p.x,p.y,7)}catch(e){}
+    try{burstAt(p.x,p.y,8)}catch(e){}
     board[p.y][p.x]=null;
   }
-  score+=clear.size*150;
-  try{showFloat('+'+(clear.size*150),a.x,a.y);showCombo(3)}catch(e){}
-  render();await wait(160);dropFill();render();await wait(160);await resolve(true,false);
+
+  const comboScore=clear.size*(hasRainbow?220:hasBomb?180:160);
+  score+=comboScore;
+  try{showFloat('+'+comboScore,a.x,a.y);showCombo(4)}catch(e){}
+  render();await wait(180);dropFill();render();await wait(180);await resolve(true,false);
 }
-
-
 async function resolve(count,initial){
   let loop=0;
   while(true){
@@ -866,11 +973,34 @@ async function resolve(count,initial){
     const clear=new Map();
     let createdSpecial=null;
 
-    // Collect all matches and choose one special to create from 4/5 matches.
+    // Detect T/L shape by finding intersection between horizontal and vertical groups.
+    const cellHits={};
+    for(const g of gs){
+      for(const p of g){
+        const key=p.x+','+p.y;
+        cellHits[key]=(cellHits[key]||0)+1;
+      }
+    }
+    let intersect=null;
+    Object.keys(cellHits).forEach(k=>{
+      if(cellHits[k]>1 && !intersect){
+        const [x,y]=k.split(',').map(Number);
+        intersect={x,y};
+      }
+    });
+
+    if(!initial && intersect && board[intersect.y][intersect.x]){
+      createdSpecial={
+        x:intersect.x,
+        y:intersect.y,
+        type:board[intersect.y][intersect.x].type,
+        kind:'bomb'
+      };
+    }
+
     for(const g of gs){
       for(const p of g) clear.set(p.x+','+p.y,p);
 
-      // Create specials only during player-caused cascades, not initial board cleanup.
       if(!initial && !createdSpecial && g.length>=4){
         const p=g[Math.floor(g.length/2)];
         const old=board[p.y][p.x];
@@ -885,17 +1015,15 @@ async function resolve(count,initial){
       }
     }
 
-    // Expand clearing from existing specials that are part of a match.
     try{expandSpecialClear(clear)}catch(e){}
 
-    // Preserve the new special gem location so it stays visible on board.
     if(createdSpecial){
       clear.delete(createdSpecial.x+','+createdSpecial.y);
     }
 
     for(const p of clear.values()){
       if(goalGem(board[p.y][p.x]))collectCount++;
-      try{burstAt(p.x,p.y,5)}catch(e){}
+      try{burstAt(p.x,p.y,6)}catch(e){}
       board[p.y][p.x]=null;
     }
 
@@ -906,16 +1034,17 @@ async function resolve(count,initial){
         fresh:true
       };
       try{
-        showSpecialHint(createdSpecial.kind==='rainbow'?'Rainbow Gem Created!':'Rocket Created!');
-        burstAt(createdSpecial.x,createdSpecial.y,12);
+        showSpecialHint(createdSpecial.kind==='rainbow'?'Rainbow Gem Created!':createdSpecial.kind==='bomb'?'Bomb Gem Created!':'Rocket Created!');
+        burstAt(createdSpecial.x,createdSpecial.y,14);
       }catch(e){}
     }
 
     if(count){
-      score+=clear.size*120*loop + (createdSpecial?250:0);
+      const bonus=createdSpecial?350:0;
+      score+=clear.size*125*loop + bonus;
       try{
         const first=[...clear.values()][0] || createdSpecial;
-        if(first) showFloat('+'+(clear.size*120*loop + (createdSpecial?250:0)),first.x,first.y);
+        if(first) showFloat('+'+(clear.size*125*loop + bonus),first.x,first.y);
         showCombo(loop);
       }catch(e){}
       sfx(loop>1?'combo':'match');
@@ -1027,6 +1156,21 @@ function flyCoin(){
   document.body.appendChild(el);
   setTimeout(()=>el.remove(),950);
 }
+
+function boardShake(){
+  const g=document.getElementById('game');
+  if(!g)return;
+  g.classList.remove('boardShake');
+  void g.offsetWidth;
+  g.classList.add('boardShake');
+}
+function megaFlash(){
+  const el=document.createElement('div');
+  el.className='megaFlash';
+  document.getElementById('game').appendChild(el);
+  setTimeout(()=>el.remove(),520);
+}
+
 function hasPossibleMove(){
   for(let y=0;y<H;y++){
     for(let x=0;x<W;x++){
@@ -1062,6 +1206,13 @@ window.GKLCreateRainbow=function(){
     board[3][3].special='rainbow';
     render();
     toast('Rainbow Created!');
+  }catch(e){}
+};
+window.GKLCreateBomb=function(){
+  try{
+    board[3][3].special='bomb';
+    render();
+    toast('Bomb Created!');
   }catch(e){}
 };
 
