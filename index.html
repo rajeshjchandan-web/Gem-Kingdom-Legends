@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover" />
-<title>Gem Kingdom Legends v2.1.2 Board Audio Fixed</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+<title>Gem Kingdom Legends v2.2 Functional Monetization Build</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
-html,body{margin:0;height:100%;overflow:hidden;background:#071528;font-family:Arial,Helvetica,sans-serif;color:white}
+html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
 body{display:flex;align-items:center;justify-content:center}
 #game{
   width:min(100vw,430px);
@@ -15,437 +15,96 @@ body{display:flex;align-items:center;justify-content:center}
   position:relative;
   overflow:hidden;
   background:
-    radial-gradient(circle at 78% 14%,rgba(255,255,255,.5) 0 2%,transparent 3%),
-    radial-gradient(circle at 78% 25%,#ffe1ff 0 1%,transparent 2%),
-    linear-gradient(180deg,#1598f0 0%,#1162c2 22%,#183b7d 40%,#16104d 66%,#15001f 100%);
+    radial-gradient(circle at 78% 10%,rgba(255,255,255,.65) 0 3%,transparent 4%),
+    radial-gradient(circle at 30% 12%,rgba(255,255,255,.45),transparent 10%),
+    linear-gradient(180deg,#16a7f8 0%,#0c62be 22%,#0c3d87 42%,#14244c 67%,#090a1c 100%);
 }
 #game:before{
-  content:"";
-  position:absolute;inset:0;
+  content:"";position:absolute;inset:0;opacity:.95;pointer-events:none;
   background:
-    radial-gradient(circle at 20% 18%,rgba(255,255,255,.45),transparent 9%),
-    radial-gradient(circle at 83% 17%,rgba(255,255,255,.55),transparent 8%),
-    linear-gradient(140deg,transparent 0 62%,rgba(255,255,255,.12) 63% 65%,transparent 66%),
-    linear-gradient(20deg,rgba(25,95,35,.8),transparent 30%);
-  opacity:.9;
+    radial-gradient(circle at 85% 24%,rgba(255,255,255,.25),transparent 9%),
+    linear-gradient(135deg,transparent 0 60%,rgba(255,255,255,.18) 61% 63%,transparent 64%),
+    linear-gradient(25deg,#073919 0%,transparent 28%),
+    radial-gradient(circle at 10% 72%,#0b4b1f,transparent 24%);
 }
-.castle{
-  position:absolute;right:5%;top:8%;font-size:58px;filter:drop-shadow(0 5px 3px rgba(0,0,0,.4));opacity:.95
-}
+.castle{position:absolute;right:4%;top:7%;font-size:60px;filter:drop-shadow(0 5px 4px rgba(0,0,0,.45));opacity:.92}
 .logo{
-  position:absolute;left:50%;top:calc(20px + env(safe-area-inset-top));transform:translateX(-50%);
-  width:74%;height:14%;z-index:2;text-align:center;pointer-events:none;
+  position:absolute;left:50%;top:calc(8px + env(safe-area-inset-top));transform:translateX(-50%);
+  width:72%;height:13%;z-index:2;text-align:center;pointer-events:none;
 }
-.logo .gem{
-  font-size:54px;line-height:.75;font-weight:1000;letter-spacing:2px;
-  color:#ffd548;text-shadow:0 5px 0 #8b2500,0 8px 14px #000,0 0 16px #fff;
-}
-.logo .kingdom{
-  font-size:42px;line-height:.8;font-weight:1000;letter-spacing:1px;
-  color:#1fc7ff;text-shadow:0 5px 0 #003a90,0 8px 14px #000,0 0 12px #fff;
-}
-.logo .legends{
-  display:inline-block;margin-top:5px;padding:2px 22px;border-radius:16px;
-  background:linear-gradient(#ff2b5b,#8f0026);border:2px solid #ffd45a;
-  color:#ffe85b;font-weight:1000;font-size:20px;text-shadow:0 2px 0 #5a0000;
-}
-.topBars{position:absolute;left:2%;top:calc(20px + env(safe-area-inset-top));z-index:5;width:32%;display:grid;gap:8px}
-.pill{
-  height:34px;border-radius:22px;background:linear-gradient(180deg,#7c1ab8,#22014a);
-  border:2px solid #ff5edd;box-shadow:0 4px 0 rgba(0,0,0,.4),inset 0 2px 0 rgba(255,255,255,.25);
-  display:flex;align-items:center;gap:6px;padding:0 8px;font-weight:1000;font-size:16px;text-shadow:0 2px 0 #000;
-}
-.pill .ic{font-size:23px}.pill .plus{margin-left:auto;background:#45d629;border:2px solid #b8ff8a;border-radius:50%;width:24px;height:24px;display:grid;place-items:center;color:white}
-.sideBtns{position:absolute;right:2%;top:calc(32px + env(safe-area-inset-top));z-index:5;display:grid;gap:10px}
-.roundBtn{width:54px;height:54px;border-radius:50%;background:linear-gradient(#66ddff,#095ab8);border:3px solid white;box-shadow:0 5px 0 #02305f,0 5px 12px #000;display:grid;place-items:center;font-size:28px}
-.mission{
-  position:absolute;left:18%;right:18%;top:18%;z-index:6;
-  border-radius:20px;background:linear-gradient(180deg,#ff5ed2,#6916ba);
-  border:3px solid #ffdf45;box-shadow:0 5px 0 #64103a,0 9px 18px #000;
-  padding:8px;text-align:center;font-weight:1000;text-shadow:0 2px 0 #000;font-size:15px;
-}
-.stats{
-  position:absolute;left:12%;right:12%;top:25.5%;z-index:4;
-  height:58px;border-radius:14px;background:linear-gradient(180deg,#531375,#1d0738);
-  border:2px solid #d85aff;display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:8px;padding:6px 12px;text-align:center;
-  box-shadow:0 4px 0 rgba(0,0,0,.35);
-}
-.stat small{display:block;color:#ffe85b;font-weight:1000;font-size:11px}.stat b{font-size:22px;text-shadow:0 2px 0 #000}
-.levelBadge{
-  position:absolute;left:2%;top:23.6%;z-index:7;width:24%;height:92px;
-  display:grid;place-items:center;text-align:center;font-weight:1000;font-size:38px;
-  background:linear-gradient(#c322c8,#350061);border:4px solid #ffcc31;border-radius:24px;
-  box-shadow:0 5px 0 #7a3c00,0 10px 16px #000;text-shadow:0 3px 0 #000;
-}
-.levelBadge small{position:absolute;top:10px;font-size:13px;color:#fff45f}
-.king{
-  position:absolute;right:3%;top:23%;z-index:7;width:22%;aspect-ratio:1;border-radius:50%;
-  background:radial-gradient(circle,#ffe7c0,#d46d27 55%,#5c154b 56%);border:4px solid #ffcc31;
-  display:grid;place-items:center;font-size:58px;box-shadow:0 5px 0 #7a3c00,0 10px 16px #000;
-}
+.logo .gem{font-size:44px;font-weight:1000;line-height:.72;letter-spacing:2px;color:#ffd548;text-shadow:0 5px 0 #8b2500,0 8px 15px #000,0 0 15px #fff}
+.logo .kingdom{font-size:35px;font-weight:1000;line-height:.8;color:#1fc7ff;text-shadow:0 5px 0 #003a90,0 8px 15px #000,0 0 10px #fff}
+.logo .legends{display:inline-block;margin-top:4px;padding:2px 20px;border-radius:15px;background:linear-gradient(#ff2b5b,#8f0026);border:2px solid #ffd45a;color:#ffe85b;font-size:16px;font-weight:1000;text-shadow:0 2px 0 #5a0000}
+
+.topBars{position:absolute;left:1.8%;top:calc(18px + env(safe-area-inset-top));z-index:5;width:31%;display:grid;gap:5px}
+.pill{height:29px;border-radius:22px;background:linear-gradient(180deg,#7c1ab8,#22014a);border:2px solid #ff5edd;box-shadow:0 4px 0 rgba(0,0,0,.4),inset 0 2px 0 rgba(255,255,255,.25);display:flex;align-items:center;gap:5px;padding:0 6px;font-weight:1000;font-size:13px;text-shadow:0 2px #000}
+.pill .ic{font-size:19px}.pill .plus{margin-left:auto;background:#46d629;border:2px solid #b8ff8a;border-radius:50%;width:20px;height:20px;display:grid;place-items:center}
+
+.sideBtns{position:absolute;right:2%;top:calc(24px + env(safe-area-inset-top));z-index:5;display:grid;gap:8px}
+.roundBtn{width:43px;height:43px;border-radius:50%;background:linear-gradient(#66ddff,#095ab8);border:3px solid white;box-shadow:0 5px 0 #02305f,0 5px 12px #000;display:grid;place-items:center;font-size:22px}
+
+.mission{position:absolute;left:17%;right:17%;top:15.2%;z-index:6;border-radius:18px;background:linear-gradient(180deg,#ff5ed2,#6916ba);border:3px solid #ffdf45;box-shadow:0 5px 0 #64103a,0 9px 18px #000;padding:7px;text-align:center;font-weight:1000;text-shadow:0 2px #000;font-size:13px}
+.stats{position:absolute;left:13%;right:13%;top:22.2%;z-index:4;height:50px;border-radius:14px;background:linear-gradient(180deg,#531375,#1d0738);border:2px solid #d85aff;display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:7px;padding:5px 9px;text-align:center;box-shadow:0 4px 0 rgba(0,0,0,.35)}
+.stat small{display:block;color:#ffe85b;font-weight:1000;font-size:10px}.stat b{font-size:20px;text-shadow:0 2px #000}
+.levelBadge{position:absolute;left:2.2%;top:20.8%;z-index:7;width:21%;height:76px;display:grid;place-items:center;text-align:center;font-weight:1000;font-size:30px;background:linear-gradient(#c322c8,#350061);border:4px solid #ffcc31;border-radius:22px;box-shadow:0 5px 0 #7a3c00,0 10px 16px #000;text-shadow:0 3px #000}
+.levelBadge small{position:absolute;top:7px;font-size:11px;color:#fff45f}
+.king{position:absolute;right:2.5%;top:20.8%;z-index:7;width:19%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#ffe7c0,#d46d27 55%,#5c154b 56%);border:4px solid #ffcc31;display:grid;place-items:center;font-size:42px;box-shadow:0 5px 0 #7a3c00,0 10px 16px #000}
+
 .boardWrap{
-  position:absolute;left:5.2%;right:5.2%;top:33%;height:42.5%;z-index:10;
-  background:#071b3f;border:4px solid #ffb323;border-radius:24px;
-  box-shadow:0 6px 0 #7a3f07,0 14px 26px rgba(0,0,0,.55),inset 0 0 26px rgba(93,171,255,.22);
-  padding:9px;
+  position:absolute;left:14.5%;right:14.5%;top:33.8%;height:32.5%;z-index:10;
+  background:#071b3f;border:4px solid #ffb323;border-radius:22px;
+  box-shadow:0 6px 0 #7a3f07,0 14px 26px rgba(0,0,0,.55),inset 0 0 25px rgba(93,171,255,.22);
+  padding:7px;
 }
-#board{
-  width:100%;height:100%;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);gap:4px;
-}
-.cell{
-  position:relative;border-radius:10px;background:linear-gradient(180deg,#143c78,#071a38);
-  display:grid;place-items:center;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.16);
-}
-.tile{
-  width:88%;height:88%;position:relative;filter:drop-shadow(0 5px 4px rgba(0,0,0,.46));transition:transform .16s ease,opacity .16s ease;
-}
-.tile:after{content:"";position:absolute;left:23%;top:12%;width:34%;height:22%;border-radius:50%;background:rgba(255,255,255,.65);filter:blur(.5px)}
-.tile.selected{transform:scale(1.15);filter:drop-shadow(0 0 12px white)}
-.tile.pop{animation:pop .24s ease forwards}
-.tile.new{animation:drop .24s ease-out}
-@keyframes pop{0%{transform:scale(1)}60%{transform:scale(1.3)}100%{transform:scale(.1);opacity:0}}
-@keyframes drop{0%{transform:translateY(-28px) scale(.8);opacity:.25}100%{transform:translateY(0) scale(1);opacity:1}}
+#board{width:100%;height:100%;display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:repeat(7,1fr);gap:3px}
+.cell{position:relative;border-radius:8px;background:linear-gradient(180deg,#143c78,#071a38);display:grid;place-items:center;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.16),inset 0 -2px 0 rgba(0,0,0,.25)}
+.tile{width:84%;height:84%;position:relative;filter:drop-shadow(0 5px 4px rgba(0,0,0,.46));transition:transform .16s ease,opacity .16s ease}
+.tile:after{content:"";position:absolute;left:23%;top:12%;width:34%;height:22%;border-radius:50%;background:rgba(255,255,255,.66);filter:blur(.5px)}
+.tile.selected{transform:scale(1.15);filter:drop-shadow(0 0 12px #fff)}
+.tile.pop{animation:pop .24s ease forwards}.tile.new{animation:drop .25s ease-out}
+@keyframes pop{0%{transform:scale(1)}60%{transform:scale(1.25)}100%{transform:scale(.1);opacity:0}}
+@keyframes drop{0%{transform:translateY(-25px) scale(.8);opacity:.25}100%{transform:translateY(0) scale(1);opacity:1}}
 .t0{background:linear-gradient(145deg,#fff4e7 0%,#ff4b42 23%,#e20019 65%,#710006 100%);clip-path:polygon(50% 0,91% 28%,77% 91%,23% 91%,9% 28%)}
 .t1{background:linear-gradient(145deg,#f6ffff,#43e9ff 28%,#0074ff 70%,#003b96);clip-path:polygon(50% 0,86% 36%,70% 100%,30% 100%,14% 36%)}
 .t2{background:linear-gradient(145deg,#fffbd2,#ffe24b 28%,#ff9f00 70%,#a94900);clip-path:polygon(50% 0,90% 27%,78% 88%,22% 88%,10% 27%)}
 .t3{background:linear-gradient(145deg,#ecffd4,#74ff46 28%,#08a319 70%,#005f0b);clip-path:polygon(50% 0,85% 20%,92% 62%,50% 100%,8% 62%,15% 20%)}
 .t4{background:linear-gradient(145deg,#fff1ff,#ff72ff 27%,#a000e6 70%,#570078);clip-path:polygon(50% 0%,64% 29%,97% 35%,74% 58%,80% 92%,50% 74%,20% 92%,26% 58%,3% 35%,36% 29%)}
 .t5{background:radial-gradient(circle at 35% 28%,white,#72f0ff 28%,#157cff 66%,#101481);clip-path:polygon(50% 0,92% 30%,76% 90%,24% 90%,8% 30%)}
-.special{position:absolute;right:-2px;bottom:-2px;font-size:14px;text-shadow:0 2px 2px #000;z-index:3}
-.levelPath{position:absolute;left:1%;right:1%;top:76%;height:7%;z-index:6;display:flex;align-items:center;justify-content:space-around}
-.node{width:38px;height:38px;border-radius:50%;background:linear-gradient(#a3ff53,#1bb22b);border:3px solid #ffdc45;display:grid;place-items:center;font-weight:1000;text-shadow:0 2px #000;box-shadow:0 4px #0a6611;position:relative}
-.node.current{background:linear-gradient(#ff6bef,#7d18cd);transform:scale(1.22)}.node.lock{background:linear-gradient(#777,#222);border-color:#bbb}
-.node:after{content:"★★★";position:absolute;font-size:10px;color:#ffd52d;bottom:-15px;letter-spacing:-2px}
-.node.lock:after{content:"🔒";letter-spacing:0;color:white}
-.boosters{
-  position:absolute;left:2%;right:2%;bottom:9.7%;height:10.3%;z-index:8;
-  background:linear-gradient(180deg,#6410a4,#240044);border-radius:22px;border:2px solid #9b42ff;
-  display:grid;grid-template-columns:repeat(5,1fr) 1.8fr;gap:6px;padding:8px;
-}
-.boost,.playBtn{border:0;border-radius:18px;color:white;font-weight:1000;text-shadow:0 2px #000;box-shadow:0 5px 0 rgba(0,0,0,.35);background:linear-gradient(#aa2bf5,#3b0a76);position:relative}
-.boost span{display:block;font-size:26px}.boost small{font-size:9px}.qty{position:absolute;right:4px;top:4px;background:#35d42a;border-radius:50%;width:19px;height:19px;display:grid;place-items:center;font-size:12px;border:2px solid #baff8d}
-.playBtn{font-size:34px;background:linear-gradient(#b5ff4e,#19b82c);box-shadow:0 6px 0 #087916}
-.nav{position:absolute;left:0;right:0;bottom:0;height:9.4%;z-index:8;display:grid;grid-template-columns:repeat(5,1fr);gap:2px;padding:3px;background:linear-gradient(#40096f,#17012f)}
-.nav button{border:1px solid #7138b2;background:linear-gradient(#532097,#21064c);color:white;font-weight:1000;text-shadow:0 2px #000;border-radius:10px;font-size:12px}
-.nav span{display:block;font-size:25px}
-.sidePanel{
-  position:absolute;top:44%;width:15%;height:20%;z-index:5;border-radius:14px;background:linear-gradient(#8122c8,#2a064e);border:2px solid #ffdf45;text-align:center;padding:7px 3px;font-weight:1000;text-shadow:0 2px #000;box-shadow:0 5px #5c2502
-}
-.sidePanel.left{left:1%}.sidePanel.right{right:1%}.sidePanel .big{font-size:34px;color:#fff45f}
-.screen{position:absolute;inset:0;z-index:90;display:none;background:linear-gradient(180deg,#073a91,#49128a 55%,#18022e);padding:calc(28px + env(safe-area-inset-top)) 18px calc(90px + env(safe-area-inset-bottom));text-align:center;overflow:auto}
-.screen.active{display:block}
-.screen h1{font-size:40px;color:#fff36b;text-shadow:0 4px #7b145a;margin:14px 0}
-.card{border-radius:26px;background:linear-gradient(#ff67d3,#7622c7 52%,#26064c);border:4px solid #ffdf45;box-shadow:0 20px 60px rgba(0,0,0,.55);padding:18px;margin:14px 0}
-.shopGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.shopItem{border-radius:18px;background:linear-gradient(#8b2ee8,#3c0b78);border:2px solid #ffdf45;padding:10px;font-weight:1000}
-.shopItem button,.back,.greenBtn{border:0;border-radius:15px;background:linear-gradient(#b5ff4e,#19b82c);color:white;font-weight:1000;padding:10px 14px;box-shadow:0 5px #087916;margin-top:8px}
-.back{width:100%;font-size:22px}.mapGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.mapLv{border-radius:15px;border:2px solid #ffdf45;background:linear-gradient(#a3ff53,#1bb22b);color:white;font-weight:1000;font-size:20px;padding:12px 0;text-shadow:0 2px #000}
-.mapLv.locked{background:linear-gradient(#777,#222);border-color:#ccc}.mapLv.current{background:linear-gradient(#ff6bef,#7d18cd)}
+.special{position:absolute;right:-2px;bottom:-2px;font-size:13px;text-shadow:0 2px 2px #000;z-index:3}
+
+.sidePanel{position:absolute;top:41.5%;width:12.5%;height:18%;z-index:6;border-radius:14px;background:linear-gradient(#8122c8,#2a064e);border:2px solid #ffdf45;text-align:center;padding:6px 2px;font-size:10.5px;font-weight:1000;text-shadow:0 2px #000;box-shadow:0 5px #5c2502}
+.sidePanel.left{left:1%}.sidePanel.right{right:1%}.sidePanel .big{font-size:27px;color:#fff45f}
+.sidePanel .greenBtn{padding:5px 2px;font-size:10px;width:96%}
+
+.levelPath{position:absolute;left:1%;right:1%;top:68.2%;height:6%;z-index:6;display:flex;align-items:center;justify-content:space-around}
+.node{width:32px;height:32px;border-radius:50%;background:linear-gradient(#a3ff53,#1bb22b);border:3px solid #ffdc45;display:grid;place-items:center;font-size:14px;font-weight:1000;text-shadow:0 2px #000;box-shadow:0 4px #0a6611;position:relative}
+.node.current{background:linear-gradient(#ff6bef,#7d18cd);transform:scale(1.18)}.node.lock{background:linear-gradient(#777,#222);border-color:#bbb}
+.node:after{content:"★★★";position:absolute;font-size:8px;color:#ffd52d;bottom:-12px;letter-spacing:-2px}.node.lock:after{content:"🔒";letter-spacing:0;color:white}
+
+.boosters{position:absolute;left:2%;right:2%;bottom:9.4%;height:9.2%;z-index:8;background:linear-gradient(180deg,#6410a4,#240044);border-radius:18px;border:2px solid #9b42ff;display:grid;grid-template-columns:repeat(5,1fr) 1.8fr;gap:5px;padding:6px}
+.boost,.playBtn{border:0;border-radius:15px;color:white;font-weight:1000;text-shadow:0 2px #000;box-shadow:0 5px 0 rgba(0,0,0,.35);background:linear-gradient(#aa2bf5,#3b0a76);position:relative}
+.boost span{display:block;font-size:21px}.boost small{font-size:8px}.qty{position:absolute;right:4px;top:4px;background:#35d42a;border-radius:50%;width:17px;height:17px;display:grid;place-items:center;font-size:10px;border:2px solid #baff8d}
+.playBtn{font-size:27px;background:linear-gradient(#b5ff4e,#19b82c);box-shadow:0 6px 0 #087916}
+.nav{position:absolute;left:0;right:0;bottom:0;height:8.8%;z-index:8;display:grid;grid-template-columns:repeat(5,1fr);gap:2px;padding:3px;background:linear-gradient(#40096f,#17012f)}
+.nav button{border:1px solid #7138b2;background:linear-gradient(#532097,#21064c);color:white;font-size:10px;font-weight:1000;text-shadow:0 2px #000;border-radius:9px}.nav span{display:block;font-size:21px}
+
+.screen{position:absolute;inset:0;z-index:90;display:none;background:linear-gradient(180deg,#073a91,#49128a 55%,#18022e);padding:calc(24px + env(safe-area-inset-top)) 18px calc(88px + env(safe-area-inset-bottom));text-align:center;overflow:auto}
+.screen.active{display:block}.screen h1{font-size:34px;color:#fff36b;text-shadow:0 4px #7b145a;margin:10px 0}.card{border-radius:24px;background:linear-gradient(#ff67d3,#7622c7 52%,#26064c);border:4px solid #ffdf45;box-shadow:0 20px 60px rgba(0,0,0,.55);padding:14px;margin:10px 0}
+.shopGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.shopItem{border-radius:18px;background:linear-gradient(#8b2ee8,#3c0b78);border:2px solid #ffdf45;padding:8px 5px;font-size:13px;font-weight:1000}
+.shopItem button,.back,.greenBtn{border:0;border-radius:15px;background:linear-gradient(#b5ff4e,#19b82c);color:white;font-weight:1000;padding:9px 12px;box-shadow:0 5px #087916;margin-top:7px}.back{width:100%;font-size:22px}.mapGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.mapLv{border-radius:14px;border:2px solid #ffdf45;background:linear-gradient(#a3ff53,#1bb22b);color:white;font-size:17px;font-weight:1000;padding:9px 0;text-shadow:0 2px #000}.mapLv.locked{background:linear-gradient(#777,#222);border-color:#ccc}.mapLv.current{background:linear-gradient(#ff6bef,#7d18cd)}
+
+.adBox{border:2px dashed #ffdf45;border-radius:18px;padding:14px;margin:10px 0;background:rgba(0,0,0,.25);font-weight:1000;color:#fff36b}
 .toast{position:absolute;left:50%;top:48%;transform:translate(-50%,-50%);background:linear-gradient(#ff5acb,#7b18c3);border:3px solid #ffdf45;border-radius:22px;padding:12px 18px;font-size:22px;font-weight:1000;opacity:0;transition:.2s;z-index:160;pointer-events:none;text-align:center;box-shadow:0 10px 28px rgba(0,0,0,.45)}
-.toast.show{opacity:1;top:44%}
-.modal{position:absolute;inset:0;background:rgba(3,5,30,.72);z-index:170;display:none;align-items:center;justify-content:center;padding:20px}
-.modal .card{width:90%;text-align:center}.modal h1{font-size:36px;margin:0;color:#fff36b;text-shadow:0 4px #7b145a}
-@media(max-height:760px){.logo{top:10px}.boardWrap{top:32%;height:42%}.boosters{height:10%;bottom:9.4%}.mission{top:17.2%}.stats{top:25%}}
-
-/* v2.1.1 Serious Fit Pass - no overlap layout */
-#game{
-  width:min(100vw,430px)!important;
-  height:100dvh!important;
-  max-height:932px!important;
-}
-.logo{
-  top:calc(10px + env(safe-area-inset-top))!important;
-  height:12.5%!important;
-  transform:translateX(-50%) scale(.86)!important;
-  transform-origin:top center!important;
-}
-.logo .gem{font-size:45px!important}
-.logo .kingdom{font-size:34px!important}
-.logo .legends{font-size:16px!important;padding:1px 18px!important}
-.topBars{
-  top:calc(18px + env(safe-area-inset-top))!important;
-  left:1.5%!important;
-  width:29%!important;
-  gap:5px!important;
-}
-.pill{
-  height:29px!important;
-  font-size:13px!important;
-  padding:0 6px!important;
-}
-.pill .ic{font-size:19px!important}
-.pill .plus{width:20px!important;height:20px!important}
-.sideBtns{
-  top:calc(22px + env(safe-area-inset-top))!important;
-  right:2%!important;
-  gap:7px!important;
-}
-.roundBtn{
-  width:44px!important;
-  height:44px!important;
-  font-size:22px!important;
-}
-.mission{
-  top:15.2%!important;
-  left:17%!important;
-  right:17%!important;
-  font-size:13px!important;
-  padding:6px!important;
-  border-radius:16px!important;
-}
-.stats{
-  top:21.6%!important;
-  left:15%!important;
-  right:15%!important;
-  height:50px!important;
-  padding:5px 9px!important;
-}
-.stat small{font-size:10px!important}
-.stat b{font-size:19px!important}
-.levelBadge{
-  top:20.2%!important;
-  left:2%!important;
-  width:20%!important;
-  height:78px!important;
-  font-size:31px!important;
-  border-radius:20px!important;
-}
-.levelBadge small{font-size:11px!important;top:7px!important}
-.king{
-  top:20.2%!important;
-  right:2.5%!important;
-  width:19%!important;
-  font-size:45px!important;
-}
-.boardWrap{
-  left:4.2%!important;
-  right:4.2%!important;
-  top:30.5%!important;
-  height:41.3%!important;
-  padding:7px!important;
-  border-radius:22px!important;
-}
-#board{
-  gap:3px!important;
-}
-.cell{
-  border-radius:8px!important;
-}
-.tile{
-  width:86%!important;
-  height:86%!important;
-}
-.sidePanel{
-  top:44%!important;
-  width:13.5%!important;
-  height:18.5%!important;
-  font-size:11px!important;
-  padding:5px 2px!important;
-}
-.sidePanel .big{font-size:26px!important}
-.sidePanel .greenBtn{
-  padding:5px 2px!important;
-  font-size:10px!important;
-}
-.levelPath{
-  top:72.8%!important;
-  height:5.8%!important;
-}
-.node{
-  width:32px!important;
-  height:32px!important;
-  font-size:14px!important;
-}
-.node:after{
-  font-size:8px!important;
-  bottom:-12px!important;
-}
-.boosters{
-  bottom:9.2%!important;
-  height:9.5%!important;
-  left:1.5%!important;
-  right:1.5%!important;
-  padding:6px!important;
-  gap:5px!important;
-  border-radius:18px!important;
-}
-.boost,.playBtn{
-  border-radius:15px!important;
-}
-.boost span{
-  font-size:22px!important;
-}
-.boost small{
-  font-size:8px!important;
-}
-.qty{
-  width:17px!important;
-  height:17px!important;
-  font-size:10px!important;
-}
-.playBtn{
-  font-size:28px!important;
-}
-.nav{
-  height:8.7%!important;
-  padding-bottom:calc(3px + env(safe-area-inset-bottom))!important;
-}
-.nav button{
-  font-size:10px!important;
-  border-radius:9px!important;
-}
-.nav span{
-  font-size:22px!important;
-}
-.screen{
-  padding-top:calc(22px + env(safe-area-inset-top))!important;
-  padding-bottom:calc(82px + env(safe-area-inset-bottom))!important;
-}
-.screen h1{
-  font-size:34px!important;
-  margin:10px 0!important;
-}
-.card{
-  padding:14px!important;
-  margin:10px 0!important;
-}
-.shopGrid{
-  gap:8px!important;
-}
-.shopItem{
-  padding:8px 5px!important;
-  font-size:13px!important;
-}
-.mapGrid{
-  gap:6px!important;
-}
-.mapLv{
-  padding:9px 0!important;
-  font-size:17px!important;
-}
+.toast.show{opacity:1;top:44%}.modal{position:absolute;inset:0;background:rgba(3,5,30,.72);z-index:170;display:none;align-items:center;justify-content:center;padding:20px}.modal .card{width:90%;text-align:center}.modal h1{font-size:34px;margin:0;color:#fff36b;text-shadow:0 4px #7b145a}
 @media(max-height:760px){
-  .logo{top:6px!important;transform:translateX(-50%) scale(.78)!important}
-  .topBars{top:9px!important;gap:4px!important}
-  .pill{height:25px!important;font-size:12px!important}
-  .roundBtn{width:40px!important;height:40px!important;font-size:20px!important}
-  .mission{top:14.3%!important;font-size:12px!important}
-  .stats{top:20.5%!important;height:46px!important}
-  .levelBadge{top:19.5%!important;height:70px!important;font-size:28px!important}
-  .king{top:19.6%!important;font-size:40px!important}
-  .boardWrap{top:30%!important;height:40.8%!important}
-  .levelPath{top:71.8%!important}
-  .boosters{height:9.2%!important;bottom:8.8%!important}
-  .nav{height:8.5%!important}
+ .logo{top:4px;transform:translateX(-50%) scale(.82)}.topBars{top:8px}.pill{height:25px;font-size:12px}.roundBtn{width:38px;height:38px;font-size:19px}
+ .mission{top:14.5%;font-size:12px}.stats{top:21.4%;height:44px}.levelBadge{top:20.2%;height:66px;font-size:27px}.king{top:20.3%;font-size:36px}
+ .boardWrap{top:33.2%;height:31.2%;left:15%;right:15%}.sidePanel{top:40.8%;height:16.8%}.levelPath{top:66.5%}.boosters{bottom:9%;height:9%}.nav{height:8.5%}
 }
-
-
-/* v2.1.2 Integrated Board + Audio Fix */
-.boardWrap{
-  left:6.5%!important;
-  right:6.5%!important;
-  top:32.2%!important;
-  height:38.8%!important;
-  padding:8px!important;
-  border-radius:26px!important;
-  background:
-    linear-gradient(180deg,rgba(255,198,43,.95),rgba(121,59,5,.95)) border-box,
-    linear-gradient(180deg,#09295e,#06142f) padding-box!important;
-  border:4px solid transparent!important;
-  box-shadow:
-    0 7px 0 #6e3500,
-    0 16px 28px rgba(0,0,0,.55),
-    inset 0 0 0 2px rgba(255,255,255,.12),
-    inset 0 0 28px rgba(75,160,255,.20)!important;
-}
-.boardWrap:before{
-  content:"";
-  position:absolute;
-  inset:-8px;
-  border-radius:32px;
-  background:linear-gradient(180deg,rgba(255,230,105,.26),transparent 38%,rgba(0,0,0,.16));
-  pointer-events:none;
-  z-index:-1;
-}
-#board{
-  gap:4px!important;
-}
-.cell{
-  background:linear-gradient(180deg,#143d79,#081b3c)!important;
-  border-radius:11px!important;
-  box-shadow:
-    inset 0 2px 0 rgba(255,255,255,.13),
-    inset 0 -2px 0 rgba(0,0,0,.26)!important;
-}
-.tile{
-  width:88%!important;
-  height:88%!important;
-}
-.sidePanel{
-  top:43.8%!important;
-  height:16.2%!important;
-  width:12.3%!important;
-  opacity:.96!important;
-  z-index:7!important;
-}
-.sidePanel.left{left:.6%!important}
-.sidePanel.right{right:.6%!important}
-.mission{
-  top:15.0%!important;
-}
-.stats{
-  top:22.0%!important;
-}
-.levelBadge{
-  top:21.0%!important;
-}
-.king{
-  top:21.0%!important;
-}
-.levelPath{
-  top:71.9%!important;
-}
-.boosters{
-  bottom:9.1%!important;
-  height:9.6%!important;
-}
-#audioStatus{
-  position:absolute;
-  right:2.5%;
-  top:calc(120px + env(safe-area-inset-top));
-  z-index:70;
-  min-width:44px;
-  height:24px;
-  border-radius:14px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:rgba(0,0,0,.38);
-  border:1px solid rgba(255,255,255,.35);
-  color:#fff;
-  font-size:12px;
-  font-weight:900;
-  pointer-events:none;
-  text-shadow:0 1px 2px #000;
-}
-@media(max-height:760px){
-  .boardWrap{
-    top:31.7%!important;
-    height:38.2%!important;
-  }
-  .sidePanel{
-    height:15.5%!important;
-    top:43.5%!important;
-  }
-  .levelPath{
-    top:70.8%!important;
-  }
-}
-
 </style>
 </head>
 <body>
 <div id="game">
-  <div id="audioStatus">🔊</div>
   <div class="castle">🏰</div>
   <div class="logo"><div class="gem">GEM</div><div class="kingdom">KINGDOM</div><div class="legends">LEGENDS</div></div>
   <div class="topBars">
@@ -465,10 +124,9 @@ body{display:flex;align-items:center;justify-content:center}
   </div>
 
   <div class="sidePanel left">DAILY<br>REWARD<div class="big">🎁</div><button id="dailyBtn" class="greenBtn">CLAIM</button></div>
-  <div class="sidePanel right">EXTRA<br>MOVES<div class="big">+5</div><small>400</small></div>
+  <div class="sidePanel right">EXTRA<br>MOVES<div class="big">+5</div><button id="extraMovesBtn" class="greenBtn">400</button></div>
 
   <div class="boardWrap"><div id="board"></div></div>
-
   <div class="levelPath" id="levelPath"></div>
 
   <div class="boosters">
@@ -497,6 +155,7 @@ body{display:flex;align-items:center;justify-content:center}
       <div class="shopItem">💣 Color Bomb<br>Own: <span id="shopBombOwn">0</span><br>500 coins<br><button data-buy="bomb">BUY</button></div>
       <div class="shopItem">+5 Moves<br>Instant<br>400 coins<br><button data-buy="moves">BUY</button></div>
     </div>
+    <div class="adBox">Rewarded Ad Placeholder<br><button id="adCoinsBtn" class="greenBtn">Watch Ad +250 Coins</button></div>
     <button class="back">Back to Game</button>
   </section>
 
@@ -527,28 +186,24 @@ body{display:flex;align-items:center;justify-content:center}
 <script>
 (function(){
 'use strict';
-const W=8,H=8,TYPES=6,$=id=>document.getElementById(id);
+const W=7,H=7,TYPES=6,$=id=>document.getElementById(id);
 const boardEl=$('board'),toastEl=$('toast'),modal=$('modal');
 let board=[],selected=null,busy=false,ended=false,score=0,moves=25,tool=null,dragStart=null;
 const LEVELS=Array.from({length:50},(_,i)=>({
   level:i+1,
-  moves:Math.max(16,28-Math.floor(i/4)),
-  target:4000+i*650,
+  moves:Math.max(15,26-Math.floor(i/5)),
+  target:3500+i*550,
   type:i<10?'score':i<20?'red':i<30?'blue':i<40?'green':'mixed',
-  goal: i<10 ? 4000+i*650 : 10+Math.floor(i/3),
+  goal: i<10 ? 3500+i*550 : 8+Math.floor(i/4),
   reward:100+Math.floor(i/5)*30
 }));
 let profile=load();
 
 function load(){
-  try{return Object.assign({
-    coins:2450,stars:24,current:1,unlocked:1,levelStars:{},
-    boosters:{hammer:3,swap:3,shuffle:3,bomb:2},
-    daily:false,kingdom:0
-  },JSON.parse(localStorage.getItem('gkl_v21')||'{}'))}
-  catch(e){return {coins:2450,stars:24,current:1,unlocked:1,levelStars:{},boosters:{hammer:3,swap:3,shuffle:3,bomb:2},daily:false,kingdom:0}}
+  try{return Object.assign({coins:2450,stars:24,current:1,unlocked:1,levelStars:{},boosters:{hammer:3,swap:3,shuffle:3,bomb:2},dailyDate:'',kingdom:0},JSON.parse(localStorage.getItem('gkl_v22')||'{}'))}
+  catch(e){return {coins:2450,stars:24,current:1,unlocked:1,levelStars:{},boosters:{hammer:3,swap:3,shuffle:3,bomb:2},dailyDate:'',kingdom:0}}
 }
-function save(){localStorage.setItem('gkl_v21',JSON.stringify(profile))}
+function save(){localStorage.setItem('gkl_v22',JSON.stringify(profile))}
 function lv(){return LEVELS[Math.max(0,Math.min(49,profile.current-1))]}
 function rand(){return Math.floor(Math.random()*TYPES)}
 function gem(t){return {type:t==null?rand():t,fresh:false,special:null}}
@@ -559,8 +214,7 @@ function updateTop(){
   $('levelBadge').textContent=profile.current;
   $('movesText').textContent=moves;
   const L=lv();
-  let goalText=L.type==='score'?L.target:(progress()+'/'+L.goal);
-  $('goalText').textContent=goalText;
+  $('goalText').textContent=L.type==='score'?L.target:(collected()+'/'+L.goal);
   $('mission').textContent='Level '+L.level+' • '+missionText();
   $('starsText').textContent=starPreview();
   $('hammerQty').textContent=profile.boosters.hammer||0;
@@ -572,348 +226,83 @@ function updateTop(){
   $('shopShuffleOwn').textContent=profile.boosters.shuffle||0;
   $('shopBombOwn').textContent=profile.boosters.bomb||0;
 }
-function missionText(){
-  const L=lv();
-  if(L.type==='score')return 'Reach '+L.target+' Score';
-  if(L.type==='red')return 'Collect Red Gems';
-  if(L.type==='blue')return 'Collect Blue Gems';
-  if(L.type==='green')return 'Collect Green Gems';
-  return 'Collect Mixed Gems';
-}
+function missionText(){const L=lv();return L.type==='score'?'Reach '+L.target+' Score':L.type==='red'?'Collect Red Gems':L.type==='blue'?'Collect Blue Gems':L.type==='green'?'Collect Green Gems':'Collect Mixed Gems'}
 function starPreview(){const s=starsEarned();return '★'.repeat(s)+'☆'.repeat(3-s)}
-function starsEarned(){const L=lv(); if(L.type==='score'){let r=score/L.target;return r>=1.5?3:r>=1.2?2:r>=1?1:0} let p=progress()/L.goal;return p>=1?3:p>=.75?2:p>=.45?1:0}
-function progress(){return board.flat().filter(g=>{
-  const L=lv();
-  if(!g)return false;
-  if(L.type==='red')return g.type===0;
-  if(L.type==='blue')return g.type===1;
-  if(L.type==='green')return g.type===3;
-  if(L.type==='mixed')return g.type===0||g.type===1||g.type===3;
-  return false;
-}).length}
+function starsEarned(){const L=lv(); if(L.type==='score'){let r=score/L.target;return r>=1.5?3:r>=1.2?2:r>=1?1:0} let p=collected()/L.goal;return p>=1?3:p>=.75?2:p>=.45?1:0}
+let collectCount=0;
+function collected(){return collectCount}
+function goalGem(g){const L=lv(); if(!g)return false; if(L.type==='red')return g.type===0; if(L.type==='blue')return g.type===1; if(L.type==='green')return g.type===3; if(L.type==='mixed')return g.type===0||g.type===1||g.type===3; return false}
 function makeBoard(){
-  board=[];
-  for(let y=0;y<H;y++){
-    board[y]=[];
-    for(let x=0;x<W;x++){
-      let g;
-      do{g=gem()}while(
-        (x>=2&&board[y][x-1].type===g.type&&board[y][x-2].type===g.type)||
-        (y>=2&&board[y-1][x].type===g.type&&board[y-2][x].type===g.type)
-      );
-      board[y][x]=g;
-    }
-  }
+  collectCount=0;board=[];
+  for(let y=0;y<H;y++){board[y]=[];for(let x=0;x<W;x++){let g;do{g=gem()}while((x>=2&&board[y][x-1].type===g.type&&board[y][x-2].type===g.type)||(y>=2&&board[y-1][x].type===g.type&&board[y-2][x].type===g.type));board[y][x]=g}}
 }
 function render(){
   boardEl.innerHTML='';
   for(let y=0;y<H;y++)for(let x=0;x<W;x++){
     const c=document.createElement('div');c.className='cell';c.dataset.x=x;c.dataset.y=y;
     const g=board[y][x];
-    if(g){
-      const t=document.createElement('div');
-      t.className='tile t'+g.type+(selected&&selected.x===x&&selected.y===y?' selected':'')+(g.fresh?' new':'');
-      g.fresh=false;
-      c.appendChild(t);
-      if(g.special){const s=document.createElement('span');s.className='special';s.textContent=g.special==='rocket'?'🚀':'🌈';c.appendChild(s)}
-    }
+    if(g){const t=document.createElement('div');t.className='tile t'+g.type+(selected&&selected.x===x&&selected.y===y?' selected':'')+(g.fresh?' new':'');g.fresh=false;c.appendChild(t);if(g.special){const s=document.createElement('span');s.className='special';s.textContent=g.special==='rocket'?'🚀':'🌈';c.appendChild(s)}}
     boardEl.appendChild(c);
   }
   updateTop();
 }
-function startLevel(n){
-  profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));
-  score=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';
-  makeBoard();render();resolve(false,true);drawPath();save();toast('Level '+profile.current);
-}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();render();resolve(false,true);drawPath();save();toast('Level '+profile.current)}
 function groups(){
-  let gs=[];
-  for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
+  let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   return gs;
 }
 function swap(a,b){[board[a.y][a.x],board[b.y][b.x]]=[board[b.y][b.x],board[a.y][a.x]]}
 function adj(a,b){return Math.abs(a.x-b.x)+Math.abs(a.y-b.y)===1}
-async function cellTap(x,y){
-  if(busy||ended)return;
-  if(tool){useTool(x,y);return}
-  if(!selected){selected={x,y};render();return}
-  const a=selected,b={x,y};selected=null;
-  if(!adj(a,b)){selected=b;render();return}
-  await trySwap(a,b);
-}
-async function trySwap(a,b){
-  busy=true;swap(a,b);render();sfx('swap');await wait(120);
-  if(!groups().length){swap(a,b);busy=false;toast('No Match');sfx('lose');render();return}
-  moves--;await resolve(true,false);busy=false;checkEnd();render();
-}
+async function cellTap(x,y){if(busy||ended)return;if(tool){useTool(x,y);return}if(!selected){selected={x,y};render();sfx('tap');return}const a=selected,b={x,y};selected=null;if(!adj(a,b)){selected=b;render();return}await trySwap(a,b)}
+async function trySwap(a,b){busy=true;swap(a,b);render();sfx('swap');await wait(110);if(!groups().length){swap(a,b);busy=false;toast('No Match');sfx('lose');render();return}moves--;await resolve(true,false);busy=false;checkEnd();render()}
 async function resolve(count,initial){
-  let loop=0;
-  while(true){
-    const gs=groups(); if(!gs.length)break; loop++;
-    const clear=new Map(); let special=null;
-    for(const g of gs){
-      for(const p of g)clear.set(p.x+','+p.y,p);
-      if(!initial&&g.length>=4){const p=g[Math.floor(g.length/2)], old=board[p.y][p.x];special={p,type:old.type,kind:g.length>=5?'rainbow':'rocket'}}
-    }
+  let loop=0;while(true){const gs=groups();if(!gs.length)break;loop++;const clear=new Map();let special=null;
+    for(const g of gs){for(const p of g)clear.set(p.x+','+p.y,p);if(!initial&&g.length>=4){const p=g[Math.floor(g.length/2)],old=board[p.y][p.x];special={p,type:old.type,kind:g.length>=5?'rainbow':'rocket'}}}
     if(special)clear.delete(special.p.x+','+special.p.y);
-    for(const p of clear.values())board[p.y][p.x]=null;
+    for(const p of clear.values()){if(goalGem(board[p.y][p.x]))collectCount++;board[p.y][p.x]=null}
     if(special)board[special.p.y][special.p.x]={type:special.type,special:special.kind,fresh:false};
     if(count){score+=clear.size*120*loop;sfx(loop>1?'combo':'match')}
-    render();await wait(140);dropFill();render();await wait(140);
-    if(loop>30)break;
+    render();await wait(130);dropFill();render();await wait(130);if(loop>30)break;
   }
 }
-function dropFill(){
-  for(let x=0;x<W;x++){
-    let stack=[];for(let y=H-1;y>=0;y--)if(board[y][x])stack.push(board[y][x]);
-    for(let y=H-1;y>=0;y--){board[y][x]=stack[H-1-y]||gem(); if(!stack[H-1-y])board[y][x].fresh=true}
-  }
-}
-function useTool(x,y){
-  if(tool==='hammer'){board[y][x]=null;dropFill();resolve(true,false);toast('Hammer used')}
-  if(tool==='bomb'){
-    for(let yy=y-1;yy<=y+1;yy++)for(let xx=x-1;xx<=x+1;xx++)if(xx>=0&&yy>=0&&xx<W&&yy<H)board[yy][xx]=null;
-    dropFill();resolve(true,false);toast('Bomb used')
-  }
-  tool=null;moves--;checkEnd();render();
-}
-function checkEnd(){
-  const L=lv();
-  const won=L.type==='score'?score>=L.target:progress()>=L.goal;
-  if(won)return win();
-  if(moves<=0)return lose();
-}
-function win(){
-  ended=true;
-  const L=lv(), s=Math.max(1,starsEarned()), old=profile.levelStars[L.level]||0;
-  if(s>old){profile.stars+=(s-old);profile.levelStars[L.level]=s}
-  profile.coins+=L.reward;
-  profile.unlocked=Math.max(profile.unlocked,Math.min(50,L.level+1));
-  profile.current=Math.min(50,L.level+1);
-  save();updateTop();drawPath();
-  $('modalTitle').textContent='Level '+L.level+' Complete!';
-  $('modalStars').textContent='⭐'.repeat(s);
-  $('modalText').textContent='+'+L.reward+' coins • Level '+profile.current+' unlocked';
-  modal.style.display='flex';sfx('win');
-}
+function dropFill(){for(let x=0;x<W;x++){let stack=[];for(let y=H-1;y>=0;y--)if(board[y][x])stack.push(board[y][x]);for(let y=H-1;y>=0;y--){board[y][x]=stack[H-1-y]||gem();if(!stack[H-1-y])board[y][x].fresh=true}}}
+function useTool(x,y){if(tool==='hammer'){if(goalGem(board[y][x]))collectCount++;board[y][x]=null;dropFill();resolve(true,false);toast('Hammer used')}if(tool==='bomb'){for(let yy=y-1;yy<=y+1;yy++)for(let xx=x-1;xx<=x+1;xx++)if(xx>=0&&yy>=0&&xx<W&&yy<H){if(goalGem(board[yy][xx]))collectCount++;board[yy][xx]=null}dropFill();resolve(true,false);toast('Bomb used')}tool=null;moves--;checkEnd();render()}
+function checkEnd(){const L=lv();const won=L.type==='score'?score>=L.target:collectCount>=L.goal;if(won)return win();if(moves<=0)return lose()}
+function win(){ended=true;const L=lv(),s=Math.max(1,starsEarned()),old=profile.levelStars[L.level]||0;if(s>old){profile.stars+=(s-old);profile.levelStars[L.level]=s}profile.coins+=L.reward;profile.unlocked=Math.max(profile.unlocked,Math.min(50,L.level+1));profile.current=Math.min(50,L.level+1);save();updateTop();drawPath();$('modalTitle').textContent='Level '+L.level+' Complete!';$('modalStars').textContent='⭐'.repeat(s);$('modalText').textContent='+'+L.reward+' coins • Level '+profile.current+' unlocked';modal.style.display='flex';sfx('win')}
 function lose(){ended=true;$('modalTitle').textContent='Out of Moves';$('modalStars').textContent='💔';$('modalText').textContent='Try again or use +5 moves';modal.style.display='flex';sfx('lose')}
 function wait(ms){return new Promise(r=>setTimeout(r,ms))}
 boardEl.addEventListener('click',e=>{const c=e.target.closest('.cell');if(c)cellTap(+c.dataset.x,+c.dataset.y)});
 boardEl.addEventListener('pointerdown',e=>{const c=e.target.closest('.cell');if(!c)return;dragStart={x:+c.dataset.x,y:+c.dataset.y,px:e.clientX,py:e.clientY}});
 boardEl.addEventListener('pointerup',e=>{if(!dragStart)return;let dx=e.clientX-dragStart.px,dy=e.clientY-dragStart.py;if(Math.max(Math.abs(dx),Math.abs(dy))<18){dragStart=null;return}let b={x:dragStart.x,y:dragStart.y};if(Math.abs(dx)>Math.abs(dy))b.x+=dx>0?1:-1;else b.y+=dy>0?1:-1;if(b.x>=0&&b.y>=0&&b.x<W&&b.y<H)trySwap({x:dragStart.x,y:dragStart.y},b);dragStart=null});
-
-function drawPath(){
-  const p=$('levelPath');p.innerHTML='';
-  const start=Math.max(1,Math.min(41,profile.current-4));
-  for(let i=0;i<10;i++){let n=start+i;const d=document.createElement('div');d.className='node '+(n===profile.current?'current ':'')+(n>profile.unlocked?'lock':'');d.textContent=n;p.appendChild(d)}
-  const mg=$('mapGrid');if(mg){mg.innerHTML='';for(let n=1;n<=50;n++){const b=document.createElement('button');b.className='mapLv '+(n===profile.current?'current ':'')+(n>profile.unlocked?'locked':'');b.textContent=n>profile.unlocked?'🔒':n;b.onclick=()=>{if(n<=profile.unlocked){closeScreens();startLevel(n)}};mg.appendChild(b)}}
-}
+function drawPath(){const p=$('levelPath');p.innerHTML='';const start=Math.max(1,Math.min(41,profile.current-4));for(let i=0;i<10;i++){let n=start+i;const d=document.createElement('div');d.className='node '+(n===profile.current?'current ':'')+(n>profile.unlocked?'lock':'');d.textContent=n;p.appendChild(d)}const mg=$('mapGrid');if(mg){mg.innerHTML='';for(let n=1;n<=50;n++){const b=document.createElement('button');b.className='mapLv '+(n===profile.current?'current ':'')+(n>profile.unlocked?'locked':'');b.textContent=n>profile.unlocked?'🔒':n;b.onclick=()=>{if(n<=profile.unlocked){closeScreens();startLevel(n)}};mg.appendChild(b)}}}
 function openScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active');drawPath();updateTop()}
 function closeScreens(){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'))}
-$('shopNav').onclick=()=>openScreen('shopScreen');$('mapNav').onclick=()=>openScreen('mapScreen');$('eventsNav').onclick=()=>openScreen('eventsScreen');$('kingdomNav').onclick=()=>openScreen('kingdomScreen');$('homeNav').onclick=closeScreens;
-document.querySelectorAll('.back').forEach(b=>b.onclick=closeScreens);
+$('shopNav').onclick=()=>openScreen('shopScreen');$('mapNav').onclick=()=>openScreen('mapScreen');$('eventsNav').onclick=()=>openScreen('eventsScreen');$('kingdomNav').onclick=()=>openScreen('kingdomScreen');$('homeNav').onclick=closeScreens;document.querySelectorAll('.back').forEach(b=>b.onclick=closeScreens);
 document.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>buy(b.dataset.buy));
-function buy(item){
-  const cost={hammer:250,shuffle:200,bomb:500,moves:400}[item];if(profile.coins<cost)return toast('Not enough coins');
-  profile.coins-=cost;
-  if(item==='moves'){moves+=5;toast('+5 Moves')}
-  else{profile.boosters[item]=(profile.boosters[item]||0)+1;toast('Purchased')}
-  save();updateTop();sfx('booster');
-}
+function buy(item){const cost={hammer:250,shuffle:200,bomb:500,moves:400}[item];if(profile.coins<cost)return toast('Not enough coins');profile.coins-=cost;if(item==='moves'){moves+=5;toast('+5 Moves')}else{profile.boosters[item]=(profile.boosters[item]||0)+1;toast('Purchased')}save();updateTop();sfx('booster')}
 $('hammerBtn').onclick=()=>{if((profile.boosters.hammer||0)<=0)return toast('Buy Hammer');profile.boosters.hammer--;tool='hammer';save();updateTop();toast('Tap a gem')};
 $('bombBtn').onclick=()=>{if((profile.boosters.bomb||0)<=0)return toast('Buy Bomb');profile.boosters.bomb--;tool='bomb';save();updateTop();toast('Tap a gem')};
 $('shuffleBtn').onclick=()=>{if((profile.boosters.shuffle||0)<=0)return toast('Buy Shuffle');profile.boosters.shuffle--;moves--;makeBoard();resolve(false,true);save();updateTop();toast('Shuffled');sfx('shuffle')};
-$('swapBtn').onclick=()=>toast('Swap booster coming soon');
-$('movesBtn').onclick=()=>buy('moves');$('playBtn').onclick=()=>startLevel(profile.current);
-$('dailyBtn').onclick=()=>{if(profile.daily)return toast('Already claimed');profile.daily=true;profile.coins+=250;save();updateTop();toast('+250 Coins')};
-$('eventReward').onclick=()=>{profile.coins+=100;save();updateTop();toast('+100 Event Coins')};
-$('upgradeKingdom').onclick=()=>{if(profile.stars<10)return toast('Need 10 stars');profile.stars-=10;profile.kingdom++;save();updateTop();toast('Kingdom upgraded')};
-$('nextBtn').onclick=()=>{modal.style.display='none';startLevel(profile.current)};
-$('settingsBtn').onclick=()=>toast('Settings soon');
-let audioOn=true,bgmOn=true,audioUnlocked=false;
-const sounds={tap:new Audio('assets/audio/tap.mp3'),swap:new Audio('assets/audio/swap.mp3'),match:new Audio('assets/audio/match.mp3'),combo:new Audio('assets/audio/combo.mp3'),booster:new Audio('assets/audio/booster.mp3'),shuffle:new Audio('assets/audio/shuffle.mp3'),win:new Audio('assets/audio/win.mp3'),lose:new Audio('assets/audio/lose.mp3')};
+$('swapBtn').onclick=()=>toast('Swap booster coming soon');$('movesBtn').onclick=()=>buy('moves');$('extraMovesBtn').onclick=()=>buy('moves');$('playBtn').onclick=()=>startLevel(profile.current);
+$('dailyBtn').onclick=()=>{const d=new Date().toDateString();if(profile.dailyDate===d)return toast('Already claimed');profile.dailyDate=d;profile.coins+=250;save();updateTop();toast('+250 Coins')};
+$('eventReward').onclick=()=>{profile.coins+=100;save();updateTop();toast('+100 Event Coins')};$('adCoinsBtn').onclick=()=>{profile.coins+=250;save();updateTop();toast('Rewarded Ad +250')};
+$('upgradeKingdom').onclick=()=>{if(profile.stars<10)return toast('Need 10 stars');profile.stars-=10;profile.kingdom++;save();updateTop();toast('Kingdom upgraded')};$('nextBtn').onclick=()=>{modal.style.display='none';startLevel(profile.current)};$('settingsBtn').onclick=()=>toast('Settings soon');
+
+let audioOn=true,bgmOn=true,audioReady=false;let ctx=null,osc=null,gain=null;
+const sounds={tap:'tap.mp3',swap:'swap.mp3',match:'match.mp3',combo:'combo.mp3',booster:'booster.mp3',shuffle:'shuffle.mp3',win:'win.mp3',lose:'lose.mp3'};
+const audio={};Object.keys(sounds).forEach(k=>{try{audio[k]=new Audio('assets/audio/'+sounds[k]);audio[k].volume=.75;audio[k].preload='auto'}catch(e){}});
 const bgm=new Audio('assets/audio/bgm.mp3');bgm.loop=true;bgm.volume=.25;
-function unlockAudio(){if(audioUnlocked)return;audioUnlocked=true;if(bgmOn)bgm.play().catch(()=>{})}
-function sfx(n){if(!audioOn||!sounds[n])return;unlockAudio();try{let a=sounds[n].cloneNode(true);a.volume=.75;a.play().catch(()=>{})}catch(e){}}
-$('soundBtn').onclick=()=>{unlockAudio();audioOn=!audioOn;bgmOn=!bgmOn;if(bgmOn)bgm.play().catch(()=>{});else bgm.pause();toast(audioOn?'Sound On':'Sound Off')};
-['pointerdown','touchstart','click'].forEach(ev=>window.addEventListener(ev,unlockAudio,{once:true,passive:true}));
+function getCtx(){if(!ctx){const AC=window.AudioContext||window.webkitAudioContext;if(AC)ctx=new AC()}if(ctx&&ctx.state==='suspended')ctx.resume().catch(()=>{});return ctx}
+function fallback(freq=440,dur=.08){if(!audioOn)return;const c=getCtx();if(!c)return;const o=c.createOscillator(),g=c.createGain();o.frequency.value=freq;g.gain.value=.045;o.connect(g);g.connect(c.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+dur);o.stop(c.currentTime+dur+.02)}
+function musicFallback(){const c=getCtx();if(!c||osc)return;osc=c.createOscillator();gain=c.createGain();osc.frequency.value=174;gain.gain.value=.012;osc.connect(gain);gain.connect(c.destination);osc.start()}
+function stopMusic(){try{bgm.pause();if(osc){osc.stop();osc.disconnect();gain.disconnect();osc=null;gain=null}}catch(e){}}
+function unlockAudio(){if(audioReady)return;audioReady=true;getCtx();if(bgmOn)bgm.play().catch(()=>musicFallback())}
+function sfx(n){if(!audioOn)return;unlockAudio();try{let a=audio[n].cloneNode(true);a.play().catch(()=>fallback(n==='lose'?150:n==='win'?850:n==='match'?720:420))}catch(e){fallback(420)}}
+$('soundBtn').onclick=()=>{unlockAudio();audioOn=!audioOn;bgmOn=!bgmOn;if(bgmOn)bgm.play().catch(()=>musicFallback());else stopMusic();toast(audioOn?'Sound On':'Sound Off')};
+['pointerdown','touchstart','click','keydown'].forEach(ev=>window.addEventListener(ev,unlockAudio,{once:true,passive:true}));
 startLevel(profile.current);drawPath();updateTop();
 })();
-
-// v2.1.2 robust audio manager with MP3 + fallback tones
-(function(){
-  let audioReady=false;
-  let sfxEnabled=true;
-  let musicEnabled=true;
-  let ctx=null;
-  let musicOsc=null;
-  let musicGain=null;
-
-  const files={
-    tap:'assets/audio/tap.mp3',
-    swap:'assets/audio/swap.mp3',
-    match:'assets/audio/match.mp3',
-    combo:'assets/audio/combo.mp3',
-    booster:'assets/audio/booster.mp3',
-    shuffle:'assets/audio/shuffle.mp3',
-    win:'assets/audio/win.mp3',
-    lose:'assets/audio/lose.mp3',
-    bgm:'assets/audio/bgm.mp3'
-  };
-
-  const audios={};
-  Object.keys(files).forEach(k=>{
-    try{
-      audios[k]=new Audio(files[k]);
-      audios[k].preload='auto';
-      audios[k].volume=k==='bgm'?0.28:0.75;
-      if(k==='bgm') audios[k].loop=true;
-    }catch(e){}
-  });
-
-  function status(txt){
-    const el=document.getElementById('audioStatus');
-    if(el) el.textContent=txt;
-  }
-
-  function getCtx(){
-    if(!ctx){
-      const AC=window.AudioContext||window.webkitAudioContext;
-      if(AC) ctx=new AC();
-    }
-    if(ctx && ctx.state==='suspended') ctx.resume().catch(()=>{});
-    return ctx;
-  }
-
-  function tone(freq=440,dur=.09,type='sine',vol=.05){
-    if(!sfxEnabled) return;
-    const c=getCtx();
-    if(!c) return;
-    const o=c.createOscillator();
-    const g=c.createGain();
-    o.type=type;
-    o.frequency.value=freq;
-    g.gain.value=vol;
-    o.connect(g);
-    g.connect(c.destination);
-    o.start();
-    g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+dur);
-    o.stop(c.currentTime+dur+.02);
-  }
-
-  function fallbackSfx(name){
-    const map={
-      tap:[520,.05,'sine'],
-      swap:[360,.08,'triangle'],
-      match:[740,.10,'sine'],
-      combo:[920,.12,'square'],
-      booster:[220,.18,'sawtooth'],
-      shuffle:[460,.12,'triangle'],
-      win:[880,.18,'sine'],
-      lose:[150,.18,'sawtooth']
-    };
-    const m=map[name]||map.tap;
-    tone(m[0],m[1],m[2],name==='lose'?0.035:0.055);
-  }
-
-  function unlock(){
-    if(audioReady) return;
-    audioReady=true;
-    getCtx();
-    Object.values(audios).forEach(a=>{
-      try{a.load()}catch(e){}
-    });
-    if(musicEnabled) playMusic();
-    status(musicEnabled?'🔊':'🔇');
-  }
-
-  function playFile(name){
-    const a=audios[name];
-    if(!a) return false;
-    try{
-      const b=a.cloneNode(true);
-      b.volume=a.volume;
-      b.play().catch(()=>fallbackSfx(name));
-      return true;
-    }catch(e){
-      return false;
-    }
-  }
-
-  function playSfx(name){
-    unlock();
-    if(!sfxEnabled) return;
-    if(!playFile(name)) fallbackSfx(name);
-  }
-
-  function startFallbackMusic(){
-    if(!musicEnabled) return;
-    const c=getCtx();
-    if(!c || musicOsc) return;
-    musicOsc=c.createOscillator();
-    musicGain=c.createGain();
-    musicOsc.type='sine';
-    musicOsc.frequency.value=174;
-    musicGain.gain.value=0.012;
-    musicOsc.connect(musicGain);
-    musicGain.connect(c.destination);
-    musicOsc.start();
-  }
-
-  function stopFallbackMusic(){
-    try{
-      if(musicOsc){musicOsc.stop();musicOsc.disconnect();}
-      if(musicGain) musicGain.disconnect();
-    }catch(e){}
-    musicOsc=null;musicGain=null;
-  }
-
-  function playMusic(){
-    unlock();
-    if(!musicEnabled) return;
-    const bgm=audios.bgm;
-    if(bgm){
-      bgm.play().then(()=>status('🔊')).catch(()=>{
-        startFallbackMusic();
-        status('🔊');
-      });
-    }else{
-      startFallbackMusic();
-      status('🔊');
-    }
-  }
-
-  function stopMusic(){
-    if(audios.bgm) audios.bgm.pause();
-    stopFallbackMusic();
-    status('🔇');
-  }
-
-  window.sfx=function(name){playSfx(name)};
-  window.__gklPlayMusic=playMusic;
-  window.__gklUnlockAudio=unlock;
-
-  ['pointerdown','touchstart','click','keydown'].forEach(ev=>{
-    window.addEventListener(ev,unlock,{once:true,passive:true});
-  });
-
-  setTimeout(()=>status('🔊'),80);
-
-  const soundBtn=document.getElementById('soundBtn');
-  if(soundBtn){
-    soundBtn.onclick=function(e){
-      e.preventDefault();
-      e.stopPropagation();
-      unlock();
-      sfxEnabled=!sfxEnabled;
-      musicEnabled=!musicEnabled;
-      if(musicEnabled) playMusic(); else stopMusic();
-      if(typeof toast==='function') toast(musicEnabled?'Sound On':'Sound Off');
-    };
-  }
-})();
-
 </script>
 </body>
 </html>
