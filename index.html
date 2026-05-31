@@ -855,75 +855,342 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
 }
 
 
-/* v3.0 Premium UI Refresh */
-.profileBadge{
- left:50%!important;
- transform:translateX(-50%)!important;
- top:calc(48px + env(safe-area-inset-top))!important;
+/* v3.0.1 PROFESSIONAL HUD REBUILD - APPROVED MOCKUP MATCH */
+#game{
+  max-height:none!important;
+}
+
+/* Background and castle depth */
+.castle{
+  right:2.5%!important;
+  top:13.5%!important;
+  font-size:72px!important;
+  z-index:1!important;
+  opacity:.88!important;
+}
+
+/* Top resource bars */
+.topBars{
+  left:1.4%!important;
+  top:calc(2.0% + env(safe-area-inset-top))!important;
+  width:31.5%!important;
+  gap:6px!important;
+  z-index:30!important;
+}
+.pill{
+  height:34px!important;
+  border-radius:22px!important;
+  font-size:15px!important;
+  border:3px solid #ffb323!important;
+  background:linear-gradient(#102e63,#061a3e)!important;
+  box-shadow:0 4px 0 #7a3f07,0 7px 12px rgba(0,0,0,.45)!important;
+}
+.pill .ic{font-size:21px!important}
+.pill .plus{
+  width:24px!important;
+  height:24px!important;
+  font-size:17px!important;
+}
+
+/* Logo centered and never covered */
+.logo{
+  top:calc(1.2% + env(safe-area-inset-top))!important;
+  left:50%!important;
+  width:55%!important;
+  height:13.7%!important;
+  transform:translateX(-50%)!important;
+  z-index:10!important;
+}
+.logo .gem{
+  font-size:47px!important;
+  line-height:.72!important;
+}
+.logo .kingdom{
+  font-size:37px!important;
+  line-height:.77!important;
+}
+.logo .legends{
+  font-size:17px!important;
+  padding:2px 22px!important;
+  margin-top:4px!important;
+}
+
+/* Top right controls: quest, settings, sound */
+.questTopBtn{
+  position:absolute!important;
+  right:15.5%!important;
+  top:calc(1.8% + env(safe-area-inset-top))!important;
+  width:56px!important;
+  height:58px!important;
+  border-radius:14px!important;
+  border:3px solid #ffb323!important;
+  background:linear-gradient(#123c76,#071d45)!important;
+  color:white!important;
+  font-weight:1000!important;
+  box-shadow:0 5px 0 #7a3f07,0 8px 14px rgba(0,0,0,.45)!important;
+  display:grid!important;
+  place-items:center!important;
+  padding:1px!important;
+  text-shadow:0 2px #000!important;
+  z-index:32!important;
+}
+.questTopBtn span{font-size:23px!important;line-height:20px!important}
+.questTopBtn small{font-size:8.5px!important;line-height:9px!important}
+.questTopBtn i{
+  position:absolute!important;
+  right:-6px!important;
+  top:-7px!important;
+  width:18px!important;
+  height:18px!important;
+  border-radius:50%!important;
+  background:#f22!important;
+  border:2px solid #fff!important;
+  display:none;
+}
+.sideBtns{
+  right:1.8%!important;
+  top:calc(1.8% + env(safe-area-inset-top))!important;
+  display:grid!important;
+  gap:9px!important;
+  z-index:32!important;
+}
+.roundBtn{
+  width:50px!important;
+  height:50px!important;
+  border-radius:16px!important;
+  font-size:25px!important;
+  border:3px solid white!important;
+}
+
+/* Integrated P-LV + XP row */
+.metaHud{
+  position:absolute!important;
+  left:6.3%!important;
+  right:6.3%!important;
+  top:calc(16.4% + env(safe-area-inset-top))!important;
+  height:70px!important;
+  z-index:24!important;
+  display:grid!important;
+  grid-template-columns:74px 1fr!important;
+  align-items:center!important;
+}
+.metaLevel{
+  height:76px!important;
+  border-radius:20px!important;
+  background:linear-gradient(#c322c8,#350061)!important;
+  border:4px solid #ffcc31!important;
+  box-shadow:0 5px 0 #7a3c00,0 11px 16px rgba(0,0,0,.5)!important;
+  display:grid!important;
+  place-items:center!important;
+  text-align:center!important;
+  font-weight:1000!important;
+  font-size:17px!important;
+  line-height:17px!important;
+  color:#fff!important;
+  text-shadow:0 2px #000!important;
+  z-index:3!important;
+}
+.metaLevel b{
+  display:block!important;
+  font-size:37px!important;
+  line-height:36px!important;
+  color:#fff!important;
 }
 .xpHud{
- left:27%!important;
- right:27%!important;
- top:calc(76px + env(safe-area-inset-top))!important;
- height:20px!important;
+  position:relative!important;
+  left:auto!important;
+  right:auto!important;
+  top:auto!important;
+  transform:none!important;
+  height:48px!important;
+  margin-left:-12px!important;
+  border-radius:16px!important;
+  background:linear-gradient(#49106c,#17012f)!important;
+  border:4px solid #ffcc31!important;
+  box-shadow:0 5px 0 #7a3c00,0 10px 15px rgba(0,0,0,.46)!important;
+  overflow:hidden!important;
+  z-index:2!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  font-size:15px!important;
 }
-.questFab{
- width:42px!important;
- height:42px!important;
- bottom:20.5%!important;
- left:1%!important;
+.xpHudFill{
+  background:linear-gradient(90deg,#2bff7a,#fff36b,#ff9f00)!important;
 }
-.sidePanel.left{
- width:9%!important;
+.xpHudText{
+  font-size:15px!important;
+  font-weight:1000!important;
+  position:relative!important;
+  z-index:3!important;
 }
-.sidePanel.right{
- width:9%!important;
-}
-.mission{
- top:17.2%!important;
+.profileBadge{
+  position:static!important;
+  left:auto!important;
+  top:auto!important;
+  transform:none!important;
+  background:none!important;
+  border:0!important;
+  box-shadow:none!important;
+  padding:0!important;
 }
 
-
-/* v3.0.1 Professional HUD Rebuild */
-.metaHud{
- top:calc(108px + env(safe-area-inset-top))!important;
- left:10%!important;
- right:10%!important;
- height:48px!important;
-}
+/* Objective banner */
 .mission{
- top:calc(168px + env(safe-area-inset-top))!important;
- left:12%!important;
- right:12%!important;
- height:38px!important;
+  top:calc(27.3% + env(safe-area-inset-top))!important;
+  left:11.3%!important;
+  right:11.3%!important;
+  height:48px!important;
+  z-index:23!important;
+  border-radius:21px!important;
+  border:4px solid #ffcc31!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  font-size:16px!important;
+  padding:6px 12px!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
 }
+
+/* Stats row and side badges */
 .stats{
- top:calc(218px + env(safe-area-inset-top))!important;
+  top:calc(35.0% + env(safe-area-inset-top))!important;
+  left:16.5%!important;
+  right:16.5%!important;
+  height:60px!important;
+  z-index:18!important;
+  border-radius:16px!important;
 }
-.levelBadge,.king{
- top:calc(212px + env(safe-area-inset-top))!important;
+.stat small{font-size:12px!important}
+.stat b{font-size:25px!important}
+.levelBadge{
+  top:calc(34.0% + env(safe-area-inset-top))!important;
+  left:3.3%!important;
+  width:14.4%!important;
+  height:75px!important;
+  font-size:31px!important;
+  z-index:21!important;
+  border-radius:19px!important;
 }
+.levelBadge small{font-size:11px!important}
+.king{
+  top:calc(34.1% + env(safe-area-inset-top))!important;
+  right:3.1%!important;
+  width:15.3%!important;
+  font-size:42px!important;
+  z-index:21!important;
+}
+
+/* Board placed lower with safe spacing */
 .boardWrap{
- top:calc(290px + env(safe-area-inset-top))!important;
- height:34%!important;
+  top:calc(44.6% + env(safe-area-inset-top))!important;
+  left:12.2%!important;
+  right:12.2%!important;
+  height:31.2%!important;
+  z-index:14!important;
+  border-radius:23px!important;
 }
-.levelPath{
- top:69.5%!important;
-}
+#board{gap:3px!important}
+.tile{width:94%!important;height:94%!important}
+
+/* Side panels aligned beside board, not over board */
 .sidePanel{
- top:43%!important;
+  top:51.4%!important;
+  width:9.7%!important;
+  height:17.2%!important;
+  z-index:13!important;
+  font-size:9.5px!important;
+  padding:5px 1px!important;
 }
-.questTopBtn{
- top:calc(20px + env(safe-area-inset-top))!important;
+.sidePanel.left{left:.7%!important}
+.sidePanel.right{right:.7%!important}
+.sidePanel .big{font-size:24px!important}
+.sidePanel .greenBtn{font-size:9px!important;padding:4px 1px!important}
+
+/* Level path below board */
+.levelPath{
+  top:77.2%!important;
+  left:1%!important;
+  right:1%!important;
+  height:5.6%!important;
+  z-index:16!important;
+}
+.node{
+  width:33px!important;
+  height:33px!important;
+  font-size:15px!important;
+}
+
+/* Boosters + nav */
+.boosters{
+  bottom:9.2%!important;
+  height:9.6%!important;
+  left:1.8%!important;
+  right:1.8%!important;
+  z-index:18!important;
+}
+.boost span{font-size:23px!important}
+.boost small{font-size:8.5px!important}
+.playBtn{font-size:31px!important}
+.nav{
+  bottom:0!important;
+  height:8.8%!important;
+  z-index:18!important;
+}
+.nav span{font-size:23px!important}
+.nav button{font-size:10.5px!important}
+
+.versionTag{
+  right:5px!important;
+  bottom:9.3%!important;
+  z-index:45!important;
+  font-size:11px!important;
+}
+
+/* Compact phone / browser chrome mode */
+@media(max-height:820px){
+  .topBars{top:calc(1.6% + env(safe-area-inset-top))!important}
+  .pill{height:31px!important;font-size:13px!important}
+  .logo{top:calc(.9% + env(safe-area-inset-top))!important;width:53%!important;transform:translateX(-50%) scale(.9)!important}
+  .questTopBtn{top:calc(1.4% + env(safe-area-inset-top))!important;width:50px!important;height:52px!important}
+  .roundBtn{width:47px!important;height:47px!important}
+  .sideBtns{top:calc(1.4% + env(safe-area-inset-top))!important}
+  .metaHud{top:calc(14.7% + env(safe-area-inset-top))!important;height:60px!important;grid-template-columns:65px 1fr!important}
+  .metaLevel{height:66px!important;font-size:13px!important;line-height:13px!important}
+  .metaLevel b{font-size:31px!important;line-height:30px!important}
+  .xpHud{height:39px!important;font-size:12px!important}
+  .xpHudText{font-size:12px!important}
+  .mission{top:calc(25.0% + env(safe-area-inset-top))!important;height:41px!important;font-size:13px!important}
+  .stats{top:calc(32.3% + env(safe-area-inset-top))!important;height:52px!important}
+  .stat b{font-size:22px!important}
+  .levelBadge{top:calc(31.6% + env(safe-area-inset-top))!important;height:63px!important;font-size:25px!important}
+  .king{top:calc(31.7% + env(safe-area-inset-top))!important;font-size:34px!important}
+  .boardWrap{top:calc(41.5% + env(safe-area-inset-top))!important;height:33.2%!important}
+  .sidePanel{top:49.5%!important;height:16.5%!important}
+  .levelPath{top:75.8%!important}
+  .boosters{height:9.1%!important}
+}
+
+@media(max-width:380px){
+  .topBars{width:32.5%!important}
+  .pill{font-size:12px!important}
+  .logo{width:51%!important}
+  .questTopBtn{right:14.5%!important;width:48px!important}
+  .metaHud{left:5.5%!important;right:5.5%!important}
+  .mission{left:10%!important;right:10%!important;font-size:12px!important}
 }
 
 </style>
 </head>
 <body>
 <div id="game">
-  <div class="profileBadge" id="profileBadge">P-Lv 1</div>
-  <div class="xpHud" id="xpHud"><div class="xpHudFill" id="xpHudFill"></div><span class="xpHudText" id="xpHudText">XP 0/100</span></div>
-  <button class="questFab" id="questFab">📜</button>
+  <div class="metaHud" id="metaHud">
+    <div class="metaLevel" id="profileBadge">P-LV<br><b>1</b></div>
+    <div class="xpHud" id="xpHud"><div class="xpHudFill" id="xpHudFill"></div><span class="xpHudText" id="xpHudText">XP 0/100</span></div>
+  </div>
+  <button class="questTopBtn" id="questFab"><span>📜</span><small>QUESTS</small><i id="questDot"></i></button>
   <div class="questPanel" id="questPanel">
     <div class="questCard">
       <h1>Daily Quests</h1>
@@ -935,7 +1202,7 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     </div>
   </div>
   <div class="levelUpPop" id="levelUpPop">LEVEL UP!</div>
-  <div class="versionTag">v2.9</div>
+  <div class="versionTag">v3.0.1</div>
 <div class="castle">🏰</div>
   <div class="logo"><div class="gem">GEM</div><div class="kingdom">KINGDOM</div><div class="legends">LEGENDS</div></div>
   <div class="topBars">
@@ -1092,7 +1359,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v2.9 • Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v3.0.1 • Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
@@ -1829,10 +2096,16 @@ try{
     const badge=document.getElementById('profileBadge');
     const fill=document.getElementById('xpHudFill');
     const txt=document.getElementById('xpHudText');
-    if(badge)badge.textContent='P-Lv '+p.playerLevel;
+    if(badge)badge.innerHTML='P-LV<br><b>'+p.playerLevel+'</b>';
     if(fill)fill.style.width=pct+'%';
     if(txt)txt.textContent='XP '+p.playerXP+'/'+need;
     renderQuestPanel();
+    try{
+      const dot=document.getElementById('questDot');
+      const qp=p.questProgress||{}, qc=p.questClaimed||{};
+      const ready=((qp.levels||0)>=2&&!qc.levels)||((qp.matches||0)>=40&&!qc.matches)||((qp.boosters||0)>=2&&!qc.boosters);
+      if(dot)dot.style.display=ready?'block':'none';
+    }catch(e){}
   };
   window.GKLAddXP=function(amount){
     const p=ensureMeta();
