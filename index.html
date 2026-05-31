@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v2.5 Commercial Gameplay Upgrade</title>
+<title>Gem Kingdom Legends v2.5.1 Mobile Layout Stabilization</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -503,6 +503,247 @@ body{display:flex;align-items:center;justify-content:center}
 @keyframes coinFly{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(-170px,-410px) scale(.25)}}
 .modal .greenBtn.secondary{background:linear-gradient(#56d8ff,#0865c8);box-shadow:0 5px #003c87;margin-left:8px}
 .adBanner{position:absolute;left:12%;right:12%;bottom:18.5%;height:22px;border-radius:10px;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.28);border:1px dashed rgba(255,223,69,.8);color:#fff36b;font-size:10px;font-weight:900;z-index:6}
+
+
+/* v2.5.1 Mobile Layout Stabilization
+   Goal: stable zones, no header/objective overlap, no board/footer overlap */
+.logo{
+  top:calc(2px + env(safe-area-inset-top))!important;
+  width:68%!important;
+  height:10.8%!important;
+  transform:translateX(-50%) scale(.9)!important;
+  z-index:4!important;
+}
+.logo .gem{font-size:39px!important;line-height:.72!important}
+.logo .kingdom{font-size:31px!important;line-height:.78!important}
+.logo .legends{font-size:14px!important;padding:1px 18px!important;margin-top:2px!important}
+
+.topBars{
+  top:calc(12px + env(safe-area-inset-top))!important;
+  left:1.4%!important;
+  width:30%!important;
+  gap:4px!important;
+  z-index:12!important;
+}
+.pill{
+  height:27px!important;
+  font-size:12px!important;
+  padding:0 5px!important;
+}
+.pill .ic{font-size:17px!important}
+.pill .plus{width:18px!important;height:18px!important}
+
+.sideBtns{
+  top:calc(14px + env(safe-area-inset-top))!important;
+  right:1.8%!important;
+  gap:6px!important;
+  z-index:12!important;
+}
+.roundBtn{
+  width:39px!important;
+  height:39px!important;
+  font-size:19px!important;
+}
+
+.mission{
+  top:14.9%!important;
+  left:20%!important;
+  right:20%!important;
+  font-size:12.5px!important;
+  padding:5px 6px!important;
+  border-radius:16px!important;
+  z-index:10!important;
+  line-height:1.12!important;
+}
+
+.stats{
+  top:20.8%!important;
+  left:18%!important;
+  right:18%!important;
+  height:45px!important;
+  padding:5px 8px!important;
+  z-index:8!important;
+}
+.stat small{font-size:9px!important}
+.stat b{font-size:18px!important}
+
+.levelBadge{
+  top:20.2%!important;
+  left:2.6%!important;
+  width:14.8%!important;
+  height:55px!important;
+  font-size:20px!important;
+  border-radius:17px!important;
+  z-index:9!important;
+}
+.levelBadge small{
+  font-size:9px!important;
+  top:5px!important;
+}
+
+.king{
+  top:20.2%!important;
+  right:2.6%!important;
+  width:14.8%!important;
+  font-size:29px!important;
+  z-index:9!important;
+}
+
+/* Board: large, but fixed between header and footer */
+.boardWrap{
+  top:28.4%!important;
+  height:38.2%!important;
+  left:12.6%!important;
+  right:12.6%!important;
+  padding:7px!important;
+  border-radius:22px!important;
+  z-index:11!important;
+}
+#board{gap:3px!important}
+.cell{border-radius:8px!important}
+.tile{width:92%!important;height:92%!important}
+
+/* Side panels: outside the board, visible, never covering board */
+.sidePanel{
+  top:40.9%!important;
+  width:9.5%!important;
+  height:14.8%!important;
+  font-size:8.5px!important;
+  padding:4px 1px!important;
+  z-index:7!important;
+}
+.sidePanel.left{left:.9%!important}
+.sidePanel.right{right:.9%!important}
+.sidePanel .big{font-size:21px!important}
+.sidePanel .greenBtn{
+  font-size:8px!important;
+  padding:3px 1px!important;
+  border-radius:10px!important;
+}
+
+/* Level path has breathing room below board */
+.levelPath{
+  top:67.9%!important;
+  height:5.6%!important;
+  z-index:8!important;
+}
+.node{
+  width:29px!important;
+  height:29px!important;
+  font-size:12px!important;
+}
+.node:after{
+  font-size:7px!important;
+  bottom:-11px!important;
+}
+
+/* Boosters and nav locked safely at the bottom */
+.boosters{
+  bottom:9.0%!important;
+  height:9.0%!important;
+  left:1.8%!important;
+  right:1.8%!important;
+  padding:5px!important;
+  gap:4px!important;
+  z-index:13!important;
+}
+.boost span{font-size:19px!important}
+.boost small{font-size:7.5px!important}
+.qty{
+  width:16px!important;
+  height:16px!important;
+  font-size:9px!important;
+}
+.playBtn{font-size:25px!important}
+
+.nav{
+  height:8.6%!important;
+  padding-bottom:calc(3px + env(safe-area-inset-bottom))!important;
+  z-index:14!important;
+}
+.nav span{font-size:20px!important}
+.nav button{font-size:9.5px!important}
+
+/* Screen pages keep their content clear of bottom nav */
+.screen{
+  padding-top:calc(20px + env(safe-area-inset-top))!important;
+  padding-bottom:calc(92px + env(safe-area-inset-bottom))!important;
+}
+.screen h1{font-size:31px!important;margin:8px 0!important}
+.card{padding:12px!important;margin:9px 0!important}
+
+/* Extra short Android screens */
+@media(max-height:760px){
+  .logo{
+    top:calc(0px + env(safe-area-inset-top))!important;
+    transform:translateX(-50%) scale(.78)!important;
+  }
+  .logo .gem{font-size:36px!important}
+  .logo .kingdom{font-size:28px!important}
+  .logo .legends{font-size:12px!important}
+  .topBars{top:calc(7px + env(safe-area-inset-top))!important}
+  .pill{height:24px!important;font-size:11px!important}
+  .sideBtns{top:calc(8px + env(safe-area-inset-top))!important}
+  .roundBtn{width:35px!important;height:35px!important;font-size:17px!important}
+
+  .mission{
+    top:13.5%!important;
+    left:21%!important;
+    right:21%!important;
+    font-size:11px!important;
+    padding:4px 5px!important;
+  }
+  .stats{
+    top:19.4%!important;
+    height:40px!important;
+  }
+  .stat b{font-size:16px!important}
+  .levelBadge{
+    top:18.9%!important;
+    height:50px!important;
+    font-size:18px!important;
+  }
+  .king{
+    top:18.9%!important;
+    font-size:26px!important;
+  }
+  .boardWrap{
+    top:27.1%!important;
+    height:37.4%!important;
+    left:13.1%!important;
+    right:13.1%!important;
+  }
+  .sidePanel{
+    top:39.5%!important;
+    height:14.2%!important;
+    width:9.2%!important;
+    font-size:7.8px!important;
+  }
+  .levelPath{
+    top:65.9%!important;
+  }
+  .node{
+    width:27px!important;
+    height:27px!important;
+    font-size:11px!important;
+  }
+  .boosters{
+    bottom:8.7%!important;
+    height:8.8%!important;
+  }
+  .nav{height:8.4%!important}
+}
+
+/* Wider phones / desktop preview */
+@media(min-height:850px){
+  .boardWrap{
+    top:28.6%!important;
+    height:39.0%!important;
+  }
+  .levelPath{
+    top:68.9%!important;
+  }
+}
 
 </style>
 </head>
