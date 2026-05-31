@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v2.3 Production Build</title>
+<title>Gem Kingdom Legends v2.5 Commercial Gameplay Upgrade</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -484,6 +484,26 @@ body{display:flex;align-items:center;justify-content:center}
  bottom:9.1%!important;
 }
 
+
+/* v2.5 Commercial Gameplay Upgrade */
+.boardWrap{top:28.9%!important;height:39.5%!important;left:11.8%!important;right:11.8%!important}
+.tile{width:94%!important;height:94%!important}
+.cell{border-radius:9px!important}
+.sidePanel{top:41.4%!important;width:9.8%!important;height:15.3%!important}
+.levelPath{top:69.8%!important}
+.boosters{bottom:9.0%!important}
+.floatingScore{position:absolute;z-index:180;color:#fff65a;font-weight:1000;font-size:22px;text-shadow:0 3px 0 #79125c,0 0 8px #fff;pointer-events:none;animation:floatScore .75s ease-out forwards}
+@keyframes floatScore{0%{transform:translate(-50%,0) scale(.8);opacity:0}15%{opacity:1}100%{transform:translate(-50%,-44px) scale(1.2);opacity:0}}
+.comboText{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);z-index:185;padding:8px 18px;border-radius:22px;border:3px solid #ffdf45;background:linear-gradient(#ff5ed2,#6a12b7);color:#fff65a;font-weight:1000;font-size:25px;text-shadow:0 3px 0 #4d0037;pointer-events:none;opacity:0}
+.comboText.show{animation:comboPop .72s ease-out forwards}
+@keyframes comboPop{0%{opacity:0;transform:translate(-50%,-50%) scale(.55)}20%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-70%) scale(.9)}}
+.particle{position:absolute;z-index:175;width:8px;height:8px;border-radius:50%;background:#fff65a;pointer-events:none;animation:particleFly .55s ease-out forwards}
+@keyframes particleFly{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.2)}}
+.coinFly{position:absolute;z-index:190;font-size:24px;pointer-events:none;animation:coinFly .9s ease-in forwards}
+@keyframes coinFly{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(-170px,-410px) scale(.25)}}
+.modal .greenBtn.secondary{background:linear-gradient(#56d8ff,#0865c8);box-shadow:0 5px #003c87;margin-left:8px}
+.adBanner{position:absolute;left:12%;right:12%;bottom:18.5%;height:22px;border-radius:10px;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.28);border:1px dashed rgba(255,223,69,.8);color:#fff36b;font-size:10px;font-weight:900;z-index:6}
+
 </style>
 </head>
 <body>
@@ -562,8 +582,10 @@ body{display:flex;align-items:center;justify-content:center}
     <button class="back">Back to Game</button>
   </section>
 
+  <div id="comboText" class="comboText">GREAT!</div>
+  <div id="adBanner" class="adBanner">Banner Ad Space</div>
   <div id="toast" class="toast"></div>
-  <div id="modal" class="modal"><div class="card"><h1 id="modalTitle">Level Complete!</h1><div id="modalStars" style="font-size:38px;margin:10px">⭐⭐⭐</div><p id="modalText"></p><button id="nextBtn" class="greenBtn">Next Level</button></div></div>
+  <div id="modal" class="modal"><div class="card"><h1 id="modalTitle">Level Complete!</h1><div id="modalStars" style="font-size:38px;margin:10px">⭐⭐⭐</div><p id="modalText"></p><button id="nextBtn" class="greenBtn">Next Level</button><button id="replayBtn" class="greenBtn secondary">Replay</button></div></div>
 </div>
 
 <script>
@@ -629,7 +651,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();render();resolve(false,true);drawPath();save();toast('Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
@@ -637,22 +659,34 @@ function groups(){
 }
 function swap(a,b){[board[a.y][a.x],board[b.y][b.x]]=[board[b.y][b.x],board[a.y][a.x]]}
 function adj(a,b){return Math.abs(a.x-b.x)+Math.abs(a.y-b.y)===1}
-async function cellTap(x,y){if(busy||ended)return;if(tool){useTool(x,y);return}if(!selected){selected={x,y};render();sfx('tap');return}const a=selected,b={x,y};selected=null;if(!adj(a,b)){selected=b;render();return}await trySwap(a,b)}
+async function cellTap(x,y){
+  if(busy||ended)return;
+  if(tool==='swap'){
+    if(!selected){selected={x,y};render();toast('Choose second gem');return}
+    const a=selected,b={x,y};selected=null;tool=null;busy=true;
+    swap(a,b);moves--;render();sfx('swap');await wait(120);await resolve(true,false);busy=false;checkEnd();render();return;
+  }
+  if(tool){useTool(x,y);return}
+  if(!selected){selected={x,y};render();sfx('tap');return}
+  const a=selected,b={x,y};selected=null;
+  if(!adj(a,b)){selected=b;render();return}
+  await trySwap(a,b)
+}
 async function trySwap(a,b){busy=true;swap(a,b);render();sfx('swap');await wait(110);if(!groups().length){swap(a,b);busy=false;toast('No Match');sfx('lose');render();return}moves--;await resolve(true,false);busy=false;checkEnd();render()}
 async function resolve(count,initial){
   let loop=0;while(true){const gs=groups();if(!gs.length)break;loop++;const clear=new Map();let special=null;
     for(const g of gs){for(const p of g)clear.set(p.x+','+p.y,p);if(!initial&&g.length>=4){const p=g[Math.floor(g.length/2)],old=board[p.y][p.x];special={p,type:old.type,kind:g.length>=5?'rainbow':'rocket'}}}
     if(special)clear.delete(special.p.x+','+special.p.y);
-    for(const p of clear.values()){if(goalGem(board[p.y][p.x]))collectCount++;board[p.y][p.x]=null}
+    for(const p of clear.values()){if(goalGem(board[p.y][p.x]))collectCount++;try{burstAt(p.x,p.y,5)}catch(e){} board[p.y][p.x]=null}
     if(special)board[special.p.y][special.p.x]={type:special.type,special:special.kind,fresh:false};
-    if(count){score+=clear.size*120*loop;sfx(loop>1?'combo':'match')}
+    if(count){score+=clear.size*120*loop;try{const first=[...clear.values()][0]; if(first) showFloat('+'+(clear.size*120*loop),first.x,first.y); showCombo(loop)}catch(e){} sfx(loop>1?'combo':'match')}
     render();await wait(130);dropFill();render();await wait(130);if(loop>30)break;
   }
 }
 function dropFill(){for(let x=0;x<W;x++){let stack=[];for(let y=H-1;y>=0;y--)if(board[y][x])stack.push(board[y][x]);for(let y=H-1;y>=0;y--){board[y][x]=stack[H-1-y]||gem();if(!stack[H-1-y])board[y][x].fresh=true}}}
 function useTool(x,y){if(tool==='hammer'){if(goalGem(board[y][x]))collectCount++;board[y][x]=null;dropFill();resolve(true,false);toast('Hammer used')}if(tool==='bomb'){for(let yy=y-1;yy<=y+1;yy++)for(let xx=x-1;xx<=x+1;xx++)if(xx>=0&&yy>=0&&xx<W&&yy<H){if(goalGem(board[yy][xx]))collectCount++;board[yy][xx]=null}dropFill();resolve(true,false);toast('Bomb used')}tool=null;moves--;checkEnd();render()}
 function checkEnd(){const L=lv();const won=L.type==='score'?score>=L.target:collectCount>=L.goal;if(won)return win();if(moves<=0)return lose()}
-function win(){ended=true;const L=lv(),s=Math.max(1,starsEarned()),old=profile.levelStars[L.level]||0;if(s>old){profile.stars+=(s-old);profile.levelStars[L.level]=s}profile.coins+=L.reward;profile.unlocked=Math.max(profile.unlocked,Math.min(50,L.level+1));profile.current=Math.min(50,L.level+1);save();updateTop();drawPath();$('modalTitle').textContent='Level '+L.level+' Complete!';$('modalStars').textContent='⭐'.repeat(s);$('modalText').textContent='+'+L.reward+' coins • Level '+profile.current+' unlocked';modal.style.display='flex';sfx('win')}
+function win(){ended=true;const L=lv(),s=Math.max(1,starsEarned()),old=profile.levelStars[L.level]||0;if(s>old){profile.stars+=(s-old);profile.levelStars[L.level]=s}profile.coins+=L.reward;try{flyCoin()}catch(e){}profile.unlocked=Math.max(profile.unlocked,Math.min(50,L.level+1));profile.current=Math.min(50,L.level+1);save();updateTop();drawPath();$('modalTitle').textContent='Level '+L.level+' Complete!';$('modalStars').textContent='⭐'.repeat(s);$('modalText').textContent='+'+L.reward+' coins • Level '+profile.current+' unlocked';modal.style.display='flex';sfx('win')}
 function lose(){ended=true;$('modalTitle').textContent='Out of Moves';$('modalStars').textContent='💔';$('modalText').textContent='Try again or use +5 moves';modal.style.display='flex';sfx('lose')}
 function wait(ms){return new Promise(r=>setTimeout(r,ms))}
 boardEl.addEventListener('click',e=>{const c=e.target.closest('.cell');if(c)cellTap(+c.dataset.x,+c.dataset.y)});
@@ -667,10 +701,16 @@ function buy(item){const cost={hammer:250,shuffle:200,bomb:500,moves:400}[item];
 $('hammerBtn').onclick=()=>{if((profile.boosters.hammer||0)<=0)return toast('Buy Hammer');profile.boosters.hammer--;tool='hammer';save();updateTop();toast('Tap a gem')};
 $('bombBtn').onclick=()=>{if((profile.boosters.bomb||0)<=0)return toast('Buy Bomb');profile.boosters.bomb--;tool='bomb';save();updateTop();toast('Tap a gem')};
 $('shuffleBtn').onclick=()=>{if((profile.boosters.shuffle||0)<=0)return toast('Buy Shuffle');profile.boosters.shuffle--;moves--;makeBoard();resolve(false,true);save();updateTop();toast('Shuffled');sfx('shuffle')};
-$('swapBtn').onclick=()=>toast('Swap booster coming soon');$('movesBtn').onclick=()=>buy('moves');$('extraMovesBtn').onclick=()=>buy('moves');$('playBtn').onclick=()=>startLevel(profile.current);
-$('dailyBtn').onclick=()=>{const d=new Date().toDateString();if(profile.dailyDate===d)return toast('Already claimed');profile.dailyDate=d;profile.coins+=250;save();updateTop();toast('+250 Coins')};
-$('eventReward').onclick=()=>{profile.coins+=100;save();updateTop();toast('+100 Event Coins')};$('adCoinsBtn').onclick=()=>{profile.coins+=250;save();updateTop();toast('Rewarded Ad +250')};
-$('upgradeKingdom').onclick=()=>{if(profile.stars<10)return toast('Need 10 stars');profile.stars-=10;profile.kingdom++;save();updateTop();toast('Kingdom upgraded')};$('nextBtn').onclick=()=>{modal.style.display='none';startLevel(profile.current)};$('settingsBtn').onclick=()=>toast('Settings soon');
+$('swapBtn').onclick=()=>{
+  if((profile.boosters.swap||0)<=0)return toast('Buy Swap');
+  profile.boosters.swap--;
+  save();updateTop();
+  toast('Swap booster active');
+  tool='swap';
+};$('movesBtn').onclick=()=>buy('moves');$('extraMovesBtn').onclick=()=>buy('moves');$('playBtn').onclick=()=>startLevel(profile.current);
+$('dailyBtn').onclick=()=>{const d=new Date().toDateString();if(profile.dailyDate===d)return toast('Already claimed');profile.dailyDate=d;profile.coins+=250;try{flyCoin()}catch(e){} save();updateTop();toast('+250 Coins')};
+$('eventReward').onclick=()=>{profile.coins+=100;try{flyCoin()}catch(e){} save();updateTop();toast('+100 Event Coins')};$('adCoinsBtn').onclick=()=>{profile.coins+=250;try{flyCoin()}catch(e){} save();updateTop();toast('Rewarded Ad +250')};
+$('upgradeKingdom').onclick=()=>{if(profile.stars<10)return toast('Need 10 stars');profile.stars-=10;profile.kingdom++;save();updateTop();toast('Kingdom upgraded')};$('nextBtn').onclick=()=>{modal.style.display='none';startLevel(profile.current)}; if($('replayBtn'))$('replayBtn').onclick=()=>{modal.style.display='none';startLevel(profile.current)};$('settingsBtn').onclick=()=>toast('Settings soon');
 
 let audioOn=true,bgmOn=true,audioReady=false;let ctx=null,osc=null,gain=null;
 const sounds={tap:'tap.mp3',swap:'swap.mp3',match:'match.mp3',combo:'combo.mp3',booster:'booster.mp3',shuffle:'shuffle.mp3',win:'win.mp3',lose:'lose.mp3'};
@@ -684,6 +724,75 @@ function unlockAudio(){if(audioReady)return;audioReady=true;getCtx();if(bgmOn)bg
 function sfx(n){if(!audioOn)return;unlockAudio();try{let a=audio[n].cloneNode(true);a.play().catch(()=>fallback(n==='lose'?150:n==='win'?850:n==='match'?720:420))}catch(e){fallback(420)}}
 $('soundBtn').onclick=()=>{unlockAudio();audioOn=!audioOn;bgmOn=!bgmOn;if(bgmOn)bgm.play().catch(()=>musicFallback());else stopMusic();toast(audioOn?'Sound On':'Sound Off')};
 ['pointerdown','touchstart','click','keydown'].forEach(ev=>window.addEventListener(ev,unlockAudio,{once:true,passive:true}));
+
+// v2.5 commercial gameplay polish helpers
+function screenPointForCell(x,y){
+  const r=boardEl.getBoundingClientRect();
+  return {x:r.left + (x+.5)*r.width/W, y:r.top + (y+.5)*r.height/H};
+}
+function showFloat(text,x,y){
+  const p=screenPointForCell(x,y);
+  const el=document.createElement('div');
+  el.className='floatingScore';
+  el.textContent=text;
+  el.style.left=p.x+'px';
+  el.style.top=p.y+'px';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),850);
+}
+function showCombo(loop){
+  if(loop<2)return;
+  const el=$('comboText');
+  if(!el)return;
+  el.textContent=loop===2?'NICE COMBO!':loop===3?'GREAT COMBO!':'AMAZING!';
+  el.classList.remove('show');
+  void el.offsetWidth;
+  el.classList.add('show');
+}
+function burstAt(x,y,count=8){
+  const p=screenPointForCell(x,y);
+  for(let i=0;i<count;i++){
+    const part=document.createElement('div');
+    part.className='particle';
+    part.style.left=p.x+'px';
+    part.style.top=p.y+'px';
+    const a=Math.random()*Math.PI*2, d=18+Math.random()*35;
+    part.style.setProperty('--dx', Math.cos(a)*d+'px');
+    part.style.setProperty('--dy', Math.sin(a)*d+'px');
+    document.body.appendChild(part);
+    setTimeout(()=>part.remove(),650);
+  }
+}
+function flyCoin(){
+  const el=document.createElement('div');
+  el.className='coinFly';
+  el.textContent='🪙';
+  el.style.left='50%';
+  el.style.top='50%';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),950);
+}
+function hasPossibleMove(){
+  for(let y=0;y<H;y++){
+    for(let x=0;x<W;x++){
+      const a={x,y};
+      const opts=[{x:x+1,y},{x,y:y+1}];
+      for(const b of opts){
+        if(b.x>=W||b.y>=H)continue;
+        swap(a,b);
+        const ok=groups().length>0;
+        swap(a,b);
+        if(ok)return true;
+      }
+    }
+  }
+  return false;
+}
+function ensurePlayable(){
+  let tries=0;
+  while(!hasPossibleMove() && tries<20){makeBoard();tries++;}
+}
+
 startLevel(profile.current);drawPath();updateTop();
 })();
 
@@ -764,6 +873,19 @@ startLevel(profile.current);drawPath();updateTop();
     }
   },300);
 })();
+
+
+// v2.5 monetization hooks for future Android wrapper / AdMob integration
+window.GKLAds = {
+  showRewarded:function(onReward){
+    if(typeof onReward==='function') onReward();
+  },
+  showInterstitial:function(){ return true; },
+  showBanner:function(show){
+    const b=document.getElementById('adBanner');
+    if(b)b.style.display=show?'flex':'none';
+  }
+};
 
 </script>
 </body>
