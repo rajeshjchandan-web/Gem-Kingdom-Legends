@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v4.1 Chest System</title>
+<title>Gem Kingdom Legends v4.2.1 Play Store Ready</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -1871,6 +1871,38 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
 
 /* chest notification included in events dot */
 
+
+/* v4.2.1 Play Store Ready Build */
+.storeChecklist{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:7px;
+  text-align:left;
+  font-weight:1000;
+  font-size:14px;
+}
+.storeChecklist div{
+  border-radius:12px;
+  background:rgba(0,0,0,.24);
+  border:1px solid rgba(255,223,69,.55);
+  padding:8px 10px;
+}
+.publisherBadge{
+  position:absolute;
+  left:6px;
+  bottom:9.3%;
+  z-index:45;
+  background:linear-gradient(#b5ff4e,#19b82c);
+  color:white;
+  border:2px solid #fff;
+  border-radius:12px;
+  padding:3px 7px;
+  font-size:9px;
+  font-weight:1000;
+  box-shadow:0 3px 8px rgba(0,0,0,.45);
+  pointer-events:none;
+}
+
 </style>
 </head>
 <body>
@@ -1891,7 +1923,8 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     </div>
   </div>
   <div class="levelUpPop" id="levelUpPop">LEVEL UP!</div>
-  <div class="versionTag">v4.1</div>
+  <div class="versionTag">v4.2.1</div>
+  <div class="publisherBadge">STORE READY</div>
 <div class="castle">🏰</div>
   <div class="logo"><div class="gem">GEM</div><div class="kingdom">KINGDOM</div><div class="legends">LEGENDS</div></div>
   <div class="topBars">
@@ -1948,12 +1981,12 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     </div>
     <div class="shopTitle">COINS & OFFERS</div>
     <div class="shopGrid">
-      <div class="shopItem">🪙 Small Coins<br>+500<br><span class="offerBadge">Mock IAP</span><br><button data-buy="coinSmall">CLAIM TEST</button></div>
-      <div class="shopItem">🪙 Best Value<br>+2000<br><span class="offerBadge">Mock IAP</span><br><button data-buy="coinMedium">CLAIM TEST</button></div>
-      <div class="shopItem">👑 Starter Pack<br>500 Coins + Boosters<br><span class="offerBadge">Best Start</span><br><button data-buy="starter">CLAIM TEST</button></div>
-      <div class="shopItem">🚀 Royal Bundle<br>2000 Coins + 8 Boosters<br><span class="offerBadge">Premium</span><br><button data-buy="royal">CLAIM TEST</button></div>
+      <div class="shopItem">🪙 Small Coins<br>+500<br><span class="offerBadge">Coming Soon</span><br><button data-buy="coinSmall">PREVIEW</button></div>
+      <div class="shopItem">🪙 Best Value<br>+2000<br><span class="offerBadge">Coming Soon</span><br><button data-buy="coinMedium">PREVIEW</button></div>
+      <div class="shopItem">👑 Starter Pack<br>500 Coins + Boosters<br><span class="offerBadge">Best Start</span><br><button data-buy="starter">PREVIEW</button></div>
+      <div class="shopItem">🚀 Royal Bundle<br>2000 Coins + 8 Boosters<br><span class="offerBadge">Premium</span><br><button data-buy="royal">PREVIEW</button></div>
     </div>
-    <div class="adBox">Rewarded Ad<br><button id="adCoinsBtn" class="greenBtn">Watch Ad +250 Coins</button></div><div class="adBox"><b>Daily Streak</b><br><span id="streakText">Day 1</span><br><button id="streakBtn" class="greenBtn">Claim Streak</button></div><div class="adBox"><b>Free Chest</b><br><button id="chestBtn" class="greenBtn">Open Chest</button></div>
+    <div class="adBox">Rewarded Video<br><button id="adCoinsBtn" class="greenBtn">Watch Video +250 Coins</button></div><div class="adBox"><b>Daily Streak</b><br><span id="streakText">Day 1</span><br><button id="streakBtn" class="greenBtn">Claim Streak</button></div><div class="adBox"><b>Free Chest</b><br><button id="chestBtn" class="greenBtn">Open Chest</button></div>
     <button class="back">Back to Game</button>
   </section>
 
@@ -1967,7 +2000,7 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
   <section class="screen" id="eventsScreen">
     <h1>EVENTS</h1>
     <div class="card"><h2>Daily Challenge</h2><p>Complete any level today for +100 coins.</p><button id="eventReward" class="greenBtn">CLAIM EVENT</button></div>
-    <div class="card"><h2>Weekly Tournament</h2><p>Coming soon.</p></div>
+    <div class="card"><h2>🎁 Chest Room</h2><p>Open your earned chests and rewarded-video chests.</p><button id="chestRoomBtn" class="premiumBtn">OPEN CHESTS</button></div><div class="card"><h2>Weekly Tournament</h2><p>Coming soon.</p></div>
     <button class="back">Back to Game</button>
   </section>
 
@@ -1989,7 +2022,7 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
       </div>
       <div class="spinStatus" id="spinStatus">Free Spin Available</div>
       <button class="spinBtn" id="spinBtn">SPIN NOW</button>
-      <button class="greenBtn" id="adSpinBtn">Watch Ad Spin</button>
+      <button class="greenBtn" id="adSpinBtn">Watch Video Spin</button>
     </div>
     <button class="back">Back to Game</button>
   </section>
@@ -2028,15 +2061,44 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     </div>
     <div class="card">
       <b>Rewarded Chest</b><br>
-      Watch an ad for a bonus Bronze Chest.<br>
-      <button id="adChestBtn" class="premiumBtn">WATCH AD CHEST</button>
+      Watch a rewarded video for a bonus Bronze Chest.<br>
+      <button id="adChestBtn" class="premiumBtn">WATCH VIDEO CHEST</button>
+    </div>
+    <button class="back">Back to Game</button>
+  </section>
+
+
+  <section class="screen" id="playStoreScreen">
+    <h1>PLAY STORE READY</h1>
+    <div class="card">
+      <h2>✅ Build Status</h2>
+      <p>This build is prepared for Android WebView/TWA packaging, Play Store testing, and AdMob rewarded-video integration.</p>
+    </div>
+    <div class="card">
+      <h2>📋 Publishing Checklist</h2>
+      <div class="storeChecklist">
+        <div>✅ Production-safe labels</div>
+        <div>✅ Rewarded video wording</div>
+        <div>✅ Local save system</div>
+        <div>✅ Offline playable core</div>
+        <div>✅ Portrait mobile layout</div>
+        <div>✅ Ad hooks ready</div>
+        <div>⬜ Replace test ad IDs in Android project</div>
+        <div>⬜ Add Privacy Policy URL</div>
+        <div>⬜ Create signed AAB</div>
+        <div>⬜ Complete Play Console Data Safety</div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>🔐 Privacy Notice</h2>
+      <p>This game stores progress locally on your device. Ads may be shown through the Android app integration. No account login is required for gameplay.</p>
     </div>
     <button class="back">Back to Game</button>
   </section>
 
   <section class="screen" id="kingdomScreen">
     <h1>KINGDOM</h1>
-    <div class="card"><h2>Castle Upgrade</h2><p>Use stars to rebuild the kingdom.</p><button id="upgradeKingdom" class="greenBtn">Upgrade - 10⭐</button></div>
+    <div class="card"><h2>Castle Upgrade</h2><p>Use stars to rebuild the kingdom.</p><button id="upgradeKingdom" class="greenBtn">Upgrade - 10⭐</button></div><div class="card"><h2>🚀 Publisher Tools</h2><p>Check Play Store readiness before packaging.</p><button id="playStoreReadyBtn" class="premiumBtn">OPEN CHECKLIST</button></div>
     <button class="back">Back to Game</button>
   </section>
 
@@ -2064,7 +2126,7 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     </div>
   </div>
 
-  <div id="modal" class="modal"><div class="card"><h1 id="modalTitle">Level Complete!</h1><div id="modalStars" style="font-size:38px;margin:10px">⭐⭐⭐</div><p id="modalText"></p><button id="collectBtn" class="greenBtn">Collect</button><button id="doubleRewardBtn" class="premiumBtn">2× Reward Ad</button><button id="continueBtn" class="premiumBtn">+5 Moves Ad</button><button id="nextBtn" class="greenBtn">Next Level</button><button id="replayBtn" class="greenBtn secondary">Replay</button></div></div>
+  <div id="modal" class="modal"><div class="card"><h1 id="modalTitle">Level Complete!</h1><div id="modalStars" style="font-size:38px;margin:10px">⭐⭐⭐</div><p id="modalText"></p><button id="collectBtn" class="greenBtn">Collect</button><button id="doubleRewardBtn" class="premiumBtn">2× Reward Video</button><button id="continueBtn" class="premiumBtn">+5 Moves Video</button><button id="nextBtn" class="greenBtn">Next Level</button><button id="replayBtn" class="greenBtn secondary">Replay</button></div></div>
 </div>
 
 <script>
@@ -2132,7 +2194,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v4.1 • Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v4.2.1 • Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
@@ -2461,7 +2523,7 @@ function lose(){
   ended=true;
   $('modalTitle').textContent='Out of Moves';
   $('modalStars').textContent='💔';
-  $('modalText').textContent='Watch Ad to continue with +5 moves or replay.';
+  $('modalText').textContent='Watch a rewarded video to continue with +5 moves or replay.';
   modal.style.display='flex';
   if($('continueBtn'))$('continueBtn').style.display='inline-block';
   if($('doubleRewardBtn'))$('doubleRewardBtn').style.display='none';
@@ -2528,7 +2590,7 @@ $('swapBtn').onclick=()=>{
   tool='swap';
 };$('movesBtn').onclick=()=>buy('moves');$('extraMovesBtn').onclick=()=>buy('moves');$('playBtn').onclick=()=>startLevel(profile.current);
 $('dailyBtn').onclick=()=>{const d=new Date().toDateString();if(profile.dailyDate===d)return toast('Already claimed');profile.dailyDate=d;profile.coins+=250;try{flyCoin()}catch(e){} save();updateTop();toast('+250 Coins')};
-$('eventReward').onclick=()=>{profile.coins+=100;try{flyCoin()}catch(e){} save();updateTop();toast('+100 Event Coins')};$('adCoinsBtn').onclick=()=>{profile.coins+=250;try{flyCoin()}catch(e){} save();updateTop();toast('Rewarded Ad +250')};
+$('eventReward').onclick=()=>{profile.coins+=100;try{flyCoin()}catch(e){} save();updateTop();toast('+100 Event Coins')};$('adCoinsBtn').onclick=()=>{profile.coins+=250;try{flyCoin()}catch(e){} save();updateTop();toast('Rewarded Video +250')};
 $('upgradeKingdom').onclick=()=>{if(profile.stars<10)return toast('Need 10 stars');profile.stars-=10;profile.kingdom++;save();updateTop();toast('Kingdom upgraded')};$('nextBtn').onclick=()=>{if(!profile.pendingRewardClaimed&&profile.pendingReward>0)claimPendingReward(1);modal.style.display='none';showInterstitialAd();startLevel(profile.current)}; if($('replayBtn'))$('replayBtn').onclick=()=>{modal.style.display='none';startLevel(profile.current)};$('settingsBtn').onclick=()=>toast('Settings soon');
 
 let audioOn=true,bgmOn=true,audioReady=false;let ctx=null,osc=null,gain=null;
@@ -2705,7 +2767,7 @@ window.GKLSoftResetEconomy=function(){
 // v2.7 monetization and economy hooks
 function showRewardedAd(onReward){
   // Web test placeholder. Replace with AdMob rewarded callback in Android wrapper.
-  toast('Ad completed');
+  toast('Reward video completed');
   if(typeof onReward==='function') onReward();
 }
 function showInterstitialAd(){
@@ -2809,7 +2871,7 @@ startLevel(profile.current);drawPath();updateTop();
           profile.coins=(profile.coins||0)+250;
           save();
           updateTop();
-          toast('Rewarded Ad +250 Coins');
+          toast('Rewarded Video +250 Coins');
           if(typeof sfx==='function') sfx('win');
         }catch(err){}
       };
@@ -2991,7 +3053,7 @@ try{
     const dot=document.getElementById('spinDot');
     const ok=available();
     if(spinBtn){spinBtn.disabled=!ok;spinBtn.textContent=ok?'SPIN NOW':'WAIT'}
-    if(adBtn){adBtn.textContent=ok?'Bonus Ad Spin':'Watch Ad Spin'}
+    if(adBtn){adBtn.textContent=ok?'Bonus Video Spin':'Watch Video Spin'}
     if(status)status.textContent=timeLeftText();
     if(dot)dot.style.display=ok?'block':'none';
   }
@@ -3205,6 +3267,72 @@ try{
     renderChestUI();
     setInterval(renderChestUI,60000);
   },700);
+})();
+
+
+// v4.2.1 Play Store Ready Build
+(function(){
+  window.GKL_BUILD = {
+    version: "4.2.1",
+    name: "Gem Kingdom Legends",
+    channel: "play-store-ready",
+    adMode: "rewarded-video-hooks",
+    storageKey: "gkl_v22"
+  };
+
+  // Central production ad wrapper: Android WebView can override this safely.
+  window.GKLShowRewarded = function(onReward){
+    try{
+      if(window.AndroidAds && typeof window.AndroidAds.showRewardedAd === "function"){
+        window.__GKL_PENDING_REWARD__ = onReward;
+        window.AndroidAds.showRewardedAd();
+        return;
+      }
+      if(typeof showRewardedAd === "function"){
+        showRewardedAd(onReward);
+        return;
+      }
+    }catch(e){}
+    if(typeof onReward === "function") onReward();
+  };
+
+  // Android native side can call this after a real AdMob reward is earned.
+  window.GKLOnRewardedAdEarned = function(){
+    try{
+      if(typeof window.__GKL_PENDING_REWARD__ === "function"){
+        const cb = window.__GKL_PENDING_REWARD__;
+        window.__GKL_PENDING_REWARD__ = null;
+        cb();
+      }
+    }catch(e){}
+  };
+
+  setTimeout(function(){
+    const ps=document.getElementById('playStoreReadyBtn');
+    if(ps)ps.onclick=function(){
+      document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+      const screen=document.getElementById('playStoreScreen');
+      if(screen)screen.classList.add('active');
+    };
+
+    // Rebind common rewarded buttons through central wrapper where possible.
+    const adCoins=document.getElementById('adCoinsBtn');
+    if(adCoins){
+      adCoins.onclick=function(e){
+        if(e){e.preventDefault();e.stopPropagation();}
+        window.GKLShowRewarded(function(){
+          try{
+            const p=JSON.parse(localStorage.getItem('gkl_v22')||'{}');
+            p.coins=(p.coins||0)+250;
+            localStorage.setItem('gkl_v22',JSON.stringify(p));
+            if(window.profile){Object.assign(profile,p);updateTop();}
+            toast('Rewarded Video +250 Coins');
+            if(typeof flyCoin==='function')flyCoin();
+          }catch(err){}
+        });
+      };
+    }
+  },800);
 })();
 
 </script>
