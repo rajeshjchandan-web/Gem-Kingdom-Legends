@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v2.6.1 Special Gems Upgrade</title>
+<title>Gem Kingdom Legends v2.6.2 Special Gem Creation Fix</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -544,6 +544,46 @@ body{display:flex;align-items:center;justify-content:center}
   100%{opacity:0;transform:translate(-50%,-50%) scale(2.2)}
 }
 
+
+/* v2.6.2 Special Gem Creation Fix */
+.special{
+  right:1px!important;
+  bottom:1px!important;
+  font-size:20px!important;
+  z-index:9!important;
+  filter:drop-shadow(0 0 8px #fff) drop-shadow(0 0 12px #ffdf45)!important;
+  animation:specialPulse 0.9s ease-in-out infinite!important;
+}
+.tile.hasSpecial{
+  box-shadow:0 0 0 3px rgba(255,223,69,.9),0 0 18px #fff65a!important;
+}
+.specialHint{
+  position:absolute;
+  left:50%;
+  top:36%;
+  transform:translate(-50%,-50%);
+  z-index:188;
+  padding:8px 16px;
+  border-radius:22px;
+  border:3px solid #ffdf45;
+  background:linear-gradient(#ff6bef,#7d18cd);
+  color:#fff65a;
+  font-size:22px;
+  font-weight:1000;
+  text-shadow:0 3px #4d0037;
+  opacity:0;
+  pointer-events:none;
+}
+.specialHint.show{
+  animation:specialHintPop .9s ease-out forwards;
+}
+@keyframes specialHintPop{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.55)}
+  18%{opacity:1;transform:translate(-50%,-50%) scale(1.12)}
+  78%{opacity:1}
+  100%{opacity:0;transform:translate(-50%,-72%) scale(.9)}
+}
+
 </style>
 </head>
 <body>
@@ -623,6 +663,7 @@ body{display:flex;align-items:center;justify-content:center}
   </section>
 
   <div id="comboText" class="comboText">GREAT!</div>
+  <div id="specialHint" class="specialHint">Rocket Created!</div>
   <div id="adBanner" class="adBanner">Banner Ad Space</div>
   <div id="toast" class="toast"></div>
   <div id="modal" class="modal"><div class="card"><h1 id="modalTitle">Level Complete!</h1><div id="modalStars" style="font-size:38px;margin:10px">⭐⭐⭐</div><p id="modalText"></p><button id="nextBtn" class="greenBtn">Next Level</button><button id="replayBtn" class="greenBtn secondary">Replay</button></div></div>
@@ -686,7 +727,7 @@ function render(){
   for(let y=0;y<H;y++)for(let x=0;x<W;x++){
     const c=document.createElement('div');c.className='cell';c.dataset.x=x;c.dataset.y=y;
     const g=board[y][x];
-    if(g){const t=document.createElement('div');t.className='tile t'+g.type+(selected&&selected.x===x&&selected.y===y?' selected':'')+(g.fresh?' new':'');g.fresh=false;c.appendChild(t);if(g.special){const s=document.createElement('span');s.className='special';s.textContent=g.special==='rocket'?'🚀':'🌈';c.appendChild(s)}}
+    if(g){const t=document.createElement('div');t.className='tile t'+g.type+(g.special?' hasSpecial':'')+(selected&&selected.x===x&&selected.y===y?' selected':'')+(g.fresh?' new':'');g.fresh=false;c.appendChild(t);if(g.special){const s=document.createElement('span');s.className='special';s.textContent=g.special==='rocket'?'🚀':'🌈';c.appendChild(s)}}
     boardEl.appendChild(c);
   }
   updateTop();
@@ -814,14 +855,79 @@ async function activateSpecialSwap(a,b,sa,sb){
   render();await wait(160);dropFill();render();await wait(160);await resolve(true,false);
 }
 
+
 async function resolve(count,initial){
-  let loop=0;while(true){const gs=groups();if(!gs.length)break;loop++;const clear=new Map();let special=null;
-    for(const g of gs){for(const p of g)clear.set(p.x+','+p.y,p);if(!initial&&g.length>=4){const p=g[Math.floor(g.length/2)],old=board[p.y][p.x];special={p,type:old.type,kind:g.length>=5?'rainbow':'rocket'}}}
-    if(special)clear.delete(special.p.x+','+special.p.y);try{expandSpecialClear(clear)}catch(e){}
-    for(const p of clear.values()){if(goalGem(board[p.y][p.x]))collectCount++;try{burstAt(p.x,p.y,5)}catch(e){} board[p.y][p.x]=null}
-    if(special)board[special.p.y][special.p.x]={type:special.type,special:special.kind,fresh:false};
-    if(count){score+=clear.size*120*loop;try{const first=[...clear.values()][0]; if(first) showFloat('+'+(clear.size*120*loop),first.x,first.y); showCombo(loop)}catch(e){} sfx(loop>1?'combo':'match')}
-    render();await wait(130);dropFill();render();await wait(130);if(loop>30)break;
+  let loop=0;
+  while(true){
+    const gs=groups();
+    if(!gs.length)break;
+    loop++;
+
+    const clear=new Map();
+    let createdSpecial=null;
+
+    // Collect all matches and choose one special to create from 4/5 matches.
+    for(const g of gs){
+      for(const p of g) clear.set(p.x+','+p.y,p);
+
+      // Create specials only during player-caused cascades, not initial board cleanup.
+      if(!initial && !createdSpecial && g.length>=4){
+        const p=g[Math.floor(g.length/2)];
+        const old=board[p.y][p.x];
+        if(old){
+          createdSpecial={
+            x:p.x,
+            y:p.y,
+            type:old.type,
+            kind:g.length>=5?'rainbow':'rocket'
+          };
+        }
+      }
+    }
+
+    // Expand clearing from existing specials that are part of a match.
+    try{expandSpecialClear(clear)}catch(e){}
+
+    // Preserve the new special gem location so it stays visible on board.
+    if(createdSpecial){
+      clear.delete(createdSpecial.x+','+createdSpecial.y);
+    }
+
+    for(const p of clear.values()){
+      if(goalGem(board[p.y][p.x]))collectCount++;
+      try{burstAt(p.x,p.y,5)}catch(e){}
+      board[p.y][p.x]=null;
+    }
+
+    if(createdSpecial){
+      board[createdSpecial.y][createdSpecial.x]={
+        type:createdSpecial.type,
+        special:createdSpecial.kind,
+        fresh:true
+      };
+      try{
+        showSpecialHint(createdSpecial.kind==='rainbow'?'Rainbow Gem Created!':'Rocket Created!');
+        burstAt(createdSpecial.x,createdSpecial.y,12);
+      }catch(e){}
+    }
+
+    if(count){
+      score+=clear.size*120*loop + (createdSpecial?250:0);
+      try{
+        const first=[...clear.values()][0] || createdSpecial;
+        if(first) showFloat('+'+(clear.size*120*loop + (createdSpecial?250:0)),first.x,first.y);
+        showCombo(loop);
+      }catch(e){}
+      sfx(loop>1?'combo':'match');
+    }
+
+    render();
+    await wait(150);
+    dropFill();
+    render();
+    await wait(150);
+
+    if(loop>30)break;
   }
 }
 function dropFill(){for(let x=0;x<W;x++){let stack=[];for(let y=H-1;y>=0;y--)if(board[y][x])stack.push(board[y][x]);for(let y=H-1;y>=0;y--){board[y][x]=stack[H-1-y]||gem();if(!stack[H-1-y])board[y][x].fresh=true}}}
@@ -890,6 +996,14 @@ function showCombo(loop){
   void el.offsetWidth;
   el.classList.add('show');
 }
+function showSpecialHint(text){
+  const el=document.getElementById('specialHint');
+  if(!el)return;
+  el.textContent=text;
+  el.classList.remove('show');
+  void el.offsetWidth;
+  el.classList.add('show');
+}
 function burstAt(x,y,count=8){
   const p=screenPointForCell(x,y);
   for(let i=0;i<count;i++){
@@ -933,6 +1047,23 @@ function ensurePlayable(){
   let tries=0;
   while(!hasPossibleMove() && tries<20){makeBoard();tries++;}
 }
+
+
+// v2.6.2 quick internal test helpers
+window.GKLCreateRocket=function(){
+  try{
+    board[3][3].special='rocket';
+    render();
+    toast('Rocket Created!');
+  }catch(e){}
+};
+window.GKLCreateRainbow=function(){
+  try{
+    board[3][3].special='rainbow';
+    render();
+    toast('Rainbow Created!');
+  }catch(e){}
+};
 
 startLevel(profile.current);drawPath();updateTop();
 })();
