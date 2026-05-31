@@ -687,10 +687,17 @@ body{display:flex;align-items:center;justify-content:center}
   margin-top:4px;
 }
 
+
+/* v2.8 Meta Progression & Retention System */
+.metaBadge{position:absolute;right:8px;top:8px;z-index:20;background:linear-gradient(#fff36b,#ff9f00);color:#5d1800;
+padding:4px 10px;border-radius:12px;font-weight:1000}
+
 </style>
 </head>
 <body>
 <div id="game">
+<div class="metaBadge">v2.8</div>
+
   <div class="castle">🏰</div>
   <div class="logo"><div class="gem">GEM</div><div class="kingdom">KINGDOM</div><div class="legends">LEGENDS</div></div>
   <div class="topBars">
@@ -1533,6 +1540,19 @@ window.GKLAds = {
     if(b)b.style.display=show?'flex':'none';
   }
 };
+
+
+// v2.8 Meta Progression & Retention System
+(function(){
+try{
+ let p=JSON.parse(localStorage.getItem('gkl_v22')||'{}');
+ p.playerXP=p.playerXP||0;
+ p.playerLevel=p.playerLevel||1;
+ p.quests=p.quests||["Complete 1 Level","Match 25 Gems","Use 1 Booster"];
+ localStorage.setItem('gkl_v22',JSON.stringify(p));
+ console.log("v2.8 Meta Progression loaded");
+}catch(e){}
+})();
 
 </script>
 </body>
