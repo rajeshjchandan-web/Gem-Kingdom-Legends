@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v2.5.1 Mobile Layout Stabilization</title>
+<title>Gem Kingdom Legends v2.6 Gameplay Depth & Retention</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -799,7 +799,7 @@ body{display:flex;align-items:center;justify-content:center}
       <div class="shopItem">💣 Color Bomb<br>Own: <span id="shopBombOwn">0</span><br>500 coins<br><button data-buy="bomb">BUY</button></div>
       <div class="shopItem">+5 Moves<br>Instant<br>400 coins<br><button data-buy="moves">BUY</button></div>
     </div>
-    <div class="adBox">Rewarded Ad Placeholder<br><button id="adCoinsBtn" class="greenBtn">Watch Ad +250 Coins</button></div>
+    <div class="adBox">Rewarded Ad Placeholder<br><button id="adCoinsBtn" class="greenBtn">Watch Ad +250 Coins</button></div><div class="adBox"><b>Daily Streak</b><br><span id="streakText">Day 1</span><br><button id="streakBtn" class="greenBtn">Claim Streak</button></div><div class="adBox"><b>Free Chest</b><br><button id="chestBtn" class="greenBtn">Open Chest</button></div>
     <button class="back">Back to Game</button>
   </section>
 
@@ -826,7 +826,7 @@ body{display:flex;align-items:center;justify-content:center}
   <div id="comboText" class="comboText">GREAT!</div>
   <div id="adBanner" class="adBanner">Banner Ad Space</div>
   <div id="toast" class="toast"></div>
-  <div id="modal" class="modal"><div class="card"><h1 id="modalTitle">Level Complete!</h1><div id="modalStars" style="font-size:38px;margin:10px">⭐⭐⭐</div><p id="modalText"></p><button id="nextBtn" class="greenBtn">Next Level</button><button id="replayBtn" class="greenBtn secondary">Replay</button></div></div>
+  <div id="modal" class="modal"><div class="card"><h1 id="modalTitle">Level Complete!</h1><div id="modalStars" style="font-size:38px;margin:10px">⭐⭐⭐</div><p id="modalText"></p><button id="nextBtn" class="greenBtn">Next Level</button><button id="replayBtn" class="greenBtn secondary">Replay</button><button id="continueBtn" class="greenBtn">+5 Moves (Ad)</button></div></div>
 </div>
 
 <script>
@@ -1117,6 +1117,53 @@ startLevel(profile.current);drawPath();updateTop();
 
 
 // v2.5 monetization hooks for future Android wrapper / AdMob integration
+
+// v2.6 retention systems
+profile.streak=profile.streak||1;
+profile.lastStreak=profile.lastStreak||'';
+profile.lastChest=profile.lastChest||0;
+
+const streakText=document.getElementById('streakText');
+if(streakText) streakText.textContent='Day '+profile.streak;
+
+const streakRewards=[100,200,'hammer',300,'shuffle',500,'bomb'];
+
+document.getElementById('streakBtn')?.addEventListener('click',()=>{
+ const today=new Date().toDateString();
+ if(profile.lastStreak===today){toast('Already claimed');return;}
+ const reward=streakRewards[(profile.streak-1)%7];
+ profile.lastStreak=today;
+ profile.streak++;
+ if(typeof reward==='number'){profile.coins+=reward;toast('+'+reward+' Coins');}
+ else {profile.boosters[reward]=(profile.boosters[reward]||0)+1;toast('+'+reward);}
+ save();updateTop();
+ if(streakText) streakText.textContent='Day '+profile.streak;
+});
+
+document.getElementById('chestBtn')?.addEventListener('click',()=>{
+ const now=Date.now();
+ if(now-profile.lastChest<4*60*60*1000){
+   toast('Chest recharges in 4h');
+   return;
+ }
+ profile.lastChest=now;
+ const r=Math.floor(Math.random()*4);
+ if(r===0){profile.coins+=300;toast('Chest: 300 Coins');}
+ if(r===1){profile.boosters.hammer=(profile.boosters.hammer||0)+1;toast('Chest: Hammer');}
+ if(r===2){profile.boosters.shuffle=(profile.boosters.shuffle||0)+1;toast('Chest: Shuffle');}
+ if(r===3){profile.boosters.bomb=(profile.boosters.bomb||0)+1;toast('Chest: Bomb');}
+ save();updateTop();
+});
+
+document.getElementById('continueBtn')?.addEventListener('click',()=>{
+ if(document.getElementById('modalTitle')?.textContent!=='Out of Moves') return;
+ moves+=5;
+ ended=false;
+ modal.style.display='none';
+ toast('+5 Moves');
+ render();
+});
+
 window.GKLAds = {
   showRewarded:function(onReward){
     if(typeof onReward==='function') onReward();
