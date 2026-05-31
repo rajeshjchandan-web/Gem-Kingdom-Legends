@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v3.1 Lucky Spin Wheel</title>
+<title>Gem Kingdom Legends v4.0 Retention Expansion</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -1534,6 +1534,174 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
   .spinCard{padding-top:10px}
 }
 
+
+/* v4.0 Retention & Monetization Expansion */
+#eventsDot,#shopDot{
+  position:absolute;
+  right:5px;
+  top:4px;
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:#ff1c1c;
+  border:2px solid #fff;
+  display:none;
+  box-shadow:0 0 8px #ff3333;
+}
+.dailyCalendar{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:9px;
+  margin:10px 0 14px;
+}
+.dailyDay{
+  border-radius:18px;
+  border:3px solid #ffdf45;
+  background:linear-gradient(#8b2ee8,#3c0b78);
+  padding:9px 5px;
+  font-weight:1000;
+  box-shadow:0 5px 0 rgba(0,0,0,.35);
+}
+.dailyDay.claimed{
+  background:linear-gradient(#34d12b,#087916);
+  border-color:#c8ff73;
+}
+.dailyDay.today{
+  transform:scale(1.04);
+  box-shadow:0 0 18px #fff36b,0 5px 0 rgba(0,0,0,.35);
+}
+.dailyDay.locked{
+  opacity:.65;
+  filter:grayscale(.25);
+}
+.dailyDay .dayTitle{
+  color:#fff36b;
+  font-size:14px;
+  text-shadow:0 2px #000;
+}
+.dailyDay .dayIcon{
+  font-size:30px;
+  margin:3px 0;
+}
+.dailyDay .dayReward{
+  font-size:11px;
+}
+.dailyDay button{
+  border:0;
+  border-radius:12px;
+  background:linear-gradient(#fff36b,#ff9f00);
+  color:#5d1800;
+  font-weight:1000;
+  padding:6px 8px;
+  box-shadow:0 4px #8b3d00;
+  margin-top:5px;
+}
+.dailyDay button:disabled{
+  opacity:.55;
+}
+.dailyMission{
+  margin:8px 0;
+  border-radius:16px;
+  border:2px solid rgba(255,223,69,.9);
+  background:rgba(0,0,0,.24);
+  padding:9px;
+  font-weight:1000;
+}
+.dailyMission .bar{
+  height:12px;
+  border-radius:10px;
+  background:#18032e;
+  border:1px solid #ffdf45;
+  overflow:hidden;
+  margin-top:6px;
+}
+.dailyMission .fill{
+  height:100%;
+  background:linear-gradient(90deg,#2bff7a,#fff36b);
+}
+.v4AchievementList{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:8px;
+}
+.v4Ach{
+  border-radius:14px;
+  border:2px solid #ffdf45;
+  background:rgba(0,0,0,.23);
+  padding:8px 5px;
+  font-size:11px;
+  font-weight:1000;
+}
+.v4Ach.done{
+  background:linear-gradient(#ff6bef,#7d18cd);
+  box-shadow:0 0 12px rgba(255,255,255,.25);
+}
+.v4RewardModal{
+  position:absolute;
+  inset:0;
+  z-index:270;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(3,5,30,.78);
+  padding:20px;
+}
+.v4RewardCard{
+  width:90%;
+  max-width:330px;
+  border-radius:28px;
+  background:linear-gradient(#fff36b,#ff9f00);
+  border:5px solid #fff;
+  color:#5d1800;
+  text-align:center;
+  padding:20px 16px;
+  box-shadow:0 20px 60px rgba(0,0,0,.65);
+  animation:v4Pop .45s ease-out;
+}
+.v4RewardCard h1{margin:0;font-size:32px}
+.v4RewardIcon{font-size:60px;margin:10px 0}
+.v4RewardText{font-size:21px;font-weight:1000;margin-bottom:12px}
+@keyframes v4Pop{
+  0%{transform:scale(.55);opacity:0}
+  70%{transform:scale(1.08);opacity:1}
+  100%{transform:scale(1);opacity:1}
+}
+
+/* v4.0 final compact HUD polish */
+.metaHud{
+  top:calc(14.8% + env(safe-area-inset-top))!important;
+}
+.mission{
+  height:42px!important;
+  top:calc(26.7% + env(safe-area-inset-top))!important;
+  font-size:14px!important;
+}
+.stats{
+  top:calc(34.0% + env(safe-area-inset-top))!important;
+}
+.levelBadge{
+  top:calc(33.2% + env(safe-area-inset-top))!important;
+}
+.king{
+  top:calc(33.2% + env(safe-area-inset-top))!important;
+}
+.boardWrap{
+  top:calc(43.5% + env(safe-area-inset-top))!important;
+  height:32.6%!important;
+}
+.levelPath{
+  top:77.3%!important;
+}
+@media(max-height:820px){
+  .mission{top:calc(24.5% + env(safe-area-inset-top))!important;height:38px!important}
+  .stats{top:calc(31.3% + env(safe-area-inset-top))!important}
+  .levelBadge{top:calc(30.7% + env(safe-area-inset-top))!important}
+  .king{top:calc(30.7% + env(safe-area-inset-top))!important}
+  .boardWrap{top:calc(40.7% + env(safe-area-inset-top))!important;height:34.2%!important}
+  .levelPath{top:75.9%!important}
+}
+
 </style>
 </head>
 <body>
@@ -1554,7 +1722,7 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     </div>
   </div>
   <div class="levelUpPop" id="levelUpPop">LEVEL UP!</div>
-  <div class="versionTag">v3.1</div>
+  <div class="versionTag">v4.0</div>
 <div class="castle">🏰</div>
   <div class="logo"><div class="gem">GEM</div><div class="kingdom">KINGDOM</div><div class="legends">LEGENDS</div></div>
   <div class="topBars">
@@ -1589,11 +1757,11 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
   </div>
 
   <div class="nav">
-    <button id="shopNav"><span>🏪</span>SHOP</button>
+    <button id="shopNav"><span>🏪</span>SHOP<i id="shopDot"></i></button>
     <button id="mapNav"><span>🗺️</span>MAP</button>
     <button id="homeNav"><span>🏰</span>HOME</button>
     <button id="spinNav" class="spinNavBtn"><span>🎡</span>SPIN<i id="spinDot"></i></button>
-    <button id="eventsNav"><span>🏆</span>EVENTS</button>
+    <button id="eventsNav"><span>🏆</span>EVENTS<i id="eventsDot"></i></button>
     <button id="kingdomNav"><span>🛡️</span>KINGDOM</button>
   </div>
 
@@ -1629,8 +1797,9 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
 
   <section class="screen" id="eventsScreen">
     <h1>EVENTS</h1>
-    <div class="card"><h2>Daily Challenge</h2><p>Complete any level today for +100 coins.</p><button id="eventReward" class="greenBtn">CLAIM EVENT</button></div>
-    <div class="card"><h2>Weekly Tournament</h2><p>Coming soon.</p></div>
+    <div class="card"><h2>📅 Daily Login</h2><p>Claim 7-day login rewards and keep your streak alive.</p><button id="dailyRewardsNavBtn" class="greenBtn">OPEN DAILY REWARDS</button></div>
+    <div class="card"><h2>🎯 Daily Challenge</h2><p>Complete missions for coins, XP, and boosters.</p><button id="eventReward" class="greenBtn">CLAIM EVENT</button></div>
+    <div class="card"><h2>🏆 Weekly Tournament</h2><p>Coming soon: leaderboard rewards.</p></div>
     <button class="back">Back to Game</button>
   </section>
 
@@ -1657,6 +1826,23 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     <button class="back">Back to Game</button>
   </section>
 
+
+  <section class="screen" id="dailyRewardsScreen">
+    <h1>DAILY REWARDS</h1>
+    <div class="dailyCalendar" id="dailyCalendar"></div>
+    <div class="card">
+      <b>Daily Missions</b>
+      <div id="dailyMissionList"></div>
+      <button id="claimDailyMissionsBtn" class="greenBtn">Claim Missions</button>
+    </div>
+    <div class="card">
+      <b>Achievement Rewards</b>
+      <div id="v4AchievementList" class="v4AchievementList"></div>
+      <button id="claimAchievementsBtn" class="premiumBtn">Claim Achievements</button>
+    </div>
+    <button class="back">Back to Game</button>
+  </section>
+
   <section class="screen" id="kingdomScreen">
     <h1>KINGDOM</h1>
     <div class="card"><h2>Castle Upgrade</h2><p>Use stars to rebuild the kingdom.</p><button id="upgradeKingdom" class="greenBtn">Upgrade - 10⭐</button></div>
@@ -1674,6 +1860,16 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
       <div id="spinRewardIcon" class="spinRewardIcon">🎁</div>
       <div id="spinRewardText" class="spinRewardText">Reward</div>
       <button id="spinRewardOk" class="greenBtn">CLAIM</button>
+    </div>
+  </div>
+
+  
+  <div id="v4RewardModal" class="v4RewardModal">
+    <div class="v4RewardCard">
+      <h1>REWARD!</h1>
+      <div id="v4RewardIcon" class="v4RewardIcon">🎁</div>
+      <div id="v4RewardText" class="v4RewardText">Reward Claimed</div>
+      <button id="v4RewardOk" class="greenBtn">OK</button>
     </div>
   </div>
 
@@ -1745,7 +1941,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v3.1 • Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v4.0 • Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
@@ -2662,6 +2858,199 @@ try{
     updateSpinUI();
     setInterval(updateSpinUI,60000);
   },500);
+})();
+
+
+// v4.0 Retention & Monetization Expansion
+(function(){
+  const KEY='gkl_v22';
+  const DAY=24*60*60*1000;
+  const todayStr=()=>new Date().toDateString();
+  function read(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return {}}}
+  function write(p){localStorage.setItem(KEY,JSON.stringify(p))}
+  function ensure(){
+    const p=read();
+    p.v4=p.v4||{};
+    p.v4.loginDay=p.v4.loginDay||1;
+    p.v4.loginClaimedDate=p.v4.loginClaimedDate||'';
+    p.v4.loginClaimedDays=p.v4.loginClaimedDays||{};
+    p.v4.daily=p.v4.daily||{date:todayStr(),matches:0,levels:0,boosters:0,claimed:{}};
+    if(p.v4.daily.date!==todayStr()){
+      p.v4.daily={date:todayStr(),matches:0,levels:0,boosters:0,claimed:{}};
+      p.questProgress={levels:0,matches:0,boosters:0};
+      p.questClaimed={};
+      p.lastQuestDay=todayStr();
+    }
+    p.v4.achClaimed=p.v4.achClaimed||{};
+    write(p);
+    return p;
+  }
+  const loginRewards=[
+    {icon:'🪙',text:'300 Coins',apply:p=>{p.coins=(p.coins||0)+300}},
+    {icon:'🔨',text:'Hammer ×1',apply:p=>{p.boosters=p.boosters||{};p.boosters.hammer=(p.boosters.hammer||0)+1}},
+    {icon:'🪙',text:'600 Coins',apply:p=>{p.coins=(p.coins||0)+600}},
+    {icon:'🔀',text:'Shuffle ×1',apply:p=>{p.boosters=p.boosters||{};p.boosters.shuffle=(p.boosters.shuffle||0)+1}},
+    {icon:'💣',text:'Bomb ×1',apply:p=>{p.boosters=p.boosters||{};p.boosters.bomb=(p.boosters.bomb||0)+1}},
+    {icon:'💎',text:'1000 Coins',apply:p=>{p.coins=(p.coins||0)+1000}},
+    {icon:'👑',text:'Mega Chest',apply:p=>{p.coins=(p.coins||0)+2000;p.boosters=p.boosters||{};p.boosters.hammer=(p.boosters.hammer||0)+1;p.boosters.shuffle=(p.boosters.shuffle||0)+1;p.boosters.bomb=(p.boosters.bomb||0)+1}}
+  ];
+  function rewardPopup(icon,text){
+    const m=document.getElementById('v4RewardModal'),i=document.getElementById('v4RewardIcon'),t=document.getElementById('v4RewardText');
+    if(i)i.textContent=icon||'🎁';
+    if(t)t.textContent=text||'Reward Claimed';
+    if(m)m.style.display='flex';
+    try{toast(text||'Reward Claimed')}catch(e){}
+  }
+  function syncTop(){
+    try{
+      const p=read();
+      if(window.profile){
+        Object.assign(profile,p);
+        updateTop();
+      }
+      if(window.GKLRenderMeta)window.GKLRenderMeta();
+    }catch(e){}
+  }
+  function canClaimLogin(){
+    const p=ensure();
+    return p.v4.loginClaimedDate!==todayStr();
+  }
+  function claimLogin(day){
+    const p=ensure();
+    if(p.v4.loginClaimedDate===todayStr())return rewardPopup('⏳','Already claimed today');
+    const current=Math.max(1,Math.min(7,p.v4.loginDay||1));
+    if(day!==current)return rewardPopup('🔒','Claim today first');
+    const r=loginRewards[day-1];
+    r.apply(p);
+    p.v4.loginClaimedDate=todayStr();
+    p.v4.loginClaimedDays[day]=true;
+    p.v4.loginDay=day>=7?1:day+1;
+    write(p);
+    syncTop();
+    renderDailyRewards();
+    rewardPopup(r.icon,r.text);
+  }
+  function renderDailyRewards(){
+    const p=ensure();
+    const cal=document.getElementById('dailyCalendar');
+    if(cal){
+      const cur=Math.max(1,Math.min(7,p.v4.loginDay||1));
+      cal.innerHTML='';
+      loginRewards.forEach((r,idx)=>{
+        const d=idx+1;
+        const box=document.createElement('div');
+        box.className='dailyDay '+(p.v4.loginClaimedDays[d]?'claimed ':'')+(d===cur?'today ':'')+(d>cur?'locked':'');
+        const disabled=(d!==cur)||p.v4.loginClaimedDate===todayStr();
+        box.innerHTML='<div class="dayTitle">DAY '+d+'</div><div class="dayIcon">'+r.icon+'</div><div class="dayReward">'+r.text+'</div><button '+(disabled?'disabled':'')+'>CLAIM</button>';
+        box.querySelector('button').onclick=()=>claimLogin(d);
+        cal.appendChild(box);
+      });
+    }
+    renderMissions();
+    renderAchievements();
+    updateV4Dots();
+  }
+  function missionRow(title,cur,goal,reward){
+    const pct=Math.max(0,Math.min(100,Math.floor((cur/goal)*100)));
+    return '<div class="dailyMission">'+(cur>=goal?'✅ ':'🎯 ')+title+'<br><small>'+Math.min(cur,goal)+'/'+goal+' • '+reward+'</small><div class="bar"><div class="fill" style="width:'+pct+'%"></div></div></div>';
+  }
+  function renderMissions(){
+    const p=ensure(),d=p.v4.daily;
+    const el=document.getElementById('dailyMissionList');
+    if(el){
+      el.innerHTML=
+        missionRow('Make 30 Matches',d.matches||0,30,'250 Coins')+
+        missionRow('Complete 1 Level',d.levels||0,1,'100 XP')+
+        missionRow('Use 1 Booster',d.boosters||0,1,'1 Hammer');
+    }
+  }
+  function claimMissions(){
+    const p=ensure(),d=p.v4.daily;
+    let text=[],icon='🎯';
+    p.boosters=p.boosters||{};
+    if((d.matches||0)>=30&&!d.claimed.matches){p.coins=(p.coins||0)+250;d.claimed.matches=true;text.push('250 Coins')}
+    if((d.levels||0)>=1&&!d.claimed.levels){p.playerXP=(p.playerXP||0)+100;d.claimed.levels=true;text.push('100 XP')}
+    if((d.boosters||0)>=1&&!d.claimed.boosters){p.boosters.hammer=(p.boosters.hammer||0)+1;d.claimed.boosters=true;text.push('Hammer ×1')}
+    write(p);
+    syncTop();
+    renderDailyRewards();
+    rewardPopup(icon,text.length?text.join(' + '):'No mission ready');
+  }
+  function achData(p){
+    return [
+      {id:'firstwin',name:'First Victory',cur:p.totalLevelsWon||0,goal:1,reward:'300 Coins',apply:p=>{p.coins=(p.coins||0)+300}},
+      {id:'levels10',name:'Win 10 Levels',cur:p.totalLevelsWon||0,goal:10,reward:'1000 Coins',apply:p=>{p.coins=(p.coins||0)+1000}},
+      {id:'matches250',name:'250 Matches',cur:p.totalMatchesMade||0,goal:250,reward:'Bomb ×2',apply:p=>{p.boosters=p.boosters||{};p.boosters.bomb=(p.boosters.bomb||0)+2}},
+      {id:'boosters25',name:'Use 25 Boosters',cur:p.totalBoostersUsed||0,goal:25,reward:'1500 Coins',apply:p=>{p.coins=(p.coins||0)+1500}},
+      {id:'stars50',name:'Earn 50 Stars',cur:p.stars||0,goal:50,reward:'Royal Pack',apply:p=>{p.coins=(p.coins||0)+1000;p.boosters=p.boosters||{};p.boosters.hammer=(p.boosters.hammer||0)+2;p.boosters.shuffle=(p.boosters.shuffle||0)+2}},
+      {id:'plv5',name:'Reach P-LV 5',cur:p.playerLevel||1,goal:5,reward:'Mega XP Chest',apply:p=>{p.playerXP=(p.playerXP||0)+250;p.coins=(p.coins||0)+1000}}
+    ];
+  }
+  function renderAchievements(){
+    const p=ensure(),el=document.getElementById('v4AchievementList');
+    if(!el)return;
+    el.innerHTML=achData(p).map(a=>{
+      const done=a.cur>=a.goal, claimed=p.v4.achClaimed[a.id];
+      return '<div class="v4Ach '+(done?'done':'')+'">'+(claimed?'✅':done?'🏆':'🔒')+' '+a.name+'<br>'+Math.min(a.cur,a.goal)+'/'+a.goal+'<br><small>'+a.reward+'</small></div>';
+    }).join('');
+  }
+  function claimAchievements(){
+    const p=ensure();
+    let rewards=[];
+    achData(p).forEach(a=>{
+      if(a.cur>=a.goal&&!p.v4.achClaimed[a.id]){
+        a.apply(p);
+        p.v4.achClaimed[a.id]=true;
+        rewards.push(a.reward);
+      }
+    });
+    write(p);
+    syncTop();
+    renderDailyRewards();
+    rewardPopup('🏆',rewards.length?rewards.join(' + '):'No achievement ready');
+  }
+  function updateV4Dots(){
+    const p=ensure();
+    const ev=document.getElementById('eventsDot');
+    const shop=document.getElementById('shopDot');
+    const d=p.v4.daily||{};
+    const missionReady=((d.matches||0)>=30&&!d.claimed.matches)||((d.levels||0)>=1&&!d.claimed.levels)||((d.boosters||0)>=1&&!d.claimed.boosters);
+    const achReady=achData(p).some(a=>a.cur>=a.goal&&!p.v4.achClaimed[a.id]);
+    if(ev)ev.style.display=(canClaimLogin()||missionReady||achReady)?'block':'none';
+    if(shop)shop.style.display=canClaimLogin()?'block':'none';
+  }
+  window.GKLV4Event=function(type,amount){
+    const p=ensure();
+    const d=p.v4.daily;
+    if(type==='match')d.matches=(d.matches||0)+(amount||1);
+    if(type==='level')d.levels=(d.levels||0)+(amount||1);
+    if(type==='booster')d.boosters=(d.boosters||0)+(amount||1);
+    write(p);
+    updateV4Dots();
+  };
+  const oldQ=window.GKLQuestEvent;
+  window.GKLQuestEvent=function(type,amount){
+    try{if(typeof oldQ==='function')oldQ(type,amount)}catch(e){}
+    try{window.GKLV4Event(type,amount)}catch(e){}
+  };
+
+  setTimeout(()=>{
+    const dailyBtn=document.getElementById('dailyRewardsNavBtn');
+    if(dailyBtn)dailyBtn.onclick=()=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));const s=document.getElementById('dailyRewardsScreen');if(s)s.classList.add('active');renderDailyRewards();};
+    const claimM=document.getElementById('claimDailyMissionsBtn');
+    if(claimM)claimM.onclick=claimMissions;
+    const claimA=document.getElementById('claimAchievementsBtn');
+    if(claimA)claimA.onclick=claimAchievements;
+    const ok=document.getElementById('v4RewardOk');
+    if(ok)ok.onclick=()=>{const m=document.getElementById('v4RewardModal');if(m)m.style.display='none';};
+    const oldEvents=document.getElementById('eventsNav');
+    if(oldEvents){
+      const prev=oldEvents.onclick;
+      oldEvents.onclick=()=>{if(prev)prev();setTimeout(renderDailyRewards,50);};
+    }
+    renderDailyRewards();
+    setInterval(updateV4Dots,60000);
+  },600);
 })();
 
 </script>
