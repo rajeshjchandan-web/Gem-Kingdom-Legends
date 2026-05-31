@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v2.7.1 Economy Balancing & Objective Banner Fix</title>
+<title>Gem Kingdom Legends v2.8 Meta Progression & Retention</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -692,13 +692,30 @@ body{display:flex;align-items:center;justify-content:center}
 .metaBadge{position:absolute;right:8px;top:8px;z-index:20;background:linear-gradient(#fff36b,#ff9f00);color:#5d1800;
 padding:4px 10px;border-radius:12px;font-weight:1000}
 
+
+/* v2.8 visible version label fix */
+.versionTag{
+  position:absolute;
+  right:6px;
+  bottom:8.9%;
+  z-index:30;
+  background:linear-gradient(#fff36b,#ff9f00);
+  color:#5d1800;
+  border:2px solid #fff;
+  border-radius:12px;
+  padding:3px 8px;
+  font-size:10px;
+  font-weight:1000;
+  box-shadow:0 3px 8px rgba(0,0,0,.45);
+  pointer-events:none;
+}
+
 </style>
 </head>
 <body>
 <div id="game">
-<div class="metaBadge">v2.8</div>
-
-  <div class="castle">🏰</div>
+  <div class="versionTag">v2.8</div>
+<div class="castle">🏰</div>
   <div class="logo"><div class="gem">GEM</div><div class="kingdom">KINGDOM</div><div class="legends">LEGENDS</div></div>
   <div class="topBars">
     <div class="pill"><span class="ic">❤️</span><span id="lives">5 FULL</span><span class="plus">+</span></div>
@@ -853,7 +870,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v2.8 • Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
