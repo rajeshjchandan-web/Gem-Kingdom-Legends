@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v4.0.1 Quick HUD Fix</title>
+<title>Gem Kingdom Legends v4.1 Chest System</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -1772,6 +1772,105 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
   }
 }
 
+
+/* v4.1 Chest System */
+.chestGrid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+  margin:10px 0;
+}
+.chestBox{
+  border-radius:22px;
+  border:4px solid #ffdf45;
+  background:linear-gradient(#8b2ee8,#3c0b78);
+  padding:12px 10px;
+  box-shadow:0 8px 0 rgba(0,0,0,.35),0 16px 28px rgba(0,0,0,.4);
+  font-weight:1000;
+}
+.chestBox h2{
+  margin:3px 0;
+  color:#fff36b;
+  text-shadow:0 3px #5e0047;
+}
+.chestBox p{
+  margin:4px 0;
+  font-size:13px;
+}
+.chestIcon{
+  font-size:48px;
+  filter:drop-shadow(0 5px 4px rgba(0,0,0,.5));
+}
+.bronzeChest{background:linear-gradient(#b96b3d,#5d260d)}
+.silverChest{background:linear-gradient(#e8f4ff,#58758f);color:#081c35;text-shadow:none}
+.silverChest h2{color:#0d2e5c;text-shadow:0 1px #fff}
+.goldChest{background:linear-gradient(#fff36b,#ff9f00);color:#5d1800;text-shadow:none}
+.goldChest h2{color:#7a1500;text-shadow:0 1px #fff}
+.chestSummary{
+  color:#fff36b;
+}
+.chestOpenModal{
+  position:absolute;
+  inset:0;
+  z-index:280;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(3,5,30,.80);
+  padding:20px;
+}
+.chestOpenCard{
+  width:90%;
+  max-width:340px;
+  border-radius:30px;
+  background:linear-gradient(#fff36b,#ff9f00);
+  border:5px solid #fff;
+  color:#5d1800;
+  text-align:center;
+  padding:22px 16px;
+  box-shadow:0 24px 70px rgba(0,0,0,.72);
+  animation:chestCardPop .45s ease-out;
+}
+.chestOpenCard h1{
+  margin:0;
+  font-size:30px;
+  text-shadow:0 2px rgba(255,255,255,.6);
+}
+.chestOpenAnim{
+  font-size:74px;
+  margin:10px 0;
+  animation:chestBounce .9s ease-in-out infinite;
+}
+.chestRewardText{
+  font-size:19px;
+  font-weight:1000;
+  margin:8px 0 12px;
+  line-height:1.35;
+}
+.chestFly{
+  position:absolute;
+  z-index:190;
+  font-size:34px;
+  pointer-events:none;
+  animation:chestFly .9s ease-out forwards;
+}
+@keyframes chestCardPop{
+  0%{transform:scale(.55);opacity:0}
+  70%{transform:scale(1.08);opacity:1}
+  100%{transform:scale(1);opacity:1}
+}
+@keyframes chestBounce{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-8px) scale(1.08)}
+}
+@keyframes chestFly{
+  0%{opacity:1;transform:translate(-50%,0) scale(.8)}
+  80%{opacity:1}
+  100%{opacity:0;transform:translate(-50%,-90px) scale(1.3)}
+}
+
+/* chest notification included in events dot */
+
 </style>
 </head>
 <body>
@@ -1792,7 +1891,7 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     </div>
   </div>
   <div class="levelUpPop" id="levelUpPop">LEVEL UP!</div>
-  <div class="versionTag">v4.0.1</div>
+  <div class="versionTag">v4.1</div>
 <div class="castle">🏰</div>
   <div class="logo"><div class="gem">GEM</div><div class="kingdom">KINGDOM</div><div class="legends">LEGENDS</div></div>
   <div class="topBars">
@@ -1895,6 +1994,46 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     <button class="back">Back to Game</button>
   </section>
 
+
+  <section class="screen" id="chestScreen">
+    <h1>CHEST ROOM</h1>
+    <div class="chestSummary card">
+      <b>Your Chests</b><br>
+      Bronze: <span id="bronzeChestCount">0</span> • Silver: <span id="silverChestCount">0</span> • Gold: <span id="goldChestCount">0</span>
+    </div>
+    <div class="chestGrid">
+      <div class="chestBox bronzeChest">
+        <div class="chestIcon">🟤</div>
+        <h2>Bronze Chest</h2>
+        <p>Coins + small booster chance</p>
+        <button id="openBronzeChest" class="greenBtn">OPEN</button>
+      </div>
+      <div class="chestBox silverChest">
+        <div class="chestIcon">⚪</div>
+        <h2>Silver Chest</h2>
+        <p>Coins + booster + XP</p>
+        <button id="openSilverChest" class="greenBtn">OPEN</button>
+      </div>
+      <div class="chestBox goldChest">
+        <div class="chestIcon">🟡</div>
+        <h2>Gold Chest</h2>
+        <p>Big coins + boosters + XP</p>
+        <button id="openGoldChest" class="premiumBtn">OPEN</button>
+      </div>
+    </div>
+    <div class="card">
+      <b>Free Daily Chest</b><br>
+      <span id="dailyChestStatus">Available</span><br>
+      <button id="dailyChestBtn" class="greenBtn">CLAIM DAILY CHEST</button>
+    </div>
+    <div class="card">
+      <b>Rewarded Chest</b><br>
+      Watch an ad for a bonus Bronze Chest.<br>
+      <button id="adChestBtn" class="premiumBtn">WATCH AD CHEST</button>
+    </div>
+    <button class="back">Back to Game</button>
+  </section>
+
   <section class="screen" id="kingdomScreen">
     <h1>KINGDOM</h1>
     <div class="card"><h2>Castle Upgrade</h2><p>Use stars to rebuild the kingdom.</p><button id="upgradeKingdom" class="greenBtn">Upgrade - 10⭐</button></div>
@@ -1912,6 +2051,16 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
       <div id="spinRewardIcon" class="spinRewardIcon">🎁</div>
       <div id="spinRewardText" class="spinRewardText">Reward</div>
       <button id="spinRewardOk" class="greenBtn">CLAIM</button>
+    </div>
+  </div>
+
+  
+  <div id="chestOpenModal" class="chestOpenModal">
+    <div class="chestOpenCard">
+      <h1 id="chestOpenTitle">CHEST OPENED!</h1>
+      <div id="chestOpenAnim" class="chestOpenAnim">🎁</div>
+      <div id="chestRewardText" class="chestRewardText">Rewards</div>
+      <button id="chestOpenOk" class="greenBtn">COLLECT</button>
     </div>
   </div>
 
@@ -1983,7 +2132,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v4.0.1 • Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v4.1 • Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
@@ -2900,6 +3049,162 @@ try{
     updateSpinUI();
     setInterval(updateSpinUI,60000);
   },500);
+})();
+
+
+// v4.1 Chest System
+(function(){
+  const KEY='gkl_v22';
+  const DAY=24*60*60*1000;
+  const today=()=>new Date().toDateString();
+  function read(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return {}}}
+  function write(p){localStorage.setItem(KEY,JSON.stringify(p))}
+  function ensure(){
+    const p=read();
+    p.chests=p.chests||{bronze:0,silver:0,gold:0,lastDailyChest:''};
+    p.boosters=p.boosters||{};
+    write(p);
+    return p;
+  }
+  function sync(){
+    try{
+      const p=read();
+      if(window.profile){Object.assign(profile,p);updateTop();}
+      if(window.GKLRenderMeta)window.GKLRenderMeta();
+    }catch(e){}
+    renderChestUI();
+  }
+  function addChest(type,count){
+    const p=ensure();
+    p.chests[type]=(p.chests[type]||0)+(count||1);
+    write(p);
+    sync();
+    try{toast((count||1)+' '+type+' chest earned')}catch(e){}
+  }
+  window.GKLAddChest=addChest;
+
+  function rewardFor(type){
+    const r=[];
+    const p=ensure();
+    p.boosters=p.boosters||{};
+    if(type==='bronze'){
+      const coins=150+Math.floor(Math.random()*201);
+      p.coins=(p.coins||0)+coins;r.push('🪙 '+coins+' Coins');
+      if(Math.random()<.35){p.boosters.hammer=(p.boosters.hammer||0)+1;r.push('🔨 Hammer ×1')}
+      if(Math.random()<.25){p.playerXP=(p.playerXP||0)+30;r.push('⭐ 30 XP')}
+    }
+    if(type==='silver'){
+      const coins=350+Math.floor(Math.random()*351);
+      p.coins=(p.coins||0)+coins;r.push('🪙 '+coins+' Coins');
+      const b=Math.random()<.5?'shuffle':'hammer';
+      p.boosters[b]=(p.boosters[b]||0)+1;r.push((b==='shuffle'?'🔀 Shuffle':'🔨 Hammer')+' ×1');
+      p.playerXP=(p.playerXP||0)+75;r.push('⭐ 75 XP');
+      if(Math.random()<.25){p.boosters.bomb=(p.boosters.bomb||0)+1;r.push('💣 Bomb ×1')}
+    }
+    if(type==='gold'){
+      const coins=900+Math.floor(Math.random()*901);
+      p.coins=(p.coins||0)+coins;r.push('🪙 '+coins+' Coins');
+      p.boosters.hammer=(p.boosters.hammer||0)+1;
+      p.boosters.shuffle=(p.boosters.shuffle||0)+1;
+      p.boosters.bomb=(p.boosters.bomb||0)+1;
+      p.playerXP=(p.playerXP||0)+150;
+      r.push('🔨 Hammer ×1','🔀 Shuffle ×1','💣 Bomb ×1','⭐ 150 XP');
+    }
+    write(p);
+    return r;
+  }
+
+  function openChest(type,free){
+    const p=ensure();
+    if(!free){
+      if((p.chests[type]||0)<=0){try{toast('No '+type+' chest')}catch(e){};return}
+      p.chests[type]--;
+      write(p);
+    }
+    const rewards=rewardFor(type);
+    const modal=document.getElementById('chestOpenModal');
+    const title=document.getElementById('chestOpenTitle');
+    const anim=document.getElementById('chestOpenAnim');
+    const text=document.getElementById('chestRewardText');
+    if(title)title.textContent=type.toUpperCase()+' CHEST!';
+    if(anim)anim.textContent=type==='gold'?'🟡':type==='silver'?'⚪':'🟤';
+    if(text)text.innerHTML=rewards.join('<br>');
+    if(modal)modal.style.display='flex';
+    try{chestFly(type)}catch(e){}
+    sync();
+  }
+
+  function claimDailyChest(){
+    const p=ensure();
+    if(p.chests.lastDailyChest===today()){try{toast('Daily chest already claimed')}catch(e){};return}
+    p.chests.lastDailyChest=today();
+    p.chests.bronze=(p.chests.bronze||0)+1;
+    if(Math.random()<.25)p.chests.silver=(p.chests.silver||0)+1;
+    write(p);
+    sync();
+    openChest('bronze',false);
+  }
+
+  function chestFly(type){
+    const el=document.createElement('div');
+    el.className='chestFly';
+    el.textContent=type==='gold'?'🟡':type==='silver'?'⚪':'🟤';
+    el.style.left='50%';
+    el.style.top='48%';
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),950);
+  }
+
+  function renderChestUI(){
+    const p=ensure();
+    const bc=document.getElementById('bronzeChestCount'),sc=document.getElementById('silverChestCount'),gc=document.getElementById('goldChestCount');
+    if(bc)bc.textContent=p.chests.bronze||0;
+    if(sc)sc.textContent=p.chests.silver||0;
+    if(gc)gc.textContent=p.chests.gold||0;
+    const st=document.getElementById('dailyChestStatus');
+    const btn=document.getElementById('dailyChestBtn');
+    const ready=p.chests.lastDailyChest!==today();
+    if(st)st.textContent=ready?'Available now':'Come back tomorrow';
+    if(btn)btn.disabled=!ready;
+    const ev=document.getElementById('eventsDot');
+    if(ev && ready)ev.style.display='block';
+  }
+
+  // Award chests after level win by wrapping GKLQuestEvent and watching level completions.
+  const oldQ=window.GKLQuestEvent;
+  window.GKLQuestEvent=function(type,amount){
+    try{if(typeof oldQ==='function')oldQ(type,amount)}catch(e){}
+    try{
+      if(type==='level'){
+        const p=ensure();
+        const level=(p.current||1);
+        p.chests.bronze=(p.chests.bronze||0)+1;
+        if(level%3===0)p.chests.silver=(p.chests.silver||0)+1;
+        if(level%10===0)p.chests.gold=(p.chests.gold||0)+1;
+        write(p);
+        renderChestUI();
+      }
+    }catch(e){}
+  };
+
+  setTimeout(()=>{
+    const room=document.getElementById('chestRoomBtn');
+    if(room)room.onclick=()=>{document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));const s=document.getElementById('chestScreen');if(s)s.classList.add('active');renderChestUI();};
+    const ob=document.getElementById('openBronzeChest');
+    const os=document.getElementById('openSilverChest');
+    const og=document.getElementById('openGoldChest');
+    if(ob)ob.onclick=()=>openChest('bronze');
+    if(os)os.onclick=()=>openChest('silver');
+    if(og)og.onclick=()=>openChest('gold');
+    const daily=document.getElementById('dailyChestBtn');
+    if(daily)daily.onclick=claimDailyChest;
+    const ad=document.getElementById('adChestBtn');
+    if(ad)ad.onclick=()=>{try{if(typeof showRewardedAd==='function')showRewardedAd(()=>{addChest('bronze',1);openChest('bronze')});else{addChest('bronze',1);openChest('bronze')}}catch(e){addChest('bronze',1);openChest('bronze')}};
+    const ok=document.getElementById('chestOpenOk');
+    if(ok)ok.onclick=()=>{const m=document.getElementById('chestOpenModal');if(m)m.style.display='none';sync();};
+    renderChestUI();
+    setInterval(renderChestUI,60000);
+  },700);
 })();
 
 </script>
