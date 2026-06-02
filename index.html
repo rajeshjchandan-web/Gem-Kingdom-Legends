@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v4.2.1 Play Store Ready</title>
+<title>Gem Kingdom Legends v4.3.3 Final Mobile Fit</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -1903,6 +1903,67 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
   pointer-events:none;
 }
 
+
+/* v4.3.3 FINAL MOBILE FIT */
+.publisherBadge{display:none!important}
+.levelPath{display:none!important;visibility:hidden!important;pointer-events:none!important;height:0!important}
+.boardWrap{
+  top:calc(38.6% + env(safe-area-inset-top))!important;
+  height:36.4%!important;
+  left:12.0%!important;
+  right:12.0%!important;
+  z-index:18!important;
+}
+#board{gap:3px!important}
+.tile{width:94%!important;height:94%!important}
+.sidePanel{top:49.4%!important;height:16.0%!important;z-index:17!important}
+.boosters{
+  bottom:8.35%!important;
+  height:9.55%!important;
+  left:1.8%!important;
+  right:1.8%!important;
+  z-index:35!important;
+}
+.nav{
+  bottom:0!important;
+  height:8.25%!important;
+  padding-bottom:max(2px, env(safe-area-inset-bottom))!important;
+  z-index:36!important;
+}
+.versionTag{bottom:8.65%!important;right:5px!important;z-index:50!important;font-size:10px!important}
+.stats{top:calc(29.4% + env(safe-area-inset-top))!important}
+.levelBadge{top:calc(28.6% + env(safe-area-inset-top))!important}
+.king{top:calc(28.7% + env(safe-area-inset-top))!important}
+.mission{top:calc(22.2% + env(safe-area-inset-top))!important}
+
+@media(max-height:790px){
+  .topBars{top:calc(.8% + env(safe-area-inset-top))!important}
+  .pill{height:28px!important;font-size:12px!important}
+  .logo{top:calc(.25% + env(safe-area-inset-top))!important;transform:translateX(-50%) scale(.80)!important}
+  .questTopBtn{top:calc(.8% + env(safe-area-inset-top))!important;height:48px!important}
+  .roundBtn{width:43px!important;height:43px!important}
+  .metaHud{top:calc(13.5% + env(safe-area-inset-top))!important}
+  .mission{top:calc(21.1% + env(safe-area-inset-top))!important;height:33px!important}
+  .stats{top:calc(27.7% + env(safe-area-inset-top))!important;height:49px!important}
+  .levelBadge{top:calc(27.1% + env(safe-area-inset-top))!important;height:58px!important}
+  .king{top:calc(27.2% + env(safe-area-inset-top))!important}
+  .boardWrap{
+    top:calc(36.8% + env(safe-area-inset-top))!important;
+    height:37.0%!important;
+    left:12.0%!important;
+    right:12.0%!important;
+  }
+  .sidePanel{top:47.6%!important;height:15.5%!important}
+  .boosters{bottom:8.25%!important;height:9.35%!important}
+  .nav{height:8.15%!important}
+}
+@media(max-width:370px){
+  .boardWrap{left:11.5%!important;right:11.5%!important}
+  .boost span{font-size:19px!important}
+  .boost small{font-size:7.5px!important}
+  .playBtn{font-size:26px!important}
+}
+
 </style>
 </head>
 <body>
@@ -1923,8 +1984,8 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     </div>
   </div>
   <div class="levelUpPop" id="levelUpPop">LEVEL UP!</div>
-  <div class="versionTag">v4.2.1</div>
-  <div class="publisherBadge">STORE READY</div>
+  <div class="versionTag">v4.3.3</div>
+  <div class="publisherBadge">APK READY</div>
 <div class="castle">🏰</div>
   <div class="logo"><div class="gem">GEM</div><div class="kingdom">KINGDOM</div><div class="legends">LEGENDS</div></div>
   <div class="topBars">
@@ -2194,7 +2255,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v4.2.1 • Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v4.3.3 • Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
@@ -3333,6 +3394,101 @@ try{
       };
     }
   },800);
+})();
+
+
+// v4.3.3 FINAL AUDIO FIX - APK safe WebAudio SFX + BGM
+(function(){
+  if(window.__GKL_FINAL_AUDIO_433__) return;
+  window.__GKL_FINAL_AUDIO_433__ = true;
+  let enabled = true, ctx = null, bgmTimer = null, bgmStep = 0;
+  const notes = [174,220,261.63,220,196,246.94,293.66,246.94];
+
+  function context(){
+    try{
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return null;
+      if(!ctx) ctx = new AC();
+      if(ctx.state === "suspended") ctx.resume().catch(function(){});
+      return ctx;
+    }catch(e){return null}
+  }
+
+  function tone(freq,dur,vol,type){
+    if(!enabled) return;
+    const c = context(); if(!c) return;
+    const o = c.createOscillator(), g = c.createGain();
+    o.type = type || "triangle";
+    o.frequency.setValueAtTime(freq, c.currentTime);
+    g.gain.setValueAtTime(0.0001, c.currentTime);
+    g.gain.exponentialRampToValueAtTime(vol || 0.04, c.currentTime + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + dur);
+    o.connect(g); g.connect(c.destination);
+    o.start(c.currentTime);
+    o.stop(c.currentTime + dur + 0.03);
+  }
+
+  function playSfx(name){
+    const map = {
+      tap:[520,.045,.035,"triangle"],
+      swap:[650,.055,.040,"triangle"],
+      match:[820,.080,.050,"sine"],
+      combo:[980,.120,.060,"square"],
+      booster:[430,.090,.045,"triangle"],
+      shuffle:[700,.100,.050,"sawtooth"],
+      win:[1050,.180,.060,"triangle"],
+      lose:[170,.180,.060,"sawtooth"]
+    };
+    const s = map[name] || [440,.07,.04,"triangle"];
+    tone(s[0],s[1],s[2],s[3]);
+    if(name==="win") setTimeout(function(){tone(1320,.14,.05,"triangle")},90);
+    if(name==="combo") setTimeout(function(){tone(1240,.10,.045,"square")},70);
+  }
+
+  function startBgm(){
+    if(!enabled || bgmTimer) return;
+    context();
+    bgmTimer = setInterval(function(){
+      if(!enabled) return;
+      const f = notes[bgmStep % notes.length];
+      bgmStep++;
+      tone(f,.18,.012,"sine");
+      setTimeout(function(){tone(f*1.5,.14,.007,"triangle")},90);
+    },520);
+  }
+
+  function stopBgm(){ if(bgmTimer){clearInterval(bgmTimer); bgmTimer=null;} }
+
+  window.GKLSound = {
+    play: playSfx,
+    music: startBgm,
+    stopMusic: stopBgm,
+    toggle: function(){
+      enabled = !enabled;
+      if(enabled){startBgm();playSfx("tap");} else stopBgm();
+      try{toast(enabled ? "Sound On" : "Sound Off")}catch(e){}
+      return enabled;
+    }
+  };
+
+  document.addEventListener("click",function(e){
+    if(!enabled) return;
+    const btn = e.target && e.target.closest ? e.target.closest("button") : null;
+    if(btn) playSfx("tap");
+  },true);
+
+  setTimeout(function(){
+    const soundBtn = document.getElementById("soundBtn");
+    if(soundBtn){
+      soundBtn.onclick = function(e){
+        if(e){e.preventDefault();e.stopPropagation();}
+        window.GKLSound.toggle();
+      };
+    }
+    ["pointerdown","touchstart","click"].forEach(function(ev){
+      window.addEventListener(ev,function(){context();startBgm();playSfx("tap");},{once:true,passive:true});
+    });
+  },600);
 })();
 
 </script>
