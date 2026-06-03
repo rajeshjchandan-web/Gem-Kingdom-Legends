@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v4.6 Play Store Release Candidate</title>
+<title>Gem Kingdom Legends v4.6.1 Phone APK Fix</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -2434,7 +2434,7 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     </div>
   </div>
   <div class="levelUpPop" id="levelUpPop">LEVEL UP!</div>
-  <div class="versionTag">v4.6 RC</div>
+  <div class="versionTag">v4.6.1</div>
   <div class="publisherBadge">APK READY</div>
   <div class="rcBadge" id="rcBadge">RC READY</div>
 <div class="castle">🏰</div>
@@ -2768,7 +2768,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v4.6 RC • Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v4.6.1 • Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
@@ -3211,24 +3211,35 @@ function detectAudioPath(){
 }
 
 function startBGM(){
-  if(!bgmOn)return;
+  if(!bgmOn || !audioOn)return;
   if(!bgm)detectAudioPath();
   if(!bgm)return;
+  bgm.muted=false;
+  bgm.volume=0.32;
   bgm.play().then(()=>{
     bgmStarted=true;
   }).catch(()=>{
-    // Try alternate locations without touching gameplay.
     let idx=possibleAudioPaths.indexOf(audioPath)+1;
     if(idx<0)idx=1;
     if(idx<possibleAudioPaths.length){
       initAudioForPath(possibleAudioPaths[idx]);
-      if(bgm)bgm.play().then(()=>{bgmStarted=true}).catch(()=>{});
+      if(bgm){
+        bgm.muted=false;
+        bgm.volume=0.32;
+        bgm.play().then(()=>{bgmStarted=true}).catch(()=>{});
+      }
     }
   });
 }
 
 function stopBGM(){
-  try{if(bgm)bgm.pause()}catch(e){}
+  try{
+    if(bgm){
+      bgm.pause();
+      bgm.currentTime=0;
+      bgm.muted=true;
+    }
+  }catch(e){}
   bgmStarted=false;
 }
 
@@ -3237,7 +3248,7 @@ function unlockAudio(){
     audioReady=true;
     detectAudioPath();
   }
-  if(bgmOn)startBGM();
+  if(audioOn && bgmOn)startBGM();
 }
 
 function sfx(n){
@@ -3253,10 +3264,10 @@ function sfx(n){
 }
 
 $('soundBtn').onclick=()=>{
-  unlockAudio();
   audioOn=!audioOn;
   bgmOn=audioOn;
   if(bgmOn){
+    unlockAudio();
     startBGM();
     sfx('tap');
     $('soundBtn').textContent='🔊';
@@ -4318,6 +4329,72 @@ try{
       };
     }
   },900);
+})();
+
+
+// v4.6.1 Phone APK Fix - immersive fullscreen + reliable mute guard
+(function(){
+  if(window.__GKL_V461_PHONE_FIX__) return;
+  window.__GKL_V461_PHONE_FIX__ = true;
+
+  function requestGameFullscreen(){
+    try{
+      const el=document.documentElement;
+      if(el.requestFullscreen) el.requestFullscreen().catch(()=>{});
+      else if(el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+    }catch(e){}
+  }
+
+  function applyViewportLock(){
+    try{
+      document.documentElement.style.height="100%";
+      document.body.style.height="100%";
+      document.body.style.overflow="hidden";
+      const game=document.getElementById("game");
+      if(game){
+        game.style.height="100dvh";
+        game.style.maxHeight="none";
+      }
+    }catch(e){}
+  }
+
+  ["pointerdown","touchstart","click"].forEach(function(ev){
+    window.addEventListener(ev,function(){
+      applyViewportLock();
+      requestGameFullscreen();
+    },{once:true,passive:true});
+  });
+
+  setInterval(function(){
+    try{
+      const btn=document.getElementById("soundBtn");
+      if(btn && btn.textContent==="🔇"){
+        if(typeof bgm!=="undefined" && bgm){
+          bgm.pause();
+          bgm.muted=true;
+        }
+        if(typeof audioOn!=="undefined") audioOn=false;
+        if(typeof bgmOn!=="undefined") bgmOn=false;
+      }
+    }catch(e){}
+  },600);
+
+  setTimeout(function(){
+    const btn=document.getElementById("soundBtn");
+    if(btn){
+      btn.addEventListener("click",function(){
+        setTimeout(function(){
+          try{
+            if(btn.textContent==="🔇" && typeof bgm!=="undefined" && bgm){
+              bgm.pause();
+              bgm.currentTime=0;
+              bgm.muted=true;
+            }
+          }catch(e){}
+        },80);
+      },true);
+    }
+  },500);
 })();
 
 </script>
