@@ -3947,5 +3947,46 @@ try{
 })();
 
 </script>
+
+<script>
+(function(){
+ if(window.__GKL_MP3_AUDIO__) return;
+ window.__GKL_MP3_AUDIO__=true;
+
+ const bgm=new Audio('bgm.mp3');
+ bgm.loop=true;
+ bgm.volume=0.30;
+
+ const sounds={
+  tap:'tap.mp3',swap:'swap.mp3',match:'match.mp3',
+  combo:'combo.mp3',booster:'booster.mp3',
+  shuffle:'shuffle.mp3',win:'win.mp3',lose:'lose.mp3'
+ };
+
+ function play(name){
+   try{
+     const a=new Audio(sounds[name]||sounds.tap);
+     a.volume=0.55;
+     a.play().catch(()=>{});
+   }catch(e){}
+ }
+
+ function startMusic(){ bgm.play().catch(()=>{}); }
+
+ window.GKLSound={
+   play:play,
+   music:startMusic,
+   toggle:function(){
+      if(bgm.paused){startMusic(); return true;}
+      bgm.pause(); return false;
+   }
+ };
+
+ ['pointerdown','touchstart','click'].forEach(ev=>{
+   window.addEventListener(ev,startMusic,{once:true});
+ });
+})();
+</script>
+
 </body>
 </html>
