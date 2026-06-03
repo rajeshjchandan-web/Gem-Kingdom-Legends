@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v4.4.3 MP3 Audio Fix</title>
+<title>Gem Kingdom Legends v4.5 Play Store Monetization Build</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -2347,6 +2347,32 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
   .nav{height:7.95%!important}
 }
 
+
+/* v4.5 Play Store Monetization Build */
+.adStatusPill{
+  position:absolute;
+  left:50%;
+  bottom:18.2%;
+  transform:translateX(-50%);
+  z-index:32;
+  background:rgba(0,0,0,.45);
+  color:#fff36b;
+  border:1px dashed rgba(255,223,69,.75);
+  border-radius:12px;
+  padding:3px 10px;
+  font-size:9px;
+  font-weight:1000;
+  pointer-events:none;
+  display:none;
+}
+.rewardGlow{
+  animation:rewardGlow 1.1s ease-in-out infinite;
+}
+@keyframes rewardGlow{
+  0%,100%{filter:drop-shadow(0 0 0 rgba(255,243,107,0))}
+  50%{filter:drop-shadow(0 0 10px rgba(255,243,107,.95))}
+}
+
 </style>
 </head>
 <body>
@@ -2367,7 +2393,7 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     </div>
   </div>
   <div class="levelUpPop" id="levelUpPop">LEVEL UP!</div>
-  <div class="versionTag">v4.4.3</div>
+  <div class="versionTag">v4.5</div>
   <div class="publisherBadge">APK READY</div>
 <div class="castle">🏰</div>
   <div class="logo"><div class="gem">GEM</div><div class="kingdom">KINGDOM</div><div class="legends">LEGENDS</div></div>
@@ -2512,6 +2538,37 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
   </section>
 
 
+
+  <section class="screen" id="monetizationScreen">
+    <h1>MONETIZATION</h1>
+    <div class="card">
+      <h2>✅ Ad Rewards Ready</h2>
+      <p>This build includes Play Store monetization hooks for Android AdMob integration.</p>
+    </div>
+    <div class="card">
+      <h2>Rewarded Ad Placements</h2>
+      <div class="storeChecklist">
+        <div>✅ +250 Coins rewarded video</div>
+        <div>✅ +5 Moves rewarded video</div>
+        <div>✅ Continue after losing</div>
+        <div>✅ Double level reward</div>
+        <div>✅ Bonus chest rewarded video</div>
+        <div>✅ Bonus lucky spin rewarded video</div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Banner Placement</h2>
+      <p>Banner ad hook is available but hidden during gameplay to avoid covering buttons.</p>
+      <button id="testBannerBtn" class="greenBtn">Toggle Test Banner</button>
+    </div>
+    <div class="card">
+      <h2>Production Note</h2>
+      <p>Replace Android test ad unit IDs in MainActivity before production release.</p>
+    </div>
+    <button class="back">Back to Game</button>
+  </section>
+
+
   <section class="screen" id="playStoreScreen">
     <h1>PLAY STORE READY</h1>
     <div class="card">
@@ -2549,6 +2606,7 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
   <div id="comboText" class="comboText">GREAT!</div>
   <div id="specialHint" class="specialHint">Rocket Created!</div>
   <div id="adBanner" class="adBanner">Banner Ad Space</div>
+  <div id="adStatusPill" class="adStatusPill">AD READY</div>
   <div id="toast" class="toast"></div>
   
   <div id="spinRewardModal" class="spinRewardModal">
@@ -2638,7 +2696,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v4.4.3 • Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v4.5 • Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
@@ -3963,6 +4021,174 @@ try{
     const board=document.getElementById('board');
     if(board)board.addEventListener('pointerdown',function(){try{if(typeof unlockAudio==='function')unlockAudio();if(typeof startBGM==='function')startBGM();}catch(e){}},{passive:true});
   },500);
+})();
+
+
+// v4.5 Play Store Monetization Bridge
+(function(){
+  if(window.__GKL_V45_MONETIZATION__) return;
+  window.__GKL_V45_MONETIZATION__ = true;
+
+  window.GKL_BUILD = Object.assign(window.GKL_BUILD || {}, {
+    version: "4.5",
+    name: "Gem Kingdom Legends",
+    channel: "play-store-monetization",
+    monetization: "admob-ready",
+    rewardedPlacements: [
+      "coins_250",
+      "extra_moves_5",
+      "continue_after_lose",
+      "double_level_reward",
+      "bonus_chest",
+      "bonus_spin"
+    ],
+    bannerPlacement: "optional_footer_safe"
+  });
+
+  function showAdStatus(text){
+    const p=document.getElementById("adStatusPill");
+    if(!p)return;
+    p.textContent=text||"AD READY";
+    p.style.display="block";
+    setTimeout(()=>{p.style.display="none"},1300);
+  }
+
+  function callAndroidRewarded(placement,onReward){
+    try{
+      if(window.AndroidAds && typeof window.AndroidAds.showRewardedAd === "function"){
+        window.__GKL_PENDING_REWARD__ = onReward;
+        window.__GKL_PENDING_REWARD_PLACEMENT__ = placement;
+        showAdStatus("AD LOADING");
+        window.AndroidAds.showRewardedAd(placement);
+        return true;
+      }
+    }catch(e){}
+    return false;
+  }
+
+  window.GKLShowRewarded = function(placement,onReward){
+    if(typeof placement === "function"){
+      onReward = placement;
+      placement = "generic_reward";
+    }
+    if(callAndroidRewarded(placement,onReward)) return;
+
+    // Web / APK fallback: simulate completed rewarded ad for testing.
+    showAdStatus("TEST REWARD");
+    setTimeout(function(){
+      try{
+        if(typeof onReward === "function") onReward();
+      }catch(e){}
+    },450);
+  };
+
+  window.GKLOnRewardedAdEarned = function(){
+    try{
+      if(typeof window.__GKL_PENDING_REWARD__ === "function"){
+        const cb = window.__GKL_PENDING_REWARD__;
+        window.__GKL_PENDING_REWARD__ = null;
+        cb();
+      }
+      showAdStatus("REWARD CLAIMED");
+    }catch(e){}
+  };
+
+  window.GKLOnRewardedAdClosed = function(){
+    window.__GKL_PENDING_REWARD__ = null;
+    showAdStatus("AD CLOSED");
+  };
+
+  window.GKLShowBanner = function(show){
+    const b=document.getElementById("adBanner");
+    if(!b)return;
+    b.style.display=show ? "flex" : "none";
+  };
+
+  // Rebind rewarded buttons safely after existing scripts load.
+  setTimeout(function(){
+    const adCoins=document.getElementById("adCoinsBtn");
+    if(adCoins){
+      adCoins.onclick=function(e){
+        if(e){e.preventDefault();e.stopPropagation();}
+        window.GKLShowRewarded("coins_250",function(){
+          try{
+            const p=JSON.parse(localStorage.getItem("gkl_v22")||"{}");
+            p.coins=(p.coins||0)+250;
+            localStorage.setItem("gkl_v22",JSON.stringify(p));
+            if(window.profile){Object.assign(profile,p);updateTop();}
+            if(typeof toast==="function")toast("Rewarded Ad +250 Coins");
+            if(typeof flyCoin==="function")flyCoin();
+            if(typeof sfx==="function")sfx("win");
+          }catch(err){}
+        });
+      };
+    }
+
+    const adChest=document.getElementById("adChestBtn");
+    if(adChest){
+      adChest.onclick=function(e){
+        if(e){e.preventDefault();e.stopPropagation();}
+        window.GKLShowRewarded("bonus_chest",function(){
+          try{
+            if(typeof GKLAddChest==="function"){
+              GKLAddChest("bronze",1);
+              if(typeof toast==="function")toast("Rewarded Chest Earned");
+            }
+          }catch(err){}
+        });
+      };
+    }
+
+    const doubleReward=document.getElementById("doubleRewardBtn");
+    if(doubleReward){
+      doubleReward.onclick=function(){
+        window.GKLShowRewarded("double_level_reward",function(){
+          try{ if(typeof claimPendingReward==="function")claimPendingReward(2); }catch(e){}
+        });
+      };
+    }
+
+    const continueBtn=document.getElementById("continueBtn");
+    if(continueBtn){
+      continueBtn.onclick=function(){
+        window.GKLShowRewarded("continue_after_lose",function(){
+          try{
+            moves+=5;
+            ended=false;
+            const modal=document.getElementById("modal");
+            if(modal)modal.style.display="none";
+            updateTop();
+            render();
+            toast("+5 Moves");
+          }catch(e){}
+        });
+      };
+    }
+
+    const extraMovesBtn=document.getElementById("extraMovesBtn");
+    if(extraMovesBtn){
+      extraMovesBtn.classList.add("rewardGlow");
+    }
+
+    const testBannerBtn=document.getElementById("testBannerBtn");
+    if(testBannerBtn){
+      testBannerBtn.onclick=function(){
+        const b=document.getElementById("adBanner");
+        const showing=b && b.style.display==="flex";
+        window.GKLShowBanner(!showing);
+      };
+    }
+
+    const ps=document.getElementById("playStoreReadyBtn");
+    if(ps){
+      ps.textContent="OPEN MONETIZATION";
+      ps.onclick=function(){
+        document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+        const screen=document.getElementById("monetizationScreen");
+        if(screen)screen.classList.add("active");
+      };
+    }
+  },1000);
 })();
 
 </script>
