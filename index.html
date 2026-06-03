@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v4.3.6 XP Audio Fix</title>
+<title>Gem Kingdom Legends v4.4 Clean Stable Build</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -2110,6 +2110,243 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
   .nav{height:8.0%!important}
 }
 
+
+/* v4.4 CLEAN STABLE HUD AUTHORITY - single final layout */
+.publisherBadge{display:none!important}
+.levelPath{display:none!important;visibility:hidden!important;height:0!important;pointer-events:none!important}
+
+/* Top logo and resource row */
+.logo{
+  top:calc(0.7% + env(safe-area-inset-top))!important;
+  left:52%!important;
+  width:50%!important;
+  transform:translateX(-50%) scale(.86)!important;
+  z-index:20!important;
+}
+.logo .gem{font-size:42px!important}
+.logo .kingdom{font-size:31px!important;white-space:nowrap!important}
+.logo .legends{font-size:14px!important;padding:2px 18px!important}
+.topBars{
+  top:calc(1.2% + env(safe-area-inset-top))!important;
+  left:1.1%!important;
+  width:29.5%!important;
+  z-index:42!important;
+  gap:5px!important;
+}
+.pill{
+  height:29px!important;
+  font-size:12px!important;
+  padding:0 5px!important;
+}
+.pill .ic{font-size:18px!important}
+.pill .plus{width:21px!important;height:21px!important}
+
+/* Quest and sound buttons */
+.questTopBtn{
+  top:calc(1.1% + env(safe-area-inset-top))!important;
+  right:14.8%!important;
+  width:48px!important;
+  height:50px!important;
+  z-index:43!important;
+}
+.sideBtns{
+  top:calc(1.1% + env(safe-area-inset-top))!important;
+  right:1.2%!important;
+  gap:7px!important;
+  z-index:43!important;
+}
+.roundBtn{
+  width:44px!important;
+  height:44px!important;
+  font-size:22px!important;
+}
+
+/* XP is now a dedicated row under the logo, NOT under the star counter */
+.metaHud{
+  position:absolute!important;
+  top:calc(15.8% + env(safe-area-inset-top))!important;
+  left:7%!important;
+  right:7%!important;
+  height:48px!important;
+  display:grid!important;
+  grid-template-columns:58px 1fr!important;
+  align-items:center!important;
+  z-index:37!important;
+  pointer-events:none!important;
+}
+.metaLevel{
+  position:relative!important;
+  left:auto!important;
+  top:auto!important;
+  width:58px!important;
+  height:58px!important;
+  border-radius:16px!important;
+  font-size:11px!important;
+  z-index:38!important;
+}
+.metaLevel b{
+  font-size:27px!important;
+  line-height:26px!important;
+}
+.xpHud{
+  position:relative!important;
+  left:auto!important;
+  right:auto!important;
+  top:auto!important;
+  height:34px!important;
+  margin-left:-8px!important;
+  border-radius:15px!important;
+  display:grid!important;
+  grid-template-columns:45px minmax(80px,1fr) 46px!important;
+  align-items:center!important;
+  gap:5px!important;
+  padding:0 7px 0 14px!important;
+  overflow:hidden!important;
+  pointer-events:none!important;
+}
+.xpLabel{font-size:11px!important;white-space:nowrap!important}
+.xpTrack{
+  width:100%!important;
+  min-width:0!important;
+  height:16px!important;
+  border-radius:10px!important;
+  overflow:hidden!important;
+  background:#10001f!important;
+  border:2px solid #ff52ff!important;
+}
+.xpHudFill{
+  display:block!important;
+  position:static!important;
+  height:100%!important;
+  width:0%;
+  min-width:0!important;
+  border-radius:8px!important;
+  background:linear-gradient(90deg,#20ff5d,#8cff38,#fff36b)!important;
+  opacity:1!important;
+  transition:width .25s ease!important;
+}
+.xpHudText{
+  position:static!important;
+  font-size:10px!important;
+  white-space:nowrap!important;
+}
+
+/* Stats row below XP */
+.stats{
+  top:calc(27.1% + env(safe-area-inset-top))!important;
+  left:17%!important;
+  right:17%!important;
+  height:50px!important;
+  z-index:30!important;
+}
+.levelBadge{
+  top:calc(26.3% + env(safe-area-inset-top))!important;
+  left:3%!important;
+  width:14.5%!important;
+  height:60px!important;
+  font-size:24px!important;
+  z-index:31!important;
+}
+.king{
+  top:calc(26.4% + env(safe-area-inset-top))!important;
+  right:3%!important;
+  width:14.8%!important;
+  font-size:33px!important;
+  z-index:31!important;
+}
+.stat small{font-size:10px!important}
+.stat b{font-size:20px!important}
+
+/* Large board + objective below board */
+.boardWrap{
+  top:calc(35.3% + env(safe-area-inset-top))!important;
+  height:38.8%!important;
+  left:12%!important;
+  right:12%!important;
+  z-index:18!important;
+}
+.sidePanel{
+  top:47.6%!important;
+  width:10%!important;
+  height:16.0%!important;
+  z-index:17!important;
+}
+.sidePanel.left{left:.7%!important}
+.sidePanel.right{right:.7%!important}
+.mission{
+  top:calc(75.8% + env(safe-area-inset-top))!important;
+  left:7%!important;
+  right:7%!important;
+  height:37px!important;
+  z-index:34!important;
+  border-radius:19px!important;
+  font-size:13px!important;
+  padding:5px 10px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+
+/* Footer */
+.boosters{
+  bottom:8.18%!important;
+  height:9.45%!important;
+  left:1.7%!important;
+  right:1.7%!important;
+  z-index:35!important;
+}
+.nav{
+  bottom:0!important;
+  height:8.05%!important;
+  z-index:36!important;
+}
+.versionTag{
+  bottom:8.45%!important;
+  right:5px!important;
+  z-index:50!important;
+}
+
+/* Stars */
+.filledStar{color:#ffd93b!important;text-shadow:0 0 8px #fff36b,0 2px #5a2c00!important}
+.emptyStar{color:#fff!important;opacity:.95!important}
+
+/* Short phone safety */
+@media(max-height:790px){
+  .logo{transform:translateX(-50%) scale(.78)!important}
+  .topBars{top:calc(.8% + env(safe-area-inset-top))!important}
+  .pill{height:27px!important;font-size:11px!important}
+  .questTopBtn{height:46px!important;width:45px!important}
+  .roundBtn{width:41px!important;height:41px!important}
+  .metaHud{
+    top:calc(14.6% + env(safe-area-inset-top))!important;
+    left:7%!important;
+    right:7%!important;
+    height:43px!important;
+    grid-template-columns:52px 1fr!important;
+  }
+  .metaLevel{width:52px!important;height:52px!important}
+  .metaLevel b{font-size:24px!important}
+  .xpHud{
+    height:30px!important;
+    grid-template-columns:38px minmax(62px,1fr) 39px!important;
+    padding:0 5px 0 11px!important;
+  }
+  .xpLabel{font-size:9.5px!important}
+  .xpTrack{height:14px!important}
+  .xpHudText{font-size:9px!important}
+  .stats{top:calc(25.9% + env(safe-area-inset-top))!important;height:47px!important}
+  .levelBadge{top:calc(25.2% + env(safe-area-inset-top))!important;height:55px!important;font-size:22px!important}
+  .king{top:calc(25.3% + env(safe-area-inset-top))!important;font-size:30px!important}
+  .boardWrap{top:calc(34.1% + env(safe-area-inset-top))!important;height:39.3%!important}
+  .sidePanel{top:46.5%!important;height:15.6%!important}
+  .mission{top:calc(74.9% + env(safe-area-inset-top))!important;height:34px!important;font-size:12px!important}
+  .boosters{bottom:8.02%!important;height:9.25%!important}
+  .nav{height:7.95%!important}
+}
+
 </style>
 </head>
 <body>
@@ -2130,7 +2367,7 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     </div>
   </div>
   <div class="levelUpPop" id="levelUpPop">LEVEL UP!</div>
-  <div class="versionTag">v4.3.6</div>
+  <div class="versionTag">v4.4</div>
   <div class="publisherBadge">APK READY</div>
 <div class="castle">🏰</div>
   <div class="logo"><div class="gem">GEM</div><div class="kingdom">KINGDOM</div><div class="legends">LEGENDS</div></div>
@@ -2401,7 +2638,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v4.3.6 • Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v4.4 • Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
@@ -2800,18 +3037,102 @@ $('dailyBtn').onclick=()=>{const d=new Date().toDateString();if(profile.dailyDat
 $('eventReward').onclick=()=>{profile.coins+=100;try{flyCoin()}catch(e){} save();updateTop();toast('+100 Event Coins')};$('adCoinsBtn').onclick=()=>{profile.coins+=250;try{flyCoin()}catch(e){} save();updateTop();toast('Rewarded Video +250')};
 $('upgradeKingdom').onclick=()=>{if(profile.stars<10)return toast('Need 10 stars');profile.stars-=10;profile.kingdom++;save();updateTop();toast('Kingdom upgraded')};$('nextBtn').onclick=()=>{if(!profile.pendingRewardClaimed&&profile.pendingReward>0)claimPendingReward(1);modal.style.display='none';showInterstitialAd();startLevel(profile.current)}; if($('replayBtn'))$('replayBtn').onclick=()=>{modal.style.display='none';startLevel(profile.current)};$('settingsBtn').onclick=()=>toast('Settings soon');
 
-let audioOn=true,bgmOn=true,audioReady=false;let ctx=null,osc=null,gain=null;
-const sounds={tap:'tap.mp3',swap:'swap.mp3',match:'match.mp3',combo:'combo.mp3',booster:'booster.mp3',shuffle:'shuffle.mp3',win:'win.mp3',lose:'lose.mp3'};
-const audio={};Object.keys(sounds).forEach(k=>{try{audio[k]=new Audio('assets/audio/'+sounds[k]);audio[k].volume=.75;audio[k].preload='auto'}catch(e){}});
-const bgm=new Audio('assets/audio/bgm.mp3');bgm.loop=true;bgm.volume=.25;
-function getCtx(){if(!ctx){const AC=window.AudioContext||window.webkitAudioContext;if(AC)ctx=new AC()}if(ctx&&ctx.state==='suspended')ctx.resume().catch(()=>{});return ctx}
-function fallback(freq=440,dur=.08){if(!audioOn)return;const c=getCtx();if(!c)return;const o=c.createOscillator(),g=c.createGain();o.frequency.value=freq;g.gain.value=.045;o.connect(g);g.connect(c.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+dur);o.stop(c.currentTime+dur+.02)}
-function musicFallback(){const c=getCtx();if(!c||osc)return;osc=c.createOscillator();gain=c.createGain();osc.frequency.value=174;gain.gain.value=.012;osc.connect(gain);gain.connect(c.destination);osc.start()}
-function stopMusic(){try{bgm.pause();if(osc){osc.stop();osc.disconnect();gain.disconnect();osc=null;gain=null}}catch(e){}}
-function unlockAudio(){if(audioReady)return;audioReady=true;getCtx();if(bgmOn)bgm.play().catch(()=>musicFallback())}
-function sfx(n){if(!audioOn)return;unlockAudio();try{let a=audio[n].cloneNode(true);a.play().catch(()=>fallback(n==='lose'?150:n==='win'?850:n==='match'?720:420))}catch(e){fallback(420)}}
-$('soundBtn').onclick=()=>{unlockAudio();audioOn=!audioOn;bgmOn=!bgmOn;if(bgmOn)bgm.play().catch(()=>musicFallback());else stopMusic();toast(audioOn?'Sound On':'Sound Off')};
-['pointerdown','touchstart','click','keydown'].forEach(ev=>window.addEventListener(ev,unlockAudio,{once:true,passive:true}));
+
+// v4.4 CLEAN SINGLE AUDIO SYSTEM - no MP3 dependency, Android WebView safe
+let audioOn = true, bgmOn = true, audioReady = false;
+let ctx = null, masterGain = null, bgmTimer = null, bgmStep = 0;
+const bgmBass = [98,123.47,146.83,123.47,110,130.81,164.81,130.81];
+const bgmLead = [196,246.94,293.66,246.94,220,261.63,329.63,261.63];
+
+function getCtx(){
+  try{
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if(!AC) return null;
+    if(!ctx){
+      ctx = new AC();
+      masterGain = ctx.createGain();
+      masterGain.gain.value = 0.95;
+      masterGain.connect(ctx.destination);
+    }
+    if(ctx.state === 'suspended') ctx.resume().catch(()=>{});
+    return ctx;
+  }catch(e){ return null; }
+}
+
+function tone(freq=440,dur=.08,type='triangle',vol=.055){
+  if(!audioOn) return;
+  const c = getCtx();
+  if(!c || !masterGain) return;
+  const o = c.createOscillator();
+  const g = c.createGain();
+  o.type = type;
+  o.frequency.setValueAtTime(freq, c.currentTime);
+  g.gain.setValueAtTime(0.0001, c.currentTime);
+  g.gain.exponentialRampToValueAtTime(vol, c.currentTime + 0.012);
+  g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + dur);
+  o.connect(g);
+  g.connect(masterGain);
+  o.start(c.currentTime);
+  o.stop(c.currentTime + dur + .03);
+}
+
+function startBGM(){
+  if(!bgmOn || bgmTimer) return;
+  getCtx();
+  bgmTimer = setInterval(()=>{
+    if(!audioOn || !bgmOn) return;
+    const i = bgmStep++ % bgmLead.length;
+    tone(bgmBass[i], .34, 'sine', .020);
+    setTimeout(()=>tone(bgmLead[i], .20, 'triangle', .024), 90);
+    setTimeout(()=>tone(bgmLead[i]*1.5, .15, 'sine', .012), 210);
+  }, 540);
+}
+
+function stopBGM(){
+  if(bgmTimer){
+    clearInterval(bgmTimer);
+    bgmTimer = null;
+  }
+}
+
+function unlockAudio(){
+  if(audioReady) {
+    if(bgmOn) startBGM();
+    return;
+  }
+  audioReady = true;
+  getCtx();
+  if(bgmOn) startBGM();
+}
+
+function sfx(name){
+  if(!audioOn) return;
+  unlockAudio();
+  if(name==='tap') tone(620,.055,'triangle',.055);
+  else if(name==='swap'){ tone(720,.07,'triangle',.06); setTimeout(()=>tone(860,.055,'triangle',.04),55); }
+  else if(name==='match'){ tone(880,.10,'sine',.075); setTimeout(()=>tone(1120,.07,'sine',.045),70); }
+  else if(name==='combo'){ tone(980,.10,'square',.08); setTimeout(()=>tone(1260,.09,'triangle',.055),75); }
+  else if(name==='booster'){ tone(430,.11,'triangle',.065); setTimeout(()=>tone(760,.12,'sine',.05),80); }
+  else if(name==='shuffle'){ tone(420,.06,'sawtooth',.05); setTimeout(()=>tone(620,.06,'triangle',.05),70); setTimeout(()=>tone(820,.07,'sine',.045),140); }
+  else if(name==='win'){ [660,880,1100,1320].forEach((f,i)=>setTimeout(()=>tone(f,.14,'triangle',.075),i*95)); }
+  else if(name==='lose'){ [260,210,170].forEach((f,i)=>setTimeout(()=>tone(f,.16,'sawtooth',.055),i*110)); }
+  else tone(540,.06,'triangle',.045);
+}
+
+$('soundBtn').onclick = ()=>{
+  unlockAudio();
+  audioOn = !audioOn;
+  bgmOn = audioOn;
+  if(bgmOn){ startBGM(); sfx('tap'); }
+  else stopBGM();
+  $('soundBtn').textContent = audioOn ? '🔊' : '🔇';
+  toast(audioOn ? 'Sound On' : 'Sound Off');
+};
+
+['pointerdown','touchstart','click','keydown'].forEach(ev=>{
+  window.addEventListener(ev, unlockAudio, {passive:true});
+});
+
 
 // v2.5 commercial gameplay polish helpers
 function screenPointForCell(x,y){
@@ -3543,133 +3864,86 @@ try{
 })();
 
 
-// v4.3.3 FINAL AUDIO FIX - APK safe WebAudio SFX + BGM
+
+// v4.4 CLEAN XP + STAR BRIDGE - lightweight only
 (function(){
-  if(window.__GKL_FINAL_AUDIO_433__) return;
-  window.__GKL_FINAL_AUDIO_433__ = true;
-  let enabled = true, ctx = null, bgmTimer = null, bgmStep = 0;
-  const notes = [174,220,261.63,220,196,246.94,293.66,246.94];
+  if(window.__GKL_V44_BRIDGE__) return;
+  window.__GKL_V44_BRIDGE__ = true;
+  const KEY='gkl_v22';
 
-  function context(){
-    try{
-      const AC = window.AudioContext || window.webkitAudioContext;
-      if(!AC) return null;
-      if(!ctx) ctx = new AC();
-      if(ctx.state === "suspended") ctx.resume().catch(function(){});
-      return ctx;
-    }catch(e){return null}
+  function read(){try{return JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){return {}}}
+  function write(p){localStorage.setItem(KEY,JSON.stringify(p))}
+  function ensure(){
+    const p=read();
+    if(!p.playerLevel)p.playerLevel=1;
+    if(typeof p.playerXP!=='number')p.playerXP=0;
+    write(p);
+    return p;
   }
 
-  function tone(freq,dur,vol,type){
-    if(!enabled) return;
-    const c = context(); if(!c) return;
-    const o = c.createOscillator(), g = c.createGain();
-    o.type = type || "triangle";
-    o.frequency.setValueAtTime(freq, c.currentTime);
-    g.gain.setValueAtTime(0.0001, c.currentTime);
-    g.gain.exponentialRampToValueAtTime(vol || 0.04, c.currentTime + 0.012);
-    g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + dur);
-    o.connect(g); g.connect(c.destination);
-    o.start(c.currentTime);
-    o.stop(c.currentTime + dur + 0.03);
+  function updateXP(){
+    const p=ensure();
+    const need=100;
+    const xp=Math.max(0,Math.min(need,p.playerXP||0));
+    const fill=document.getElementById('xpHudFill');
+    const text=document.getElementById('xpHudText');
+    const badge=document.getElementById('profileBadge');
+    if(fill)fill.style.width=Math.round(xp/need*100)+'%';
+    if(text)text.textContent=xp+'/'+need;
+    if(badge)badge.innerHTML='P-LV<br><b>'+(p.playerLevel||1)+'</b>';
   }
 
-  function playSfx(name){
-    const map = {
-      tap:[520,.045,.035,"triangle"],
-      swap:[650,.055,.040,"triangle"],
-      match:[820,.080,.050,"sine"],
-      combo:[980,.120,.060,"square"],
-      booster:[430,.090,.045,"triangle"],
-      shuffle:[700,.100,.050,"sawtooth"],
-      win:[1050,.180,.060,"triangle"],
-      lose:[170,.180,.060,"sawtooth"]
-    };
-    const s = map[name] || [440,.07,.04,"triangle"];
-    tone(s[0],s[1],s[2],s[3]);
-    if(name==="win") setTimeout(function(){tone(1320,.14,.05,"triangle")},90);
-    if(name==="combo") setTimeout(function(){tone(1240,.10,.045,"square")},70);
-  }
-
-  function startBgm(){
-    if(!enabled || bgmTimer) return;
-    context();
-    bgmTimer = setInterval(function(){
-      if(!enabled) return;
-      const f = notes[bgmStep % notes.length];
-      bgmStep++;
-      tone(f,.18,.012,"sine");
-      setTimeout(function(){tone(f*1.5,.14,.007,"triangle")},90);
-    },520);
-  }
-
-  function stopBgm(){ if(bgmTimer){clearInterval(bgmTimer); bgmTimer=null;} }
-
-  window.GKLSound = {
-    play: playSfx,
-    music: startBgm,
-    stopMusic: stopBgm,
-    toggle: function(){
-      enabled = !enabled;
-      if(enabled){startBgm();playSfx("tap");} else stopBgm();
-      try{toast(enabled ? "Sound On" : "Sound Off")}catch(e){}
-      return enabled;
+  window.GKLAddXP=function(amount){
+    const p=ensure();
+    p.playerXP=(p.playerXP||0)+Math.max(0,amount||0);
+    while(p.playerXP>=100){
+      p.playerXP-=100;
+      p.playerLevel=(p.playerLevel||1)+1;
+      p.coins=(p.coins||0)+150;
+      p.boosters=p.boosters||{};
+      p.boosters.hammer=(p.boosters.hammer||0)+1;
+      try{toast('Player Level Up!')}catch(e){}
     }
+    write(p);
+    updateXP();
   };
 
-  document.addEventListener("click",function(e){
-    if(!enabled) return;
-    const btn = e.target && e.target.closest ? e.target.closest("button") : null;
-    if(btn) playSfx("tap");
-  },true);
+  const oldRender=window.GKLRenderMeta;
+  window.GKLRenderMeta=function(){
+    try{if(typeof oldRender==='function')oldRender()}catch(e){}
+    updateXP();
+    paintStars();
+  };
+
+  function paintStars(){
+    const e=document.getElementById('starsText');
+    if(!e)return;
+    const raw=e.textContent||'';
+    const count=(raw.match(/★/g)||[]).length;
+    e.innerHTML=
+      '<span class="'+(count>=1?'filledStar':'emptyStar')+'">★</span>'+
+      '<span class="'+(count>=2?'filledStar':'emptyStar')+'">★</span>'+
+      '<span class="'+(count>=3?'filledStar':'emptyStar')+'">★</span>';
+  }
+
+  let lastGoal='',lastMoves='';
+  setInterval(function(){
+    const g=document.getElementById('goalText');
+    const m=document.getElementById('movesText');
+    const gt=g?g.textContent:'';
+    const mt=m?m.textContent:'';
+    if(lastGoal && gt!==lastGoal) window.GKLAddXP(5);
+    if(lastMoves && mt!==lastMoves) window.GKLAddXP(1);
+    lastGoal=gt;
+    lastMoves=mt;
+    updateXP();
+    paintStars();
+  },1000);
 
   setTimeout(function(){
-    const soundBtn = document.getElementById("soundBtn");
-    if(soundBtn){
-      soundBtn.onclick = function(e){
-        if(e){e.preventDefault();e.stopPropagation();}
-        window.GKLSound.toggle();
-      };
-    }
-    ["pointerdown","touchstart","click"].forEach(function(ev){
-      window.addEventListener(ev,function(){context();startBgm();playSfx("tap");},{once:true,passive:true});
-    });
-  },600);
-})();
-
-
-// v4.3.6 SAFE XP + LOUDER BGM PATCH
-(function(){
- if(window.__GKL_V436_FINAL__)return; window.__GKL_V436_FINAL__=true;
- const KEY="gkl_v22";
- function read(){try{return JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){return {}}}
- function write(p){localStorage.setItem(KEY,JSON.stringify(p))}
- function ensure(){const p=read();if(!p.playerLevel)p.playerLevel=1;if(typeof p.playerXP!=="number")p.playerXP=0;if(!p.levelStars)p.levelStars={};write(p);return p}
- function updateXP(){const p=ensure(),xp=Math.max(0,Math.min(100,p.playerXP||0));const f=document.getElementById("xpHudFill"),t=document.getElementById("xpHudText"),b=document.getElementById("profileBadge");if(f)f.style.width=xp+"%";if(t)t.textContent=xp+"/100";if(b)b.innerHTML="P-LV<br><b>"+(p.playerLevel||1)+"</b>"}
- function addXP(a){const p=ensure();p.playerXP=(p.playerXP||0)+Math.max(0,a||0);let up=false;while(p.playerXP>=100){p.playerXP-=100;p.playerLevel=(p.playerLevel||1)+1;p.coins=(p.coins||0)+150;p.boosters=p.boosters||{};p.boosters.hammer=(p.boosters.hammer||0)+1;up=true}write(p);updateXP();if(up){try{toast("Player Level Up!")}catch(e){}}}
- window.GKLAddXP=addXP;
- const oldRender=window.GKLRenderMeta;
- window.GKLRenderMeta=function(){try{if(typeof oldRender==="function")oldRender()}catch(e){}updateXP();updateStars()};
- function num(id){const e=document.getElementById(id);return parseInt(((e&&e.textContent)||"").replace(/[^0-9]/g,"")||"0",10)}
- function calcStars(){const g=document.getElementById("goalText");if(!g)return 0;const raw=g.textContent||"";let got=0,total=0;if(raw.indexOf("/")>=0){const a=raw.split("/");got=parseInt((a[0]||"0").replace(/[^0-9]/g,"")||"0",10);total=parseInt((a[1]||"0").replace(/[^0-9]/g,"")||"0",10)}else{total=25;got=Math.max(0,Math.min(total,total-num("movesText")))}if(total<=0)return 0;const r=got/total;return r>=1?3:r>=.66?2:r>=.33?1:0}
- function updateStars(){const e=document.getElementById("starsText");if(!e)return;const s=calcStars();e.innerHTML='<span class="'+(s>=1?'filledStar':'emptyStar')+'">★</span><span class="'+(s>=2?'filledStar':'emptyStar')+'">★</span><span class="'+(s>=3?'filledStar':'emptyStar')+'">★</span>'}
- let lastG="",lastM="";
- setInterval(function(){const g=document.getElementById("goalText"),m=document.getElementById("movesText");const gt=g?g.textContent:"",mt=m?m.textContent:"";if(lastG&&gt!==lastG){addXP(5);try{window.GKLAudio.play("match")}catch(e){}}if(lastM&&mt!==lastM)addXP(1);lastG=gt;lastM=mt;updateStars();updateXP()},900);
-
- let enabled=true,ctx=null,master=null,bgmTimer=null,step=0;
- const bass=[98,123.47,146.83,123.47,110,130.81,164.81,130.81];
- const lead=[196,246.94,293.66,246.94,220,261.63,329.63,261.63];
- function ac(){try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return null;if(!ctx){ctx=new AC();master=ctx.createGain();master.gain.value=1.0;master.connect(ctx.destination)}if(ctx.state==="suspended")ctx.resume().catch(function(){});return ctx}catch(e){return null}}
- function tone(freq,dur,vol,type){if(!enabled)return;const c=ac();if(!c||!master)return;const o=c.createOscillator(),g=c.createGain();o.type=type||"triangle";o.frequency.setValueAtTime(freq,c.currentTime);g.gain.setValueAtTime(.0001,c.currentTime);g.gain.exponentialRampToValueAtTime(vol||.06,c.currentTime+.015);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+dur);o.connect(g);g.connect(master);o.start(c.currentTime);o.stop(c.currentTime+dur+.04)}
- function playSfx(name){const map={tap:[620,.055,.055,"triangle"],swap:[740,.075,.065,"triangle"],match:[900,.11,.075,"sine"],combo:[1150,.14,.085,"square"],booster:[430,.12,.065,"triangle"],shuffle:[680,.13,.065,"sawtooth"],win:[1100,.2,.085,"triangle"],lose:[170,.22,.07,"sawtooth"]};const s=map[name]||map.tap;tone(s[0],s[1],s[2],s[3]);if(name==="match")setTimeout(()=>tone(s[0]*1.25,.07,.045,"sine"),70);if(name==="win")setTimeout(()=>tone(1400,.16,.07,"triangle"),100)}
- function startBGM(){if(!enabled||bgmTimer)return;ac();bgmTimer=setInterval(function(){if(!enabled)return;const i=step++%lead.length;tone(bass[i],.35,.025,"sine");setTimeout(()=>tone(lead[i],.22,.026,"triangle"),90);setTimeout(()=>tone(lead[i]*1.5,.16,.014,"sine"),210)},520)}
- function stopBGM(){if(bgmTimer){clearInterval(bgmTimer);bgmTimer=null}}
- window.GKLAudio={play:playSfx,music:startBGM,stop:stopBGM,toggle:function(){ac();enabled=!enabled;if(enabled){startBGM();playSfx("tap")}else stopBGM();try{toast(enabled?"Sound On":"Sound Off")}catch(e){}return enabled}};
- window.GKLSound=window.GKLAudio; window.sfx=playSfx;
- function unlock(){ac();startBGM();playSfx("tap")}
- ["pointerdown","touchstart","click","keydown"].forEach(function(ev){window.addEventListener(ev,unlock,{passive:true})});
- document.addEventListener("click",function(e){const btn=e.target&&e.target.closest?e.target.closest("button"):null;if(btn){unlock();playSfx("tap")}},true);
- setTimeout(function(){const btn=document.getElementById("soundBtn");if(btn){btn.onclick=function(e){if(e){e.preventDefault();e.stopPropagation()}window.GKLAudio.toggle()}}updateXP();updateStars();const te=document.getElementById("toast");if(te)te.classList.remove("show")},500);
+    updateXP();
+    paintStars();
+  },500);
 })();
 
 </script>
