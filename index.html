@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v4.4 Clean Stable Build</title>
+<title>Gem Kingdom Legends v4.4.2 Audio Lock</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -2367,7 +2367,7 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     </div>
   </div>
   <div class="levelUpPop" id="levelUpPop">LEVEL UP!</div>
-  <div class="versionTag">v4.4</div>
+  <div class="versionTag">v4.4.2</div>
   <div class="publisherBadge">APK READY</div>
 <div class="castle">🏰</div>
   <div class="logo"><div class="gem">GEM</div><div class="kingdom">KINGDOM</div><div class="legends">LEGENDS</div></div>
@@ -2638,7 +2638,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v4.4 • Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v4.4.2 • Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
@@ -3039,10 +3039,46 @@ $('upgradeKingdom').onclick=()=>{if(profile.stars<10)return toast('Need 10 stars
 
 
 // v4.4 CLEAN SINGLE AUDIO SYSTEM - no MP3 dependency, Android WebView safe
-let audioOn = true, bgmOn = true, audioReady = false;
-let ctx = null, masterGain = null, bgmTimer = null, bgmStep = 0;
-const bgmBass = [98,123.47,146.83,123.47,110,130.81,164.81,130.81];
-const bgmLead = [196,246.94,293.66,246.94,220,261.63,329.63,261.63];
+
+// v4.4.2 AUDIO LOCK - real MP3 first, Android-safe, with tiny fallback only if file missing
+let audioOn = true;
+let bgmOn = true;
+let audioReady = false;
+let ctx = null;
+let masterGain = null;
+let bgm = null;
+const AUDIO_PATHS = ['', 'assets/audio/', './', './assets/audio/'];
+const AUDIO_FILES = {
+  tap:'tap.mp3',
+  swap:'swap.mp3',
+  match:'match.mp3',
+  combo:'combo.mp3',
+  booster:'booster.mp3',
+  shuffle:'shuffle.mp3',
+  win:'win.mp3',
+  lose:'lose.mp3',
+  bgm:'bgm.mp3'
+};
+const audioCache = {};
+
+function makeAudio(src, loop=false, volume=0.6){
+  try{
+    const a = new Audio(src);
+    a.loop = loop;
+    a.volume = volume;
+    a.preload = 'auto';
+    a.setAttribute('playsinline','true');
+    return a;
+  }catch(e){ return null; }
+}
+
+function preloadAudio(){
+  Object.keys(AUDIO_FILES).forEach(k=>{
+    if(k==='bgm') return;
+    audioCache[k] = AUDIO_PATHS.map(p=>makeAudio(p + AUDIO_FILES[k], false, k==='tap'?0.38:0.65)).filter(Boolean);
+  });
+  bgm = makeAudio(AUDIO_PATHS[0] + AUDIO_FILES.bgm, true, 0.32);
+}
 
 function getCtx(){
   try{
@@ -3051,7 +3087,7 @@ function getCtx(){
     if(!ctx){
       ctx = new AC();
       masterGain = ctx.createGain();
-      masterGain.gain.value = 0.95;
+      masterGain.gain.value = 0.75;
       masterGain.connect(ctx.destination);
     }
     if(ctx.state === 'suspended') ctx.resume().catch(()=>{});
@@ -3059,7 +3095,7 @@ function getCtx(){
   }catch(e){ return null; }
 }
 
-function tone(freq=440,dur=.08,type='triangle',vol=.055){
+function fallbackTone(freq=440,dur=.07,type='triangle',vol=.04){
   if(!audioOn) return;
   const c = getCtx();
   if(!c || !masterGain) return;
@@ -3068,7 +3104,7 @@ function tone(freq=440,dur=.08,type='triangle',vol=.055){
   o.type = type;
   o.frequency.setValueAtTime(freq, c.currentTime);
   g.gain.setValueAtTime(0.0001, c.currentTime);
-  g.gain.exponentialRampToValueAtTime(vol, c.currentTime + 0.012);
+  g.gain.exponentialRampToValueAtTime(vol, c.currentTime + .012);
   g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + dur);
   o.connect(g);
   g.connect(masterGain);
@@ -3076,61 +3112,76 @@ function tone(freq=440,dur=.08,type='triangle',vol=.055){
   o.stop(c.currentTime + dur + .03);
 }
 
+function fallbackSfx(name){
+  if(name==='tap') fallbackTone(620,.05,'triangle',.035);
+  else if(name==='swap') fallbackTone(720,.07,'triangle',.04);
+  else if(name==='match') fallbackTone(880,.09,'sine',.05);
+  else if(name==='combo') fallbackTone(1100,.12,'square',.055);
+  else if(name==='booster') fallbackTone(430,.1,'triangle',.045);
+  else if(name==='shuffle') fallbackTone(660,.11,'sawtooth',.04);
+  else if(name==='win') [660,880,1100].forEach((f,i)=>setTimeout(()=>fallbackTone(f,.12,'triangle',.05),i*90));
+  else if(name==='lose') [260,210,170].forEach((f,i)=>setTimeout(()=>fallbackTone(f,.12,'sawtooth',.04),i*90));
+}
+
+function tryPlayList(list, index=0){
+  if(!list || index>=list.length) return Promise.reject();
+  try{
+    const source = list[index];
+    const a = source.cloneNode(true);
+    a.volume = source.volume || 0.6;
+    return a.play().catch(()=>tryPlayList(list, index+1));
+  }catch(e){
+    return tryPlayList(list, index+1);
+  }
+}
+
 function startBGM(){
-  if(!bgmOn || bgmTimer) return;
-  getCtx();
-  bgmTimer = setInterval(()=>{
-    if(!audioOn || !bgmOn) return;
-    const i = bgmStep++ % bgmLead.length;
-    tone(bgmBass[i], .34, 'sine', .020);
-    setTimeout(()=>tone(bgmLead[i], .20, 'triangle', .024), 90);
-    setTimeout(()=>tone(bgmLead[i]*1.5, .15, 'sine', .012), 210);
-  }, 540);
+  if(!bgmOn) return;
+  if(!bgm) preloadAudio();
+  const paths = AUDIO_PATHS.map(p=>p + AUDIO_FILES.bgm);
+  function attempt(i){
+    if(i>=paths.length) return;
+    if(!bgm || bgm.src.indexOf(paths[i])<0){
+      bgm = makeAudio(paths[i], true, 0.32);
+    }
+    if(!bgm) return;
+    bgm.play().catch(()=>attempt(i+1));
+  }
+  attempt(0);
 }
 
 function stopBGM(){
-  if(bgmTimer){
-    clearInterval(bgmTimer);
-    bgmTimer = null;
-  }
+  try{ if(bgm) bgm.pause(); }catch(e){}
 }
 
 function unlockAudio(){
-  if(audioReady) {
-    if(bgmOn) startBGM();
-    return;
+  if(!audioReady){
+    audioReady = true;
+    preloadAudio();
+    getCtx();
   }
-  audioReady = true;
-  getCtx();
   if(bgmOn) startBGM();
 }
 
 function sfx(name){
   if(!audioOn) return;
   unlockAudio();
-  if(name==='tap') tone(620,.055,'triangle',.055);
-  else if(name==='swap'){ tone(720,.07,'triangle',.06); setTimeout(()=>tone(860,.055,'triangle',.04),55); }
-  else if(name==='match'){ tone(880,.10,'sine',.075); setTimeout(()=>tone(1120,.07,'sine',.045),70); }
-  else if(name==='combo'){ tone(980,.10,'square',.08); setTimeout(()=>tone(1260,.09,'triangle',.055),75); }
-  else if(name==='booster'){ tone(430,.11,'triangle',.065); setTimeout(()=>tone(760,.12,'sine',.05),80); }
-  else if(name==='shuffle'){ tone(420,.06,'sawtooth',.05); setTimeout(()=>tone(620,.06,'triangle',.05),70); setTimeout(()=>tone(820,.07,'sine',.045),140); }
-  else if(name==='win'){ [660,880,1100,1320].forEach((f,i)=>setTimeout(()=>tone(f,.14,'triangle',.075),i*95)); }
-  else if(name==='lose'){ [260,210,170].forEach((f,i)=>setTimeout(()=>tone(f,.16,'sawtooth',.055),i*110)); }
-  else tone(540,.06,'triangle',.045);
+  const list = audioCache[name];
+  tryPlayList(list).catch(()=>fallbackSfx(name));
 }
 
 $('soundBtn').onclick = ()=>{
   unlockAudio();
   audioOn = !audioOn;
   bgmOn = audioOn;
-  if(bgmOn){ startBGM(); sfx('tap'); }
-  else stopBGM();
-  $('soundBtn').textContent = audioOn ? '🔊' : '🔇';
+  if(bgmOn){ startBGM(); sfx('tap'); $('soundBtn').textContent='🔊'; }
+  else{ stopBGM(); $('soundBtn').textContent='🔇'; }
   toast(audioOn ? 'Sound On' : 'Sound Off');
 };
 
 ['pointerdown','touchstart','click','keydown'].forEach(ev=>{
   window.addEventListener(ev, unlockAudio, {passive:true});
+});
 });
 
 
@@ -3947,46 +3998,5 @@ try{
 })();
 
 </script>
-
-<script>
-(function(){
- if(window.__GKL_MP3_AUDIO__) return;
- window.__GKL_MP3_AUDIO__=true;
-
- const bgm=new Audio('bgm.mp3');
- bgm.loop=true;
- bgm.volume=0.30;
-
- const sounds={
-  tap:'tap.mp3',swap:'swap.mp3',match:'match.mp3',
-  combo:'combo.mp3',booster:'booster.mp3',
-  shuffle:'shuffle.mp3',win:'win.mp3',lose:'lose.mp3'
- };
-
- function play(name){
-   try{
-     const a=new Audio(sounds[name]||sounds.tap);
-     a.volume=0.55;
-     a.play().catch(()=>{});
-   }catch(e){}
- }
-
- function startMusic(){ bgm.play().catch(()=>{}); }
-
- window.GKLSound={
-   play:play,
-   music:startMusic,
-   toggle:function(){
-      if(bgm.paused){startMusic(); return true;}
-      bgm.pause(); return false;
-   }
- };
-
- ['pointerdown','touchstart','click'].forEach(ev=>{
-   window.addEventListener(ev,startMusic,{once:true});
- });
-})();
-</script>
-
 </body>
 </html>
