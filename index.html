@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v4.4 Clean Stable Build</title>
+<title>Gem Kingdom Legends v4.4.3 MP3 Audio Fix</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -2367,7 +2367,7 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     </div>
   </div>
   <div class="levelUpPop" id="levelUpPop">LEVEL UP!</div>
-  <div class="versionTag">v4.4</div>
+  <div class="versionTag">v4.4.3</div>
   <div class="publisherBadge">APK READY</div>
 <div class="castle">🏰</div>
   <div class="logo"><div class="gem">GEM</div><div class="kingdom">KINGDOM</div><div class="legends">LEGENDS</div></div>
@@ -2638,7 +2638,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v4.4 • Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v4.4.3 • Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
@@ -3038,102 +3038,108 @@ $('eventReward').onclick=()=>{profile.coins+=100;try{flyCoin()}catch(e){} save()
 $('upgradeKingdom').onclick=()=>{if(profile.stars<10)return toast('Need 10 stars');profile.stars-=10;profile.kingdom++;save();updateTop();toast('Kingdom upgraded')};$('nextBtn').onclick=()=>{if(!profile.pendingRewardClaimed&&profile.pendingReward>0)claimPendingReward(1);modal.style.display='none';showInterstitialAd();startLevel(profile.current)}; if($('replayBtn'))$('replayBtn').onclick=()=>{modal.style.display='none';startLevel(profile.current)};$('settingsBtn').onclick=()=>toast('Settings soon');
 
 
-// v4.4 CLEAN SINGLE AUDIO SYSTEM - no MP3 dependency, Android WebView safe
-let audioOn = true, bgmOn = true, audioReady = false;
-let ctx = null, masterGain = null, bgmTimer = null, bgmStep = 0;
-const bgmBass = [98,123.47,146.83,123.47,110,130.81,164.81,130.81];
-const bgmLead = [196,246.94,293.66,246.94,220,261.63,329.63,261.63];
+// v4.4.3 MP3 AUDIO FIX - direct replacement only, board startup untouched
+let audioOn=true,bgmOn=true,audioReady=false;
+let audioPath='';
+let bgm=null;
+let bgmStarted=false;
+const soundFiles={
+  tap:'tap.mp3',
+  swap:'swap.mp3',
+  match:'match.mp3',
+  combo:'combo.mp3',
+  booster:'booster.mp3',
+  shuffle:'shuffle.mp3',
+  win:'win.mp3',
+  lose:'lose.mp3'
+};
+const audio={};
+const possibleAudioPaths=['assets/audio/','./',''];
 
-function getCtx(){
+function makeAudio(src,vol=.65,loop=false){
   try{
-    const AC = window.AudioContext || window.webkitAudioContext;
-    if(!AC) return null;
-    if(!ctx){
-      ctx = new AC();
-      masterGain = ctx.createGain();
-      masterGain.gain.value = 0.95;
-      masterGain.connect(ctx.destination);
-    }
-    if(ctx.state === 'suspended') ctx.resume().catch(()=>{});
-    return ctx;
-  }catch(e){ return null; }
+    const a=new Audio(src);
+    a.volume=vol;
+    a.loop=loop;
+    a.preload='auto';
+    a.setAttribute('playsinline','true');
+    return a;
+  }catch(e){return null}
 }
 
-function tone(freq=440,dur=.08,type='triangle',vol=.055){
-  if(!audioOn) return;
-  const c = getCtx();
-  if(!c || !masterGain) return;
-  const o = c.createOscillator();
-  const g = c.createGain();
-  o.type = type;
-  o.frequency.setValueAtTime(freq, c.currentTime);
-  g.gain.setValueAtTime(0.0001, c.currentTime);
-  g.gain.exponentialRampToValueAtTime(vol, c.currentTime + 0.012);
-  g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + dur);
-  o.connect(g);
-  g.connect(masterGain);
-  o.start(c.currentTime);
-  o.stop(c.currentTime + dur + .03);
+function initAudioForPath(path){
+  audioPath=path||'';
+  Object.keys(soundFiles).forEach(k=>{
+    audio[k]=makeAudio(audioPath+soundFiles[k],k==='tap'?.38:.68,false);
+  });
+  bgm=makeAudio(audioPath+'bgm.mp3',.32,true);
+}
+
+function detectAudioPath(){
+  initAudioForPath(possibleAudioPaths[0]);
+  return audioPath;
 }
 
 function startBGM(){
-  if(!bgmOn || bgmTimer) return;
-  getCtx();
-  bgmTimer = setInterval(()=>{
-    if(!audioOn || !bgmOn) return;
-    const i = bgmStep++ % bgmLead.length;
-    tone(bgmBass[i], .34, 'sine', .020);
-    setTimeout(()=>tone(bgmLead[i], .20, 'triangle', .024), 90);
-    setTimeout(()=>tone(bgmLead[i]*1.5, .15, 'sine', .012), 210);
-  }, 540);
+  if(!bgmOn)return;
+  if(!bgm)detectAudioPath();
+  if(!bgm)return;
+  bgm.play().then(()=>{
+    bgmStarted=true;
+  }).catch(()=>{
+    // Try alternate locations without touching gameplay.
+    let idx=possibleAudioPaths.indexOf(audioPath)+1;
+    if(idx<0)idx=1;
+    if(idx<possibleAudioPaths.length){
+      initAudioForPath(possibleAudioPaths[idx]);
+      if(bgm)bgm.play().then(()=>{bgmStarted=true}).catch(()=>{});
+    }
+  });
 }
 
 function stopBGM(){
-  if(bgmTimer){
-    clearInterval(bgmTimer);
-    bgmTimer = null;
-  }
+  try{if(bgm)bgm.pause()}catch(e){}
+  bgmStarted=false;
 }
 
 function unlockAudio(){
-  if(audioReady) {
-    if(bgmOn) startBGM();
-    return;
+  if(!audioReady){
+    audioReady=true;
+    detectAudioPath();
   }
-  audioReady = true;
-  getCtx();
-  if(bgmOn) startBGM();
+  if(bgmOn)startBGM();
 }
 
-function sfx(name){
-  if(!audioOn) return;
+function sfx(n){
+  if(!audioOn)return;
   unlockAudio();
-  if(name==='tap') tone(620,.055,'triangle',.055);
-  else if(name==='swap'){ tone(720,.07,'triangle',.06); setTimeout(()=>tone(860,.055,'triangle',.04),55); }
-  else if(name==='match'){ tone(880,.10,'sine',.075); setTimeout(()=>tone(1120,.07,'sine',.045),70); }
-  else if(name==='combo'){ tone(980,.10,'square',.08); setTimeout(()=>tone(1260,.09,'triangle',.055),75); }
-  else if(name==='booster'){ tone(430,.11,'triangle',.065); setTimeout(()=>tone(760,.12,'sine',.05),80); }
-  else if(name==='shuffle'){ tone(420,.06,'sawtooth',.05); setTimeout(()=>tone(620,.06,'triangle',.05),70); setTimeout(()=>tone(820,.07,'sine',.045),140); }
-  else if(name==='win'){ [660,880,1100,1320].forEach((f,i)=>setTimeout(()=>tone(f,.14,'triangle',.075),i*95)); }
-  else if(name==='lose'){ [260,210,170].forEach((f,i)=>setTimeout(()=>tone(f,.16,'sawtooth',.055),i*110)); }
-  else tone(540,.06,'triangle',.045);
+  try{
+    const src=audio[n] || audio.tap;
+    if(!src)return;
+    const a=src.cloneNode(true);
+    a.volume=src.volume || .65;
+    a.play().catch(()=>{});
+  }catch(e){}
 }
 
-$('soundBtn').onclick = ()=>{
+$('soundBtn').onclick=()=>{
   unlockAudio();
-  audioOn = !audioOn;
-  bgmOn = audioOn;
-  if(bgmOn){ startBGM(); sfx('tap'); }
-  else stopBGM();
-  $('soundBtn').textContent = audioOn ? '🔊' : '🔇';
-  toast(audioOn ? 'Sound On' : 'Sound Off');
+  audioOn=!audioOn;
+  bgmOn=audioOn;
+  if(bgmOn){
+    startBGM();
+    sfx('tap');
+    $('soundBtn').textContent='🔊';
+  }else{
+    stopBGM();
+    $('soundBtn').textContent='🔇';
+  }
+  toast(audioOn?'Sound On':'Sound Off');
 };
 
 ['pointerdown','touchstart','click','keydown'].forEach(ev=>{
-  window.addEventListener(ev, unlockAudio, {passive:true});
+  window.addEventListener(ev,unlockAudio,{passive:true});
 });
-
-
 // v2.5 commercial gameplay polish helpers
 function screenPointForCell(x,y){
   const r=boardEl.getBoundingClientRect();
@@ -3943,6 +3949,19 @@ try{
   setTimeout(function(){
     updateXP();
     paintStars();
+  },500);
+})();
+
+
+// v4.4.3 audio start helper only
+(function(){
+  setTimeout(function(){
+    ['playBtn','soundBtn'].forEach(function(id){
+      const el=document.getElementById(id);
+      if(el)el.addEventListener('click',function(){try{if(typeof unlockAudio==='function')unlockAudio();if(typeof startBGM==='function')startBGM();}catch(e){}},{passive:true});
+    });
+    const board=document.getElementById('board');
+    if(board)board.addEventListener('pointerdown',function(){try{if(typeof unlockAudio==='function')unlockAudio();if(typeof startBGM==='function')startBGM();}catch(e){}},{passive:true});
   },500);
 })();
 
