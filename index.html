@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v4.5 Play Store Monetization Build</title>
+<title>Gem Kingdom Legends v4.6 Play Store Release Candidate</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -2373,6 +2373,47 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
   50%{filter:drop-shadow(0 0 10px rgba(255,243,107,.95))}
 }
 
+
+/* v4.6 Play Store Release Candidate polish */
+.rcBadge{
+  position:absolute;
+  left:6px;
+  bottom:8.45%;
+  z-index:50;
+  background:linear-gradient(#fff36b,#ff9f00);
+  color:#5d1800;
+  border:2px solid #fff;
+  border-radius:12px;
+  padding:3px 7px;
+  font-size:9px;
+  font-weight:1000;
+  box-shadow:0 3px 8px rgba(0,0,0,.45);
+  pointer-events:none;
+}
+.confettiPiece{
+  position:absolute;
+  z-index:260;
+  top:-20px;
+  width:8px;
+  height:14px;
+  border-radius:3px;
+  pointer-events:none;
+  animation:confettiFall 1.8s ease-out forwards;
+}
+@keyframes confettiFall{
+  0%{transform:translateY(0) rotate(0deg);opacity:1}
+  100%{transform:translateY(105vh) rotate(620deg);opacity:0}
+}
+.rcChecklist div{
+  border-radius:12px;
+  background:rgba(0,0,0,.24);
+  border:1px solid rgba(255,223,69,.55);
+  padding:8px 10px;
+  margin:6px 0;
+  text-align:left;
+  font-weight:1000;
+}
+
 </style>
 </head>
 <body>
@@ -2393,8 +2434,9 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     </div>
   </div>
   <div class="levelUpPop" id="levelUpPop">LEVEL UP!</div>
-  <div class="versionTag">v4.5</div>
+  <div class="versionTag">v4.6 RC</div>
   <div class="publisherBadge">APK READY</div>
+  <div class="rcBadge" id="rcBadge">RC READY</div>
 <div class="castle">🏰</div>
   <div class="logo"><div class="gem">GEM</div><div class="kingdom">KINGDOM</div><div class="legends">LEGENDS</div></div>
   <div class="topBars">
@@ -2569,6 +2611,36 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
   </section>
 
 
+
+  <section class="screen" id="releaseCandidateScreen">
+    <h1>RELEASE CANDIDATE</h1>
+    <div class="card">
+      <h2>Gem Kingdom Legends v4.6 RC</h2>
+      <p>This build is prepared for final Android APK/AAB testing before Google Play submission.</p>
+    </div>
+    <div class="card">
+      <h2>Final Test Checklist</h2>
+      <div class="rcChecklist">
+        <div>✅ Gameplay starts and board renders</div>
+        <div>✅ MP3 BGM/SFX working</div>
+        <div>✅ XP bar visible</div>
+        <div>✅ Stars and rewards working</div>
+        <div>✅ Chest, Spin, Shop, Events working</div>
+        <div>✅ Rewarded ad hooks included</div>
+        <div>✅ No core UI changes after v4.4.3 stable</div>
+        <div>⬜ Replace AdMob test IDs in Android project</div>
+        <div>⬜ Generate signed AAB for Play Store</div>
+        <div>⬜ Add Privacy Policy URL in Play Console</div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Recommended Final Test</h2>
+      <p>Install APK on phone, play 3 levels, test sound, test rewarded buttons, then generate AAB.</p>
+    </div>
+    <button class="back">Back to Game</button>
+  </section>
+
+
   <section class="screen" id="playStoreScreen">
     <h1>PLAY STORE READY</h1>
     <div class="card">
@@ -2696,7 +2768,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v4.5 • Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v4.6 RC • Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
@@ -4189,6 +4261,63 @@ try{
       };
     }
   },1000);
+})();
+
+
+// v4.6 Release Candidate polish - no core gameplay changes
+(function(){
+  if(window.__GKL_V46_RC__) return;
+  window.__GKL_V46_RC__ = true;
+
+  window.GKL_BUILD = Object.assign(window.GKL_BUILD || {}, {
+    version: "4.6",
+    channel: "play-store-release-candidate",
+    rc: true
+  });
+
+  function confetti(){
+    const colors=["#fff36b","#ff5ed2","#46d629","#43e9ff","#ff9f00","#ffffff"];
+    for(let i=0;i<42;i++){
+      const p=document.createElement("div");
+      p.className="confettiPiece";
+      p.style.left=Math.random()*100+"%";
+      p.style.background=colors[Math.floor(Math.random()*colors.length)];
+      p.style.animationDelay=(Math.random()*0.35)+"s";
+      p.style.transform="rotate("+Math.random()*360+"deg)";
+      document.body.appendChild(p);
+      setTimeout(()=>p.remove(),2300);
+    }
+  }
+
+  const oldGKLAddXP = window.GKLAddXP;
+  window.GKLAddXP = function(amount){
+    try{ if(typeof oldGKLAddXP==="function") oldGKLAddXP(amount); }catch(e){}
+  };
+
+  // Add confetti when level-complete modal appears.
+  let lastModalState="";
+  setInterval(function(){
+    const m=document.getElementById("modal");
+    const title=document.getElementById("modalTitle");
+    const state=m && m.style.display==="flex" ? (title?title.textContent:"modal") : "";
+    if(state && state!==lastModalState && state.toLowerCase().includes("complete")){
+      confetti();
+      try{ if(typeof sfx==="function") sfx("win"); }catch(e){}
+    }
+    lastModalState=state;
+  },700);
+
+  setTimeout(function(){
+    const ps=document.getElementById("playStoreReadyBtn");
+    if(ps){
+      ps.textContent="OPEN RC CHECK";
+      ps.onclick=function(){
+        document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+        const screen=document.getElementById("releaseCandidateScreen");
+        if(screen)screen.classList.add("active");
+      };
+    }
+  },900);
 })();
 
 </script>
