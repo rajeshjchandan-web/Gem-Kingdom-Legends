@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v4.6.3 Crash-Safe Phone Fix</title>
+<title>Gem Kingdom Legends v5.0 Production Release</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -2414,6 +2414,73 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
   font-weight:1000;
 }
 
+
+/* v4.7 Reward Chest + Daily Login Streak */
+.rewardChestFab{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:18.25%;
+  z-index:52;
+  border:3px solid #ffdf45;
+  border-radius:20px;
+  background:linear-gradient(#fff36b,#ff9f00);
+  color:#5d1800;
+  font-weight:1000;
+  font-size:12px;
+  padding:6px 14px;
+  box-shadow:0 5px 0 #8b3d00,0 0 16px rgba(255,243,107,.65);
+  text-shadow:0 1px rgba(255,255,255,.6);
+  animation:rewardPulse 1.25s ease-in-out infinite;
+}
+@keyframes rewardPulse{
+  0%,100%{filter:brightness(1);transform:translateX(-50%) scale(1)}
+  50%{filter:brightness(1.16);transform:translateX(-50%) scale(1.045)}
+}
+.streakGrid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:5px;
+  margin:10px 0;
+}
+.streakDay{
+  border-radius:13px;
+  border:2px solid #ffdf45;
+  background:linear-gradient(#6220b8,#26064c);
+  padding:7px 2px;
+  font-size:10px;
+  font-weight:1000;
+  min-height:68px;
+}
+.streakDay.claimed{
+  background:linear-gradient(#46d629,#087916);
+}
+.streakDay.today{
+  background:linear-gradient(#fff36b,#ff9f00);
+  color:#5d1800;
+  text-shadow:none;
+  box-shadow:0 0 14px #fff36b;
+}
+.rewardPreview{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+  margin-top:10px;
+}
+.rewardPreview div{
+  border-radius:16px;
+  background:rgba(0,0,0,.25);
+  border:2px solid rgba(255,223,69,.75);
+  padding:8px;
+  font-weight:1000;
+}
+
+
+/* v5.0 Production Release */
+.productionBadge{position:absolute;right:5px;bottom:8.45%;z-index:55;border:2px solid #fff;border-radius:12px;background:linear-gradient(#b5ff4e,#19b82c);color:white;padding:3px 7px;font-size:9px;font-weight:1000;box-shadow:0 3px 8px rgba(0,0,0,.45);pointer-events:none}
+.releaseCard{border-radius:16px;background:rgba(0,0,0,.24);border:1px solid rgba(255,223,69,.55);padding:8px 10px;margin:6px 0;text-align:left;font-weight:1000}
+.releasePass{color:#b5ff4e}.releaseWarn{color:#fff36b}
+
 </style>
 </head>
 <body>
@@ -2434,7 +2501,9 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     </div>
   </div>
   <div class="levelUpPop" id="levelUpPop">LEVEL UP!</div>
-  <div class="versionTag">v4.6.3</div>
+  <div class="versionTag">v5.0</div>
+  <div class="productionBadge" id="productionBadgeV50">PROD READY</div>
+  <button class="profileNavBtn" id="profileQuickBtnV49">👤 PROFILE</button>
   <div class="publisherBadge">APK READY</div>
   <div class="rcBadge" id="rcBadge">RC READY</div>
 <div class="castle">🏰</div>
@@ -2461,6 +2530,7 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
   <div class="boardWrap"><div id="board"></div></div>
   <div class="levelPath" id="levelPath"></div>
 
+  <button class="rewardChestFab" id="rewardChestFab">🎁 FREE REWARD</button>
   <div class="boosters">
     <button class="boost" id="hammerBtn"><span>🔨</span><small>HAMMER</small><i class="qty" id="hammerQty">3</i></button>
     <button class="boost" id="swapBtn"><span>🔁</span><small>SWAP</small><i class="qty" id="swapQty">3</i></button>
@@ -2478,6 +2548,85 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     <button id="eventsNav"><span>🏆</span>EVENTS</button>
     <button id="kingdomNav"><span>🛡️</span>KINGDOM</button>
   </div>
+
+
+  <section class="screen" id="rewardScreen">
+    <h1>DAILY REWARDS</h1>
+    <div class="card">
+      <h2>7-Day Login Streak</h2>
+      <p>Come back daily to claim bigger rewards.</p>
+      <div class="streakGrid" id="streakGridV47"></div>
+      <button id="claimDailyStreakV47" class="premiumBtn">CLAIM TODAY</button>
+    </div>
+    <div class="card">
+      <h2>🎁 Reward Chest</h2>
+      <p>Watch a rewarded video to open a bonus reward chest.</p>
+      <div class="rewardPreview">
+        <div>🪙 Coins</div>
+        <div>🔨 Hammer</div>
+        <div>🔀 Shuffle</div>
+        <div>💣 Bomb</div>
+      </div>
+      <button id="openRewardChestV47" class="greenBtn">WATCH AD + OPEN CHEST</button>
+    </div>
+    <button class="back">Back to Game</button>
+  </section>
+
+
+
+
+  <section class="screen" id="productionScreenV50">
+    <h1>PRODUCTION RELEASE</h1>
+    <div class="card">
+      <h2>Gem Kingdom Legends v5.0</h2>
+      <p>This is the production candidate for Google Play testing and release packaging.</p>
+    </div>
+    <div class="card">
+      <h2>Release Checklist</h2>
+      <div class="releaseCard"><span class="releasePass">✅</span> Real-device APK tested</div>
+      <div class="releaseCard"><span class="releasePass">✅</span> BGM and SFX working</div>
+      <div class="releaseCard"><span class="releasePass">✅</span> Phone layout stable</div>
+      <div class="releaseCard"><span class="releasePass">✅</span> 100-level world map included</div>
+      <div class="releaseCard"><span class="releasePass">✅</span> Reward chest and daily streak included</div>
+      <div class="releaseCard"><span class="releasePass">✅</span> Achievements and profile included</div>
+      <div class="releaseCard"><span class="releaseWarn">⬜</span> Replace test AdMob IDs with production IDs</div>
+      <div class="releaseCard"><span class="releaseWarn">⬜</span> Generate signed AAB</div>
+      <div class="releaseCard"><span class="releaseWarn">⬜</span> Add Privacy Policy URL in Play Console</div>
+      <div class="releaseCard"><span class="releaseWarn">⬜</span> Upload screenshots and feature graphic</div>
+    </div>
+    <button class="back">Back to Game</button>
+  </section>
+
+
+  <section class="screen" id="profileScreenV49">
+    <h1>PLAYER PROFILE</h1>
+    <div class="profileHero">
+      <div class="avatar">👑</div>
+      <div>Gem Master</div>
+      <div id="profileWorldV49">Forest Kingdom</div>
+      <div class="profileProgress"><div class="profileProgressFill" id="achievementProgressV49"></div></div>
+      <small id="achievementPercentV49">0% Achievements Complete</small>
+    </div>
+    <div class="card">
+      <h2>Lifetime Stats</h2>
+      <div class="profileStatsGrid">
+        <div class="profileStatBox">Current Level<br><b id="statCurrentLevelV49">1</b></div>
+        <div class="profileStatBox">Highest Level<br><b id="statHighestLevelV49">1</b></div>
+        <div class="profileStatBox">Matches Made<br><b id="statMatchesV49">0</b></div>
+        <div class="profileStatBox">Levels Won<br><b id="statWinsV49">0</b></div>
+        <div class="profileStatBox">Coins Earned<br><b id="statCoinsEarnedV49">0</b></div>
+        <div class="profileStatBox">Chests Opened<br><b id="statChestsV49">0</b></div>
+        <div class="profileStatBox">Best Streak<br><b id="statBestStreakV49">0</b></div>
+        <div class="profileStatBox">Boosters Used<br><b id="statBoostersV49">0</b></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Achievements</h2>
+      <div class="achievementGridV49" id="achievementGridV49"></div>
+    </div>
+    <button class="back">Back to Game</button>
+  </section>
+
 
   <section class="screen" id="shopScreen">
     <h1>BOOSTER SHOP</h1>
@@ -2504,8 +2653,12 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
 
   <section class="screen" id="mapScreen">
     <h1>WORLD MAP</h1>
-    <div class="card">Select unlocked levels</div>
-    <div class="mapGrid" id="mapGrid"></div>
+    <div class="card">
+      <h2>100-Level Kingdom Journey</h2>
+      <div class="worldSummary" id="worldSummary"></div>
+      <div class="mapLegend">🌲 Forest • 🏜️ Desert • ❄️ Ice • 🌋 Lava • ☁️ Sky</div>
+    </div>
+    <div id="worldMapContainer"></div>
     <button class="back">Back to Game</button>
   </section>
 
@@ -2709,13 +2862,14 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
 const W=7,H=7,TYPES=6,$=id=>document.getElementById(id);
 const boardEl=$('board'),toastEl=$('toast'),modal=$('modal');
 let board=[],selected=null,busy=false,ended=false,score=0,moves=25,tool=null,dragStart=null;
-const LEVELS=Array.from({length:50},(_,i)=>({
+const LEVELS=Array.from({length:100},(_,i)=>({
   level:i+1,
-  moves:Math.max(15,26-Math.floor(i/5)),
-  target:3500+i*550,
-  type:i<10?'score':i<20?'red':i<30?'blue':i<40?'green':'mixed',
-  goal: i<10 ? 3500+i*550 : 8+Math.floor(i/4),
-  reward:35+Math.floor(i/4)*15
+  world:Math.floor(i/20)+1,
+  moves:Math.max(14,28-Math.floor(i/8)),
+  target:3500+i*430,
+  type:i<20?'score':i<40?'red':i<60?'blue':i<80?'green':'mixed',
+  goal: i<20 ? 3500+i*430 : 9+Math.floor(i/5),
+  reward:40+Math.floor(i/5)*18
 }));
 let profile=load();
 
@@ -2724,7 +2878,7 @@ function load(){
   catch(e){return {coins:2450,stars:24,current:1,unlocked:1,levelStars:{},boosters:{hammer:3,swap:3,shuffle:3,bomb:2},dailyDate:'',kingdom:0}}
 }
 function save(){localStorage.setItem('gkl_v22',JSON.stringify(profile))}
-function lv(){return LEVELS[Math.max(0,Math.min(49,profile.current-1))]}
+function lv(){return LEVELS[Math.max(0,Math.min(99,profile.current-1))]}
 function rand(){return Math.floor(Math.random()*TYPES)}
 function gem(t){return {type:t==null?rand():t,fresh:false,special:null}}
 function toast(t){toastEl.textContent=t;toastEl.classList.add('show');setTimeout(()=>toastEl.classList.remove('show'),850)}
@@ -2768,7 +2922,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v4.6.3 • Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v5.0 • Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
@@ -3073,8 +3227,8 @@ function win(){
   profile.pendingRewardLevel=L.level;
   profile.pendingRewardClaimed=false;
   if(s>old){profile.stars+=(s-old);profile.levelStars[L.level]=s}
-  profile.unlocked=Math.max(profile.unlocked,Math.min(50,L.level+1));
-  profile.current=Math.min(50,L.level+1);
+  profile.unlocked=Math.max(profile.unlocked,Math.min(100,L.level+1));
+  profile.current=Math.min(100,L.level+1);
   save();updateTop();drawPath();
   $('modalTitle').textContent='Level '+L.level+' Complete!';
   $('modalStars').textContent='⭐'.repeat(s);
@@ -3109,7 +3263,7 @@ function wait(ms){return new Promise(r=>setTimeout(r,ms))}
 boardEl.addEventListener('click',e=>{const c=e.target.closest('.cell');if(c)cellTap(+c.dataset.x,+c.dataset.y)});
 boardEl.addEventListener('pointerdown',e=>{const c=e.target.closest('.cell');if(!c)return;dragStart={x:+c.dataset.x,y:+c.dataset.y,px:e.clientX,py:e.clientY}});
 boardEl.addEventListener('pointerup',e=>{if(!dragStart)return;let dx=e.clientX-dragStart.px,dy=e.clientY-dragStart.py;if(Math.max(Math.abs(dx),Math.abs(dy))<18){dragStart=null;return}let b={x:dragStart.x,y:dragStart.y};if(Math.abs(dx)>Math.abs(dy))b.x+=dx>0?1:-1;else b.y+=dy>0?1:-1;if(b.x>=0&&b.y>=0&&b.x<W&&b.y<H)trySwap({x:dragStart.x,y:dragStart.y},b);dragStart=null});
-function drawPath(){const p=$('levelPath');p.innerHTML='';const start=Math.max(1,Math.min(41,profile.current-4));for(let i=0;i<10;i++){let n=start+i;const d=document.createElement('div');d.className='node '+(n===profile.current?'current ':'')+(n>profile.unlocked?'lock':'');d.textContent=n;p.appendChild(d)}const mg=$('mapGrid');if(mg){mg.innerHTML='';for(let n=1;n<=50;n++){const b=document.createElement('button');b.className='mapLv '+(n===profile.current?'current ':'')+(n>profile.unlocked?'locked':'');b.textContent=n>profile.unlocked?'🔒':n;b.onclick=()=>{if(n<=profile.unlocked){closeScreens();startLevel(n)}};mg.appendChild(b)}}}
+function drawPath(){const p=$('levelPath');p.innerHTML='';const start=Math.max(1,Math.min(91,profile.current-4));for(let i=0;i<10;i++){let n=start+i;const d=document.createElement('div');d.className='node '+(n===profile.current?'current ':'')+(n>profile.unlocked?'lock':'');d.textContent=n;p.appendChild(d)}const mg=$('mapGrid');if(mg){mg.innerHTML='';for(let n=1;n<=100;n++){const b=document.createElement('button');b.className='mapLv '+(n===profile.current?'current ':'')+(n>profile.unlocked?'locked':'');b.textContent=n>profile.unlocked?'🔒':n;b.onclick=()=>{if(n<=profile.unlocked){closeScreens();startLevel(n)}};mg.appendChild(b)}}}
 function openScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active');drawPath();updateTop()}
 function closeScreens(){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'))}
 $('shopNav').onclick=()=>openScreen('shopScreen');$('mapNav').onclick=()=>openScreen('mapScreen');$('eventsNav').onclick=()=>openScreen('eventsScreen');$('kingdomNav').onclick=()=>openScreen('kingdomScreen');$('homeNav').onclick=closeScreens;document.querySelectorAll('.back').forEach(b=>b.onclick=closeScreens);
@@ -3168,11 +3322,14 @@ $('eventReward').onclick=()=>{profile.coins+=100;try{flyCoin()}catch(e){} save()
 $('upgradeKingdom').onclick=()=>{if(profile.stars<10)return toast('Need 10 stars');profile.stars-=10;profile.kingdom++;save();updateTop();toast('Kingdom upgraded')};$('nextBtn').onclick=()=>{if(!profile.pendingRewardClaimed&&profile.pendingReward>0)claimPendingReward(1);modal.style.display='none';showInterstitialAd();startLevel(profile.current)}; if($('replayBtn'))$('replayBtn').onclick=()=>{modal.style.display='none';startLevel(profile.current)};$('settingsBtn').onclick=()=>toast('Settings soon');
 
 
-// v4.6.3 CRASH-SAFE SINGLE MP3 AUDIO SYSTEM
+// v4.6.5 SFX FINAL FIX - Android WebView compatible, one BGM only
 let audioOn = true;
 let bgmOn = true;
 let audioReady = false;
-let audioPath = "assets/audio/";
+let bgm = null;
+let bgmStarted = false;
+let currentAudioPath = "assets/audio/";
+const possibleAudioPaths = ["assets/audio/","./",""];
 const soundFiles = {
   tap:"tap.mp3",
   swap:"swap.mp3",
@@ -3183,10 +3340,6 @@ const soundFiles = {
   win:"win.mp3",
   lose:"lose.mp3"
 };
-const possibleAudioPaths = ["assets/audio/","./",""];
-const audio = {};
-let bgm = null;
-let startingBgm = false;
 
 function makeAudio(src, vol=.65, loop=false){
   try{
@@ -3199,35 +3352,39 @@ function makeAudio(src, vol=.65, loop=false){
   }catch(e){ return null; }
 }
 
-function initAudio(path){
-  audioPath = path || "";
-  Object.keys(soundFiles).forEach(k=>{
-    audio[k] = makeAudio(audioPath + soundFiles[k], k==="tap" ? .38 : .68, false);
-  });
-  if(!bgm){
-    bgm = makeAudio(audioPath + "bgm.mp3", .32, true);
-  }
-}
-
-function tryStartAtPath(idx){
-  if(!audioOn || !bgmOn) return;
-  if(idx >= possibleAudioPaths.length) return;
-  if(!bgm || audioPath !== possibleAudioPaths[idx]){
-    audioPath = possibleAudioPaths[idx];
-    bgm = makeAudio(audioPath + "bgm.mp3", .32, true);
-  }
-  if(!bgm) return;
-  bgm.muted = false;
-  bgm.volume = .32;
-  bgm.play().catch(()=>tryStartAtPath(idx+1));
+function initAudio(){
+  if(audioReady) return;
+  audioReady = true;
+  currentAudioPath = "assets/audio/";
+  if(!bgm) bgm = makeAudio(currentAudioPath + "bgm.mp3", .32, true);
 }
 
 function startBGM(){
-  if(!audioOn || !bgmOn || startingBgm) return;
+  if(!audioOn || !bgmOn) return;
+  initAudio();
+
   if(bgm && !bgm.paused && !bgm.muted) return;
-  startingBgm = true;
-  tryStartAtPath(Math.max(0, possibleAudioPaths.indexOf(audioPath)));
-  setTimeout(()=>{ startingBgm = false; }, 500);
+
+  function tryPath(i){
+    if(!audioOn || !bgmOn || i >= possibleAudioPaths.length) return;
+    currentAudioPath = possibleAudioPaths[i];
+
+    if(!bgm || !String(bgm.src).includes("bgm.mp3")){
+      bgm = makeAudio(currentAudioPath + "bgm.mp3", .32, true);
+    }
+
+    if(!bgm) return;
+    bgm.loop = true;
+    bgm.volume = .32;
+    bgm.muted = false;
+
+    bgm.play().then(()=>{ bgmStarted = true; }).catch(()=>{
+      bgm = makeAudio(possibleAudioPaths[i+1] ? possibleAudioPaths[i+1] + "bgm.mp3" : "bgm.mp3", .32, true);
+      tryPath(i+1);
+    });
+  }
+
+  tryPath(Math.max(0, possibleAudioPaths.indexOf(currentAudioPath)));
 }
 
 function stopBGM(){
@@ -3237,30 +3394,48 @@ function stopBGM(){
       bgm.muted = true;
     }
   }catch(e){}
+  bgmStarted = false;
 }
 
 function unlockAudio(){
-  if(!audioReady){
-    audioReady = true;
-    initAudio("assets/audio/");
+  initAudio();
+  if(audioOn && bgmOn && !bgmStarted) startBGM();
+}
+
+// Direct SFX player: avoids cloneNode failures in Android WebView.
+function playSfxDirect(name){
+  if(!audioOn) return;
+  initAudio();
+  const file = soundFiles[name] || soundFiles.tap;
+  const paths = [currentAudioPath, "assets/audio/", "./", ""];
+  let idx = 0;
+
+  function tryOne(){
+    if(idx >= paths.length) return;
+    try{
+      const a = new Audio(paths[idx] + file);
+      a.volume = name === "tap" ? .55 : .85;
+      a.preload = "auto";
+      a.setAttribute("playsinline","true");
+      a.play().catch(()=>{ idx++; tryOne(); });
+    }catch(e){
+      idx++;
+      tryOne();
+    }
   }
-  if(audioOn && bgmOn) startBGM();
+  tryOne();
 }
 
 function sfx(n){
-  if(!audioOn) return;
-  if(!audioReady){
-    audioReady = true;
-    initAudio("assets/audio/");
-  }
-  try{
-    const src = audio[n] || audio.tap;
-    if(!src) return;
-    const a = src.cloneNode(true);
-    a.volume = src.volume || .65;
-    a.play().catch(()=>{});
-  }catch(e){}
+  playSfxDirect(n);
 }
+
+// expose for later external monetization/RC/helper scripts
+window.sfx = sfx;
+window.GKLSfx = sfx;
+window.unlockAudio = unlockAudio;
+window.startBGM = startBGM;
+window.stopBGM = stopBGM;
 
 $('soundBtn').onclick = ()=>{
   if(audioOn){
@@ -3272,21 +3447,18 @@ $('soundBtn').onclick = ()=>{
   }else{
     audioOn = true;
     bgmOn = true;
-    if(!audioReady){
-      audioReady = true;
-      initAudio("assets/audio/");
-    }
-    startBGM();
-    sfx("tap");
     $('soundBtn').textContent = "🔊";
     toast("Sound On");
+    startBGM();
+    setTimeout(()=>sfx("tap"),100);
   }
 };
 
+// Unlock once only. Never restart BGM on every board/button tap.
 ["pointerdown","touchstart","click","keydown"].forEach(ev=>{
   window.addEventListener(ev,()=>{
-    if(audioOn && bgmOn) unlockAudio();
-  },{passive:true});
+    if(!audioReady) unlockAudio();
+  },{passive:true, once:true});
 });
 // v2.5 commercial gameplay polish helpers
 function screenPointForCell(x,y){
@@ -4101,16 +4273,19 @@ try{
 })();
 
 
-// v4.4.3 audio start helper only
+// v4.6.5 button SFX helper - non-invasive
 (function(){
+  if(window.__GKL_V465_BUTTON_SFX__) return;
+  window.__GKL_V465_BUTTON_SFX__ = true;
   setTimeout(function(){
-    ['playBtn','soundBtn'].forEach(function(id){
-      const el=document.getElementById(id);
-      if(el)el.addEventListener('click',function(){try{if(typeof unlockAudio==='function')unlockAudio();if(typeof startBGM==='function')startBGM();}catch(e){}},{passive:true});
+    document.querySelectorAll('button').forEach(function(btn){
+      if(btn.__gklSfxBound) return;
+      btn.__gklSfxBound = true;
+      btn.addEventListener('click',function(){
+        try{ if(typeof window.GKLSfx === 'function') window.GKLSfx('tap'); }catch(e){}
+      },{passive:true});
     });
-    const board=document.getElementById('board');
-    if(board)board.addEventListener('pointerdown',function(){try{if(typeof unlockAudio==='function')unlockAudio();if(typeof startBGM==='function')startBGM();}catch(e){}},{passive:true});
-  },500);
+  },700);
 })();
 
 
@@ -4280,6 +4455,419 @@ try{
     }
   },1000);
 })();
+
+
+// v4.7 Reward Chest + Daily Login Streak
+(function(){
+  if(window.__GKL_V47_REWARD_STREAK__) return;
+  window.__GKL_V47_REWARD_STREAK__ = true;
+  const KEY="gkl_v22";
+  const DAY_MS=24*60*60*1000;
+  const streakRewards=[
+    {label:"100 Coins", icon:"🪙", apply:p=>{p.coins=(p.coins||0)+100}},
+    {label:"Hammer", icon:"🔨", apply:p=>{p.boosters=p.boosters||{};p.boosters.hammer=(p.boosters.hammer||0)+1}},
+    {label:"200 Coins", icon:"🪙", apply:p=>{p.coins=(p.coins||0)+200}},
+    {label:"Shuffle", icon:"🔀", apply:p=>{p.boosters=p.boosters||{};p.boosters.shuffle=(p.boosters.shuffle||0)+1}},
+    {label:"Bomb", icon:"💣", apply:p=>{p.boosters=p.boosters||{};p.boosters.bomb=(p.boosters.bomb||0)+1}},
+    {label:"500 Coins", icon:"🪙", apply:p=>{p.coins=(p.coins||0)+500}},
+    {label:"Mega Chest", icon:"🎁", apply:p=>{p.coins=(p.coins||0)+1000;p.boosters=p.boosters||{};p.boosters.hammer=(p.boosters.hammer||0)+1;p.boosters.shuffle=(p.boosters.shuffle||0)+1;p.boosters.bomb=(p.boosters.bomb||0)+1}}
+  ];
+
+  function read(){try{return JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){return {}}}
+  function write(p){localStorage.setItem(KEY,JSON.stringify(p))}
+  function today(){return new Date().toDateString()}
+  function dayNumber(){return Math.floor(Date.now()/DAY_MS)}
+  function sync(p){
+    try{
+      if(window.profile){Object.assign(profile,p);updateTop();}
+      if(typeof GKLRenderMeta==="function")GKLRenderMeta();
+    }catch(e){}
+  }
+  function ensure(){
+    const p=read();
+    p.boosters=p.boosters||{};
+    p.v47=p.v47||{};
+    if(typeof p.v47.streakDay!=="number")p.v47.streakDay=1;
+    if(typeof p.v47.lastClaimDayNumber!=="number")p.v47.lastClaimDayNumber=0;
+    if(!p.v47.lastClaimDate)p.v47.lastClaimDate="";
+    write(p);
+    return p;
+  }
+  function canClaim(p){
+    p=p||ensure();
+    return p.v47.lastClaimDate!==today();
+  }
+  function normalizeStreak(p){
+    const dn=dayNumber();
+    if(p.v47.lastClaimDayNumber && dn-p.v47.lastClaimDayNumber>1){
+      p.v47.streakDay=1;
+    }
+    if(p.v47.streakDay<1 || p.v47.streakDay>7)p.v47.streakDay=1;
+    return p;
+  }
+  function render(){
+    let p=normalizeStreak(ensure());
+    write(p);
+    const grid=document.getElementById("streakGridV47");
+    if(grid){
+      grid.innerHTML="";
+      for(let i=1;i<=7;i++){
+        const r=streakRewards[i-1];
+        const d=document.createElement("div");
+        d.className="streakDay"+(i<p.v47.streakDay?" claimed":"")+(i===p.v47.streakDay?" today":"");
+        d.innerHTML="<b>Day "+i+"</b><br><span style='font-size:22px'>"+r.icon+"</span><br><small>"+r.label+"</small>";
+        grid.appendChild(d);
+      }
+    }
+    const btn=document.getElementById("claimDailyStreakV47");
+    if(btn){
+      btn.disabled=!canClaim(p);
+      btn.textContent=canClaim(p)?"CLAIM TODAY":"CLAIMED TODAY";
+      btn.style.opacity=canClaim(p)?"1":".55";
+    }
+    const fab=document.getElementById("rewardChestFab");
+    if(fab)fab.style.display="block";
+  }
+
+  function claimDaily(){
+    let p=normalizeStreak(ensure());
+    if(!canClaim(p)){try{toast("Daily reward already claimed")}catch(e){};return}
+    const idx=(p.v47.streakDay||1)-1;
+    const reward=streakRewards[idx]||streakRewards[0];
+    reward.apply(p);
+    p.v47.lastClaimDate=today();
+    p.v47.lastClaimDayNumber=dayNumber();
+    p.v47.streakDay=(p.v47.streakDay||1)+1;
+    if(p.v47.streakDay>7)p.v47.streakDay=1;
+    write(p);
+    sync(p);
+    render();
+    try{toast("Daily Reward: "+reward.label); if(typeof GKLSfx==="function")GKLSfx("win"); if(typeof flyCoin==="function")flyCoin();}catch(e){}
+  }
+
+  function rewardChestGrant(){
+    let p=ensure();
+    const roll=Math.random();
+    let label="";
+    if(roll<.40){const c=150+Math.floor(Math.random()*251);p.coins=(p.coins||0)+c;label=c+" Coins";}
+    else if(roll<.58){p.boosters.hammer=(p.boosters.hammer||0)+1;label="Hammer";}
+    else if(roll<.76){p.boosters.shuffle=(p.boosters.shuffle||0)+1;label="Shuffle";}
+    else if(roll<.92){p.boosters.bomb=(p.boosters.bomb||0)+1;label="Bomb";}
+    else{p.coins=(p.coins||0)+800;p.boosters.hammer=(p.boosters.hammer||0)+1;label="JACKPOT +800 Coins + Hammer";}
+    write(p);
+    sync(p);
+    try{toast("Reward Chest: "+label); if(typeof GKLSfx==="function")GKLSfx("win"); if(typeof flyCoin==="function")flyCoin();}catch(e){}
+  }
+
+  function openRewardScreen(){
+    document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+    const s=document.getElementById("rewardScreen");
+    if(s)s.classList.add("active");
+    render();
+  }
+
+  setTimeout(function(){
+    const fab=document.getElementById("rewardChestFab");
+    if(fab)fab.onclick=openRewardScreen;
+
+    const dailySide=document.getElementById("dailyBtn");
+    if(dailySide){
+      dailySide.onclick=function(e){
+        if(e){e.preventDefault();e.stopPropagation();}
+        openRewardScreen();
+      };
+    }
+
+    const claim=document.getElementById("claimDailyStreakV47");
+    if(claim)claim.onclick=claimDaily;
+
+    const chest=document.getElementById("openRewardChestV47");
+    if(chest){
+      chest.onclick=function(){
+        if(window.GKLShowRewarded){
+          window.GKLShowRewarded("v47_reward_chest",rewardChestGrant);
+        }else if(typeof showRewardedAd==="function"){
+          showRewardedAd(rewardChestGrant);
+        }else{
+          rewardChestGrant();
+        }
+      };
+    }
+
+    // Add shop shortcut card if screen exists
+    const shop=document.getElementById("shopScreen");
+    if(shop && !document.getElementById("v47ShopRewardCard")){
+      const card=document.createElement("div");
+      card.id="v47ShopRewardCard";
+      card.className="adBox";
+      card.innerHTML="<b>🎁 Free Reward Chest</b><br>Watch ad and win coins or boosters.<br><button id='v47ShopRewardBtn' class='premiumBtn'>OPEN REWARD CHEST</button>";
+      const back=shop.querySelector(".back");
+      shop.insertBefore(card,back||null);
+      setTimeout(function(){
+        const b=document.getElementById("v47ShopRewardBtn");
+        if(b)b.onclick=openRewardScreen;
+      },100);
+    }
+
+    render();
+    setInterval(render,60000);
+  },900);
+})();
+
+
+
+// v4.8 World Map Expansion
+(function(){
+  if(window.__GKL_V48_WORLD_MAP__) return;
+  window.__GKL_V48_WORLD_MAP__ = true;
+
+  const worlds=[
+    {id:1,name:"Forest Kingdom",icon:"🌲",from:1,to:20},
+    {id:2,name:"Desert Kingdom",icon:"🏜️",from:21,to:40},
+    {id:3,name:"Ice Kingdom",icon:"❄️",from:41,to:60},
+    {id:4,name:"Lava Kingdom",icon:"🌋",from:61,to:80},
+    {id:5,name:"Sky Kingdom",icon:"☁️",from:81,to:100}
+  ];
+
+  function read(){try{return JSON.parse(localStorage.getItem("gkl_v22")||"{}")}catch(e){return {}}}
+  function activeWorld(level){return Math.floor((Math.max(1,level)-1)/20)+1}
+
+  window.GKLWorldName=function(level){
+    const w=worlds[activeWorld(level)-1]||worlds[0];
+    return w.icon+" "+w.name;
+  };
+
+  function renderWorldSummary(){
+    const p=read();
+    const unlocked=p.unlocked||1;
+    const current=p.current||1;
+    const box=document.getElementById("worldSummary");
+    if(!box)return;
+    box.innerHTML="";
+    worlds.forEach(w=>{
+      const div=document.createElement("div");
+      const unlockedWorld=unlocked>=w.from;
+      const pct=Math.max(0,Math.min(100,Math.floor((Math.min(unlocked,w.to)-w.from+1)/20*100)));
+      div.className="worldChip "+(activeWorld(current)===w.id?"active ":"")+(unlockedWorld?"":"locked");
+      div.innerHTML="<div style='font-size:23px'>"+w.icon+"</div><b>World "+w.id+"</b><br><small>"+w.from+"-"+w.to+"</small><div class='worldProgressBar'><div class='worldProgressFill' style='width:"+pct+"%'></div></div>";
+      box.appendChild(div);
+    });
+  }
+
+  function renderWorldMap(){
+    const container=document.getElementById("worldMapContainer");
+    if(!container)return;
+    const p=read();
+    const unlocked=p.unlocked||1;
+    const current=p.current||1;
+    container.innerHTML="";
+    worlds.forEach(w=>{
+      const sec=document.createElement("div");
+      sec.className="worldSection";
+      const unlockedCount=Math.max(0,Math.min(20,unlocked-w.from+1));
+      const pct=Math.floor(unlockedCount/20*100);
+      sec.innerHTML="<h2>"+w.icon+" "+w.name+"</h2><div class='worldProgressBar'><div class='worldProgressFill' style='width:"+pct+"%'></div></div>";
+      const grid=document.createElement("div");
+      grid.className="worldMapGrid";
+      for(let n=w.from;n<=w.to;n++){
+        const b=document.createElement("button");
+        b.className="worldNode "+(n===current?"current ":"")+(n>unlocked?"locked":"");
+        b.textContent=n>unlocked?"🔒":n;
+        b.onclick=function(){
+          if(n>unlocked){
+            try{toast("Level locked")}catch(e){}
+            return;
+          }
+          try{
+            closeScreens();
+            startLevel(n);
+            if(typeof GKLSfx==="function")GKLSfx("tap");
+          }catch(e){}
+        };
+        grid.appendChild(b);
+      }
+      sec.appendChild(grid);
+      container.appendChild(sec);
+    });
+  }
+
+  window.GKLRenderWorldMap=function(){
+    renderWorldSummary();
+    renderWorldMap();
+  };
+
+  // Upgrade original mapNav to render enhanced map
+  setTimeout(function(){
+    const map=document.getElementById("mapNav");
+    if(map){
+      map.onclick=function(){
+        document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+        const screen=document.getElementById("mapScreen");
+        if(screen)screen.classList.add("active");
+        renderWorldSummary();
+        renderWorldMap();
+      };
+    }
+
+    // Patch mission text with world name without changing core level logic.
+    const mission=document.getElementById("mission");
+    const oldText=mission?mission.textContent:"";
+    setInterval(function(){
+      try{
+        const p=read();
+        const m=document.getElementById("mission");
+        if(m && !m.textContent.includes("Kingdom")){
+          const w=window.GKLWorldName(p.current||1);
+          // keep mission short for phone fit
+          m.title=w+" • "+m.textContent;
+        }
+        renderWorldSummary();
+      }catch(e){}
+    },2500);
+  },900);
+})();
+
+
+
+// v4.9 Achievements + Player Profile
+(function(){
+  if(window.__GKL_V49_PROFILE_ACH__) return;
+  window.__GKL_V49_PROFILE_ACH__ = true;
+  const KEY="gkl_v22";
+  const achievements=[
+    {id:"first_match",icon:"💎",title:"First Match",desc:"Make your first match",check:p=>(p.totalMatchesMade||0)>=1,reward:"100 Coins",apply:p=>{p.coins=(p.coins||0)+100;p.v49Stats.coinsEarned=(p.v49Stats.coinsEarned||0)+100}},
+    {id:"first_win",icon:"🏆",title:"First Victory",desc:"Complete your first level",check:p=>(p.totalLevelsWon||0)>=1,reward:"150 Coins",apply:p=>{p.coins=(p.coins||0)+150;p.v49Stats.coinsEarned=(p.v49Stats.coinsEarned||0)+150}},
+    {id:"level_10",icon:"🔟",title:"Reach Level 10",desc:"Unlock level 10",check:p=>(p.unlocked||1)>=10,reward:"Hammer",apply:p=>{p.boosters.hammer=(p.boosters.hammer||0)+1}},
+    {id:"level_25",icon:"⭐",title:"Reach Level 25",desc:"Unlock level 25",check:p=>(p.unlocked||1)>=25,reward:"500 Coins",apply:p=>{p.coins=(p.coins||0)+500;p.v49Stats.coinsEarned=(p.v49Stats.coinsEarned||0)+500}},
+    {id:"level_50",icon:"👑",title:"Reach Level 50",desc:"Unlock level 50",check:p=>(p.unlocked||1)>=50,reward:"Bomb + 1000 Coins",apply:p=>{p.coins=(p.coins||0)+1000;p.boosters.bomb=(p.boosters.bomb||0)+1;p.v49Stats.coinsEarned=(p.v49Stats.coinsEarned||0)+1000}},
+    {id:"level_100",icon:"🌟",title:"Sky Champion",desc:"Unlock level 100",check:p=>(p.unlocked||1)>=100,reward:"Mega Reward",apply:p=>{p.coins=(p.coins||0)+3000;p.boosters.hammer=(p.boosters.hammer||0)+2;p.boosters.shuffle=(p.boosters.shuffle||0)+2;p.boosters.bomb=(p.boosters.bomb||0)+2;p.v49Stats.coinsEarned=(p.v49Stats.coinsEarned||0)+3000}},
+    {id:"matches_100",icon:"🔥",title:"100 Matches",desc:"Make 100 total matches",check:p=>(p.totalMatchesMade||0)>=100,reward:"Shuffle",apply:p=>{p.boosters.shuffle=(p.boosters.shuffle||0)+1}},
+    {id:"matches_500",icon:"⚡",title:"500 Matches",desc:"Make 500 total matches",check:p=>(p.totalMatchesMade||0)>=500,reward:"1000 Coins",apply:p=>{p.coins=(p.coins||0)+1000;p.v49Stats.coinsEarned=(p.v49Stats.coinsEarned||0)+1000}},
+    {id:"coins_5000",icon:"🪙",title:"Coin Collector",desc:"Hold 5,000 coins",check:p=>(p.coins||0)>=5000,reward:"Bomb",apply:p=>{p.boosters.bomb=(p.boosters.bomb||0)+1}},
+    {id:"boosters_10",icon:"🛠️",title:"Booster Master",desc:"Use 10 boosters",check:p=>(p.totalBoostersUsed||0)>=10,reward:"300 Coins",apply:p=>{p.coins=(p.coins||0)+300;p.v49Stats.coinsEarned=(p.v49Stats.coinsEarned||0)+300}},
+    {id:"chests_10",icon:"🎁",title:"Chest Hunter",desc:"Open 10 reward chests",check:p=>(p.v49Stats.chestsOpened||0)>=10,reward:"Gold Bonus",apply:p=>{p.coins=(p.coins||0)+750;p.boosters.hammer=(p.boosters.hammer||0)+1;p.v49Stats.coinsEarned=(p.v49Stats.coinsEarned||0)+750}},
+    {id:"streak_7",icon:"📅",title:"7-Day Streak",desc:"Reach day 7 login streak",check:p=>((p.v49Stats.bestStreak||0)>=7 || (p.v47&&p.v47.streakDay>=7)),reward:"Mega Chest",apply:p=>{p.coins=(p.coins||0)+1000;p.boosters.shuffle=(p.boosters.shuffle||0)+1;p.boosters.bomb=(p.boosters.bomb||0)+1;p.v49Stats.coinsEarned=(p.v49Stats.coinsEarned||0)+1000}}
+  ];
+  function read(){try{return JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){return {}}}
+  function write(p){localStorage.setItem(KEY,JSON.stringify(p))}
+  function ensure(){
+    const p=read();
+    p.boosters=p.boosters||{};
+    p.v49Stats=p.v49Stats||{};
+    p.v49Achievements=p.v49Achievements||{};
+    p.v49Stats.highestLevel=Math.max(p.v49Stats.highestLevel||1,p.unlocked||1,p.current||1);
+    p.v49Stats.bestStreak=Math.max(p.v49Stats.bestStreak||0, p.v47 ? ((p.v47.streakDay||1)-1) : 0);
+    p.v49Stats.coinsEarned=p.v49Stats.coinsEarned||0;
+    p.v49Stats.chestsOpened=p.v49Stats.chestsOpened||0;
+    write(p);
+    return p;
+  }
+  function sync(p){try{if(window.profile){Object.assign(profile,p);updateTop();}if(typeof GKLRenderMeta==="function")GKLRenderMeta();}catch(e){}}
+  function fmt(n){return (n||0).toLocaleString()}
+  function worldName(level){return window.GKLWorldName?window.GKLWorldName(level):"Kingdom Level "+level}
+  function completedCount(p){return achievements.filter(a=>p.v49Achievements&&p.v49Achievements[a.id]).length}
+  function renderProfile(){
+    const p=ensure();
+    const done=completedCount(p);
+    const pct=Math.floor(done/achievements.length*100);
+    const set=(id,val)=>{const e=document.getElementById(id);if(e)e.textContent=val};
+    set("profileWorldV49",worldName(p.current||1));
+    set("achievementPercentV49",pct+"% Achievements Complete");
+    const fill=document.getElementById("achievementProgressV49"); if(fill)fill.style.width=pct+"%";
+    set("statCurrentLevelV49",p.current||1);
+    set("statHighestLevelV49",p.v49Stats.highestLevel||p.unlocked||1);
+    set("statMatchesV49",fmt(p.totalMatchesMade||0));
+    set("statWinsV49",fmt(p.totalLevelsWon||0));
+    set("statCoinsEarnedV49",fmt(p.v49Stats.coinsEarned||0));
+    set("statChestsV49",fmt(p.v49Stats.chestsOpened||0));
+    set("statBestStreakV49",fmt(p.v49Stats.bestStreak||0));
+    set("statBoostersV49",fmt(p.totalBoostersUsed||0));
+    const grid=document.getElementById("achievementGridV49");
+    if(grid){
+      grid.innerHTML="";
+      achievements.forEach(a=>{
+        const ready=a.check(p), claimed=!!p.v49Achievements[a.id];
+        const div=document.createElement("div");
+        div.className="achievementV49 "+(ready?"done ":"")+(claimed?"claimed":"");
+        div.innerHTML="<div class='achIcon'>"+a.icon+"</div><div><div class='achTitle'>"+a.title+"</div><div class='achDesc'>"+a.desc+"<br>Reward: "+a.reward+"</div></div><button class='achBtn' "+(!ready||claimed?"disabled":"")+">"+(claimed?"CLAIMED":ready?"CLAIM":"LOCKED")+"</button>";
+        div.querySelector("button").onclick=()=>claimAchievement(a.id);
+        grid.appendChild(div);
+      });
+    }
+  }
+  function claimAchievement(id){
+    const p=ensure(), a=achievements.find(x=>x.id===id);
+    if(!a)return;
+    if(p.v49Achievements[id]){try{toast("Already claimed")}catch(e){};return}
+    if(!a.check(p)){try{toast("Achievement locked")}catch(e){};return}
+    a.apply(p); p.v49Achievements[id]=Date.now(); write(p); sync(p); renderProfile();
+    try{toast("Achievement Reward: "+a.reward); if(typeof GKLSfx==="function")GKLSfx("win"); if(typeof flyCoin==="function")flyCoin();}catch(e){}
+  }
+  function openProfile(){
+    document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+    const s=document.getElementById("profileScreenV49");
+    if(s)s.classList.add("active");
+    renderProfile();
+  }
+  window.GKLRenderProfileV49=renderProfile;
+  window.GKLOpenProfileV49=openProfile;
+  const oldGKLShowRewarded=window.GKLShowRewarded;
+  if(typeof oldGKLShowRewarded==="function" && !oldGKLShowRewarded.__v49Wrapped){
+    const wrapped=function(placement,onReward){
+      const cb=function(){
+        try{if(String(placement||"").includes("reward_chest")||String(placement||"").includes("chest")){const p=ensure();p.v49Stats.chestsOpened=(p.v49Stats.chestsOpened||0)+1;write(p)}}catch(e){}
+        if(typeof onReward==="function")onReward();
+      };
+      return oldGKLShowRewarded(placement,cb);
+    };
+    wrapped.__v49Wrapped=true; window.GKLShowRewarded=wrapped;
+  }
+  setInterval(function(){const p=ensure(); if((p.unlocked||1)>(p.v49Stats.highestLevel||1)){p.v49Stats.highestLevel=p.unlocked||1;write(p)} renderProfile()},4000);
+  setTimeout(function(){
+    const quick=document.getElementById("profileQuickBtnV49"); if(quick)quick.onclick=openProfile;
+    const kingdom=document.getElementById("kingdomScreen");
+    if(kingdom && !document.getElementById("profileCardV49")){
+      const card=document.createElement("div");
+      card.id="profileCardV49"; card.className="card";
+      card.innerHTML="<h2>👤 Player Profile</h2><p>View achievements, lifetime stats, and rewards.</p><button id='openProfileBtnV49' class='premiumBtn'>OPEN PROFILE</button>";
+      const back=kingdom.querySelector(".back"); kingdom.insertBefore(card,back||null);
+      setTimeout(()=>{const b=document.getElementById("openProfileBtnV49"); if(b)b.onclick=openProfile},100);
+    }
+    renderProfile();
+  },1000);
+})();
+
+
+
+// v5.0 Production Release freeze
+(function(){
+  if(window.__GKL_V50_PRODUCTION__) return;
+  window.__GKL_V50_PRODUCTION__ = true;
+  window.GKL_BUILD = Object.assign(window.GKL_BUILD || {}, {
+    version:"5.0",
+    channel:"production-release",
+    productionCandidate:true,
+    playStoreReady:true,
+    stableBaseline:"v4.9"
+  });
+  setTimeout(function(){
+    const ps=document.getElementById("playStoreReadyBtn");
+    if(ps){
+      ps.textContent="OPEN PRODUCTION CHECK";
+      ps.onclick=function(){
+        document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+        const screen=document.getElementById("productionScreenV50");
+        if(screen)screen.classList.add("active");
+      };
+    }
+  },1000);
+  try{
+    const p=JSON.parse(localStorage.getItem("gkl_v22")||"{}");
+    p.lastBuild="v5.0-production";
+    localStorage.setItem("gkl_v22",JSON.stringify(p));
+  }catch(e){}
+})();
+
 
 
 // v4.6 Release Candidate polish - no core gameplay changes

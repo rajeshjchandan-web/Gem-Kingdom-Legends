@@ -1,0 +1,11 @@
+Privacy Policy for Gem Kingdom Legends
+
+Effective Date: 2026-06-03
+
+Gem Kingdom Legends stores gameplay progress locally on your device, including coins, levels, achievements, rewards, and settings.
+
+The Android version may display ads, including rewarded ads, through third-party advertising networks such as Google AdMob. These networks may collect device or advertising identifiers according to their own privacy policies.
+
+The game does not require account login. Progress is stored locally on your device. Removing the app may remove saved progress.
+
+For privacy questions, contact the app developer through the contact details listed on the Google Play Store page.
