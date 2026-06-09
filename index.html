@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v5.0.2 Facebook Safe-Area Rework</title>
+<title>Gem Kingdom Legends v5.0.3 Compact HUD Fix</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -2563,6 +2563,67 @@ button:active{transform:scale(.95)!important}
 .rewardChestFab{bottom:17.65%!important;font-size:10px!important;padding:4px 11px!important}
 }
 
+
+/* v5.0.3 COMPACT HUD FIX - exact board restore + compact merged HUD */
+.rcBadge,.productionBadge,.publisherBadge{display:none!important;visibility:hidden!important;pointer-events:none!important}
+.profileNavBtn,#profileQuickBtnV49{
+  display:grid!important;visibility:visible!important;pointer-events:auto!important;position:absolute!important;
+  left:6px!important;bottom:17.0%!important;top:auto!important;transform:none!important;z-index:58!important;
+  min-width:78px!important;height:25px!important;padding:0 7px!important;border-radius:14px!important;border:2px solid #ffdf45!important;
+  background:linear-gradient(#ff6bef,#7d18cd)!important;color:#fff36b!important;font-size:9px!important;font-weight:1000!important;
+  text-shadow:0 2px #000!important;box-shadow:0 3px 0 #4d0037,0 0 8px rgba(255,243,107,.45)!important;place-items:center!important;
+}
+.topBars{top:calc(4.0% + env(safe-area-inset-top))!important;left:1%!important;gap:4px!important;z-index:50!important}
+.pill{height:30px!important;min-width:132px!important;font-size:12px!important}
+.logo{top:calc(4.1% + env(safe-area-inset-top))!important;left:50%!important;transform:translateX(-50%) scale(.82)!important;transform-origin:top center!important;z-index:38!important}
+.questTopBtn{top:calc(4.2% + env(safe-area-inset-top))!important;right:13.2%!important;transform:scale(.84)!important;transform-origin:top right!important;z-index:51!important}
+.sideBtns{top:calc(4.0% + env(safe-area-inset-top))!important;right:1%!important;gap:7px!important;transform:scale(.82)!important;transform-origin:top right!important;z-index:51!important}
+
+/* Compact merged XP + stats area */
+.metaHud{top:calc(14.8% + env(safe-area-inset-top))!important;left:13%!important;right:7%!important;height:32px!important;min-height:32px!important;z-index:39!important;border-width:3px!important;border-radius:16px!important;padding:3px 8px 3px 46px!important}
+.xpTrack{height:12px!important;border-width:2px!important}
+.metaHud .xpLabel,.metaHud .xpText{font-size:10px!important}
+.pLevel,.playerLevel,.plv{width:56px!important;height:56px!important;min-width:56px!important;min-height:56px!important;transform:scale(.84)!important;transform-origin:center!important}
+.stats{top:calc(20.5% + env(safe-area-inset-top))!important;left:14.5%!important;right:13.5%!important;height:46px!important;min-height:46px!important;z-index:38!important;border-width:3px!important;border-radius:18px!important}
+.stats .statLabel,.stats small{font-size:10px!important}
+.stats .statValue,.stats b{font-size:22px!important}
+.levelBadge{top:calc(20.0% + env(safe-area-inset-top))!important;left:3%!important;width:62px!important;height:62px!important;min-width:62px!important;min-height:62px!important;z-index:39!important;border-width:3px!important;border-radius:16px!important}
+.levelBadge .big,.levelBadge b{font-size:27px!important}
+.king{top:calc(20.05% + env(safe-area-inset-top))!important;right:3%!important;width:64px!important;height:64px!important;z-index:39!important;transform:scale(.90)!important;transform-origin:center!important}
+
+/* Board restored bigger - do not shrink */
+.boardWrap{top:calc(29.5% + env(safe-area-inset-top))!important;height:42.6%!important;left:8.2%!important;right:8.2%!important;z-index:30!important}
+.board{transform:none!important}
+.sidePanel{top:48.2%!important;z-index:36!important}
+
+/* Objective/reward clear */
+.mission{top:calc(73.35% + env(safe-area-inset-top))!important;height:34px!important;left:6.5%!important;right:6.5%!important;z-index:42!important;font-size:12px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.rewardChestFab{bottom:17.95%!important;z-index:43!important;font-size:10.5px!important;padding:5px 13px!important}
+.boosters{bottom:8.15%!important;height:9.2%!important;z-index:40!important}
+.nav{height:8.05%!important;z-index:41!important}
+
+/* Daily reward text fit */
+.dailySide,.dailyReward,.dailyBtn,#dailyBtn{font-size:9px!important;line-height:.95!important}
+.sidePanel .label,.sidePanel b{font-size:9px!important;line-height:.95!important}
+.sidePanel{font-size:9px!important}
+
+/* Override earlier v5.0.2 media shrink */
+@media(max-height:790px){
+  .topBars{top:calc(3.5% + env(safe-area-inset-top))!important}
+  .pill{height:28px!important;min-width:125px!important;font-size:11px!important}
+  .logo{top:calc(3.8% + env(safe-area-inset-top))!important;transform:translateX(-50%) scale(.75)!important}
+  .questTopBtn{top:calc(3.9% + env(safe-area-inset-top))!important;transform:scale(.78)!important}
+  .sideBtns{top:calc(3.7% + env(safe-area-inset-top))!important;transform:scale(.76)!important;gap:6px!important}
+  .metaHud{top:calc(14.3% + env(safe-area-inset-top))!important;height:32px!important;padding-left:45px!important}
+  .stats{top:calc(20.0% + env(safe-area-inset-top))!important;height:46px!important}
+  .levelBadge{top:calc(19.6% + env(safe-area-inset-top))!important;width:60px!important;height:60px!important}
+  .king{top:calc(19.7% + env(safe-area-inset-top))!important;width:62px!important;height:62px!important}
+  .boardWrap{top:calc(29.2% + env(safe-area-inset-top))!important;height:43.0%!important;left:7.5%!important;right:7.5%!important}
+  .mission{top:calc(73.45% + env(safe-area-inset-top))!important;height:32px!important;font-size:11px!important}
+  .rewardChestFab{bottom:17.65%!important;font-size:10px!important;padding:4px 11px!important}
+  .profileNavBtn,#profileQuickBtnV49{bottom:16.95%!important;height:24px!important;min-width:72px!important;font-size:8.5px!important}
+}
+
 </style>
 </head>
 <body>
@@ -2583,7 +2644,8 @@ button:active{transform:scale(.95)!important}
     </div>
   </div>
   <div class="levelUpPop" id="levelUpPop">LEVEL UP!</div>
-  <div class="versionTag">v5.0.2</div>
+  <div class="versionTag">v5.0.3</div>
+  <button class="profileNavBtn" id="profileQuickBtnV49">👤 PROFILE</button>
   <div class="publisherBadge">APK READY</div>
 <div class="castle">🏰</div>
   <div class="logo"><div class="gem">GEM</div><div class="kingdom">KINGDOM</div><div class="legends">LEGENDS</div></div>
@@ -3001,7 +3063,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v5.0.2 • Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v5.0.3 • Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
@@ -4914,6 +4976,46 @@ try{
     }
     renderProfile();
   },1000);
+})();
+
+
+
+// v5.0.3 Compact HUD Fix
+(function(){
+  if(window.__GKL_V503_COMPACT_HUD__) return;
+  window.__GKL_V503_COMPACT_HUD__=true;
+  function removeDevBadges(){try{document.querySelectorAll('.rcBadge,.productionBadge,.publisherBadge').forEach(e=>e.remove())}catch(e){}}
+  function ensureProfileButton(){
+    try{
+      let b=document.getElementById('profileQuickBtnV49');
+      if(!b){
+        b=document.createElement('button');
+        b.id='profileQuickBtnV49';
+        b.className='profileNavBtn';
+        b.textContent='👤 PROFILE';
+        document.body.appendChild(b);
+      }
+      b.textContent='👤 PROFILE';
+      b.onclick=function(){
+        if(typeof window.GKLOpenProfileV49==='function') window.GKLOpenProfileV49();
+        else{
+          document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+          const p=document.getElementById('profileScreenV49');
+          if(p)p.classList.add('active');
+        }
+      };
+    }catch(e){}
+  }
+  function fitDailyText(){
+    try{
+      const panels=document.querySelectorAll('.sidePanel,.dailySide,.dailyReward,#dailyBtn,.dailyBtn');
+      panels.forEach(p=>{p.style.fontSize='9px';p.style.lineHeight='.95'});
+    }catch(e){}
+  }
+  function polishMission(){try{const m=document.getElementById('mission');if(m){m.style.whiteSpace='nowrap';m.style.overflow='hidden';m.style.textOverflow='ellipsis'}}catch(e){}}
+  function tick(){removeDevBadges();ensureProfileButton();fitDailyText();polishMission();}
+  setTimeout(tick,300);
+  setInterval(tick,1200);
 })();
 
 
