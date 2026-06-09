@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v5.0 Production Release</title>
+<title>Gem Kingdom Legends v5.0.1 Final UI Polish</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -2481,6 +2481,56 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
 .releaseCard{border-radius:16px;background:rgba(0,0,0,.24);border:1px solid rgba(255,223,69,.55);padding:8px 10px;margin:6px 0;text-align:left;font-weight:1000}
 .releasePass{color:#b5ff4e}.releaseWarn{color:#fff36b}
 
+
+/* v5.0.1 FINAL UI POLISH */
+:root{--gkl-safe-drop:50px}
+.rcBadge,.productionBadge,.publisherBadge{display:none!important;visibility:hidden!important;pointer-events:none!important}
+.topBars{top:calc(1.2% + env(safe-area-inset-top) + var(--gkl-safe-drop))!important}
+.logo{top:calc(0.7% + env(safe-area-inset-top) + var(--gkl-safe-drop))!important}
+.questTopBtn{top:calc(1.1% + env(safe-area-inset-top) + var(--gkl-safe-drop))!important}
+.sideBtns{top:calc(1.1% + env(safe-area-inset-top) + var(--gkl-safe-drop))!important}
+.profileNavBtn{
+  top:calc(102px + env(safe-area-inset-top))!important;
+  bottom:auto!important;left:50%!important;transform:translateX(-50%)!important;
+  z-index:62!important;min-width:92px!important;height:30px!important;border-radius:16px!important;
+  background:linear-gradient(#ff6bef,#7d18cd)!important;color:#fff36b!important;border:2px solid #ffdf45!important;
+  font-size:11px!important;font-weight:1000!important;box-shadow:0 4px 0 #4d0037,0 0 12px rgba(255,243,107,.45)!important;
+  text-shadow:0 2px #000!important;display:grid!important;place-items:center!important;padding:0 9px!important;
+}
+.metaHud{top:calc(15.8% + env(safe-area-inset-top) + 22px)!important}
+.stats{top:calc(27.1% + env(safe-area-inset-top) + 18px)!important}
+.levelBadge{top:calc(26.3% + env(safe-area-inset-top) + 18px)!important}
+.king{top:calc(26.4% + env(safe-area-inset-top) + 18px)!important}
+.boardWrap{top:calc(35.3% + env(safe-area-inset-top) + 10px)!important;height:37.6%!important}
+.sidePanel{top:48.9%!important}
+.mission{
+  top:calc(74.4% + env(safe-area-inset-top))!important;height:34px!important;left:6.5%!important;right:6.5%!important;
+  z-index:43!important;font-size:12.5px!important;border-radius:18px!important;
+}
+.rewardChestFab{bottom:17.35%!important;z-index:44!important;font-size:11px!important;padding:5px 13px!important}
+.boosters{bottom:8.15%!important;height:9.15%!important}
+.nav{height:8.0%!important}
+.playBtn{animation:gklPlayPulse 2s ease-in-out infinite!important}
+@keyframes gklPlayPulse{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.035);filter:brightness(1.18) drop-shadow(0 0 10px rgba(181,255,78,.85))}}
+.xpTrack{box-shadow:inset 0 2px 6px rgba(0,0,0,.85),0 0 8px rgba(255,82,255,.55)!important;animation:gklXpGlow 2.4s ease-in-out infinite!important}
+@keyframes gklXpGlow{0%,100%{filter:brightness(1)}50%{filter:brightness(1.25)}}
+button{transition:transform .12s ease, filter .12s ease!important}
+button:active{transform:scale(.95)!important}
+.gklCoinSparkle{position:absolute;z-index:300;font-size:22px;pointer-events:none;animation:gklCoinSparkleFly .9s ease-out forwards}
+@keyframes gklCoinSparkleFly{0%{opacity:0;transform:translate(-50%,0) scale(.65) rotate(0deg)}15%{opacity:1}100%{opacity:0;transform:translate(-50%,-70px) scale(1.25) rotate(220deg)}}
+@media(max-height:790px){
+  :root{--gkl-safe-drop:42px}
+  .profileNavBtn{top:calc(88px + env(safe-area-inset-top))!important;height:27px!important;min-width:86px!important;font-size:10px!important}
+  .metaHud{top:calc(14.6% + env(safe-area-inset-top) + 18px)!important}
+  .stats{top:calc(25.9% + env(safe-area-inset-top) + 15px)!important}
+  .levelBadge{top:calc(25.2% + env(safe-area-inset-top) + 15px)!important}
+  .king{top:calc(25.3% + env(safe-area-inset-top) + 15px)!important}
+  .boardWrap{top:calc(34.1% + env(safe-area-inset-top) + 8px)!important;height:38.2%!important}
+  .mission{top:calc(74.1% + env(safe-area-inset-top))!important;height:32px!important;font-size:11.2px!important}
+  .rewardChestFab{bottom:17.2%!important;font-size:10px!important;padding:4px 11px!important}
+  .boosters{bottom:8.0%!important;height:9.1%!important}
+}
+
 </style>
 </head>
 <body>
@@ -2501,11 +2551,9 @@ padding:4px 10px;border-radius:12px;font-weight:1000}
     </div>
   </div>
   <div class="levelUpPop" id="levelUpPop">LEVEL UP!</div>
-  <div class="versionTag">v5.0</div>
-  <div class="productionBadge" id="productionBadgeV50">PROD READY</div>
+  <div class="versionTag">v5.0.1</div>
   <button class="profileNavBtn" id="profileQuickBtnV49">👤 PROFILE</button>
   <div class="publisherBadge">APK READY</div>
-  <div class="rcBadge" id="rcBadge">RC READY</div>
 <div class="castle">🏰</div>
   <div class="logo"><div class="gem">GEM</div><div class="kingdom">KINGDOM</div><div class="legends">LEGENDS</div></div>
   <div class="topBars">
@@ -2922,7 +2970,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v5.0 • Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v5.0.1 • Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
@@ -4835,6 +4883,51 @@ try{
     }
     renderProfile();
   },1000);
+})();
+
+
+
+// v5.0.1 Final UI Polish bridge
+(function(){
+  if(window.__GKL_V501_FINAL_UI_POLISH__) return;
+  window.__GKL_V501_FINAL_UI_POLISH__ = true;
+  function removeBadges(){try{document.querySelectorAll('.rcBadge,.productionBadge,.publisherBadge').forEach(e=>e.remove())}catch(e){}}
+  function polishProfileButton(){try{const b=document.getElementById('profileQuickBtnV49');if(b){b.textContent='👤 PROFILE';b.title='Player Profile'}}catch(e){}}
+  let lastCoins='';
+  function coinSparkle(){
+    try{
+      const c=document.getElementById('coinsTop'); if(!c)return;
+      const now=c.textContent||'';
+      if(lastCoins && now!==lastCoins){
+        const r=c.getBoundingClientRect();
+        for(let i=0;i<4;i++){
+          const s=document.createElement('div');
+          s.className='gklCoinSparkle';
+          s.textContent=i%2?'✨':'🪙';
+          s.style.left=(r.left+r.width/2+(Math.random()*42-21))+'px';
+          s.style.top=(r.top+r.height/2+(Math.random()*18-9))+'px';
+          s.style.animationDelay=(i*.05)+'s';
+          document.body.appendChild(s);
+          setTimeout(()=>s.remove(),1050);
+        }
+      }
+      lastCoins=now;
+    }catch(e){}
+  }
+  function bindButtonPolish(){
+    try{
+      document.querySelectorAll('button').forEach(btn=>{
+        if(btn.__gkl501TapBound)return;
+        btn.__gkl501TapBound=true;
+        btn.addEventListener('pointerdown',()=>{btn.style.transform='scale(.95)'},{passive:true});
+        btn.addEventListener('pointerup',()=>{btn.style.transform=''},{passive:true});
+        btn.addEventListener('pointercancel',()=>{btn.style.transform=''},{passive:true});
+      });
+    }catch(e){}
+  }
+  function polishMission(){try{const m=document.getElementById('mission');if(m){m.style.whiteSpace='nowrap';m.style.overflow='hidden';m.style.textOverflow='ellipsis'}}catch(e){}}
+  setInterval(function(){removeBadges();polishProfileButton();coinSparkle();bindButtonPolish();polishMission()},800);
+  setTimeout(function(){removeBadges();polishProfileButton();bindButtonPolish();polishMission()},300);
 })();
 
 
