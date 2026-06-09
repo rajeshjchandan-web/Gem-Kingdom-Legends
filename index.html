@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v5.0.1 Final UI Polish</title>
+<title>Gem Kingdom Legends v5.0.2 Facebook Safe-Area Rework</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -2531,6 +2531,38 @@ button:active{transform:scale(.95)!important}
   .boosters{bottom:8.0%!important;height:9.1%!important}
 }
 
+
+/* v5.0.2 FACEBOOK SAFE-AREA REWORK */
+.profileNavBtn,#profileQuickBtnV49,.rcBadge,.productionBadge,.publisherBadge{display:none!important;visibility:hidden!important;pointer-events:none!important}
+.topBars{top:calc(4.2% + env(safe-area-inset-top))!important;left:1%!important;gap:4px!important;z-index:50!important}
+.pill{height:30px!important;min-width:132px!important;font-size:12px!important}
+.logo{top:calc(4.4% + env(safe-area-inset-top))!important;left:50%!important;transform:translateX(-50%) scale(.86)!important;transform-origin:top center!important;z-index:38!important}
+.questTopBtn{top:calc(4.4% + env(safe-area-inset-top))!important;right:13.8%!important;transform:scale(.88)!important;transform-origin:top right!important;z-index:51!important}
+.sideBtns{top:calc(4.2% + env(safe-area-inset-top))!important;right:1.2%!important;gap:8px!important;transform:scale(.86)!important;transform-origin:top right!important;z-index:51!important}
+.metaHud{top:calc(16.3% + env(safe-area-inset-top))!important;left:7%!important;right:7%!important;height:46px!important;z-index:37!important}
+.stats{top:calc(27% + env(safe-area-inset-top))!important;left:16%!important;right:12.5%!important;height:55px!important;z-index:38!important}
+.levelBadge{top:calc(26.7% + env(safe-area-inset-top))!important;left:3%!important;width:70px!important;height:70px!important;z-index:39!important}
+.king{top:calc(26.75% + env(safe-area-inset-top))!important;right:3%!important;width:74px!important;height:74px!important;z-index:39!important}
+.boardWrap{top:calc(36% + env(safe-area-inset-top))!important;height:35.8%!important;left:12.2%!important;right:12.2%!important;z-index:30!important}
+.sidePanel{top:49.8%!important;z-index:36!important}
+.mission{top:calc(72.9% + env(safe-area-inset-top))!important;height:34px!important;left:6.5%!important;right:6.5%!important;z-index:42!important;font-size:12px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.rewardChestFab{bottom:17.85%!important;z-index:43!important;font-size:10.5px!important;padding:5px 13px!important}
+.boosters{bottom:8.15%!important;height:9.2%!important;z-index:40!important}
+.nav{height:8.05%!important;z-index:41!important}
+@media(max-height:790px){
+.topBars{top:calc(3.7% + env(safe-area-inset-top))!important}.pill{height:28px!important;min-width:125px!important;font-size:11px!important}
+.logo{top:calc(4.2% + env(safe-area-inset-top))!important;transform:translateX(-50%) scale(.78)!important}
+.questTopBtn{top:calc(4.2% + env(safe-area-inset-top))!important;transform:scale(.80)!important}
+.sideBtns{top:calc(4% + env(safe-area-inset-top))!important;transform:scale(.78)!important;gap:6px!important}
+.metaHud{top:calc(15.7% + env(safe-area-inset-top))!important;height:43px!important}
+.stats{top:calc(26.1% + env(safe-area-inset-top))!important;height:52px!important}
+.levelBadge{top:calc(25.9% + env(safe-area-inset-top))!important;width:66px!important;height:66px!important}
+.king{top:calc(25.9% + env(safe-area-inset-top))!important;width:68px!important;height:68px!important}
+.boardWrap{top:calc(35.2% + env(safe-area-inset-top))!important;height:36.2%!important}
+.mission{top:calc(72.7% + env(safe-area-inset-top))!important;height:32px!important;font-size:11.2px!important}
+.rewardChestFab{bottom:17.65%!important;font-size:10px!important;padding:4px 11px!important}
+}
+
 </style>
 </head>
 <body>
@@ -2551,8 +2583,7 @@ button:active{transform:scale(.95)!important}
     </div>
   </div>
   <div class="levelUpPop" id="levelUpPop">LEVEL UP!</div>
-  <div class="versionTag">v5.0.1</div>
-  <button class="profileNavBtn" id="profileQuickBtnV49">👤 PROFILE</button>
+  <div class="versionTag">v5.0.2</div>
   <div class="publisherBadge">APK READY</div>
 <div class="castle">🏰</div>
   <div class="logo"><div class="gem">GEM</div><div class="kingdom">KINGDOM</div><div class="legends">LEGENDS</div></div>
@@ -2970,7 +3001,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v5.0.1 • Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v5.0.2 • Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
@@ -4883,6 +4914,35 @@ try{
     }
     renderProfile();
   },1000);
+})();
+
+
+
+// v5.0.2 Facebook Safe-Area Rework
+(function(){
+  if(window.__GKL_V502_FB_SAFE_AREA__) return;
+  window.__GKL_V502_FB_SAFE_AREA__=true;
+  function cleanup(){
+    try{document.querySelectorAll('#profileQuickBtnV49,.profileNavBtn,.rcBadge,.productionBadge,.publisherBadge').forEach(e=>e.remove())}catch(e){}
+  }
+  function addProfileToKingdom(){
+    try{
+      const kingdom=document.getElementById('kingdomScreen');
+      if(!kingdom || document.getElementById('v502ProfileKingdomBtn')) return;
+      const card=document.createElement('div');
+      card.className='card'; card.id='v502ProfileKingdomBtn';
+      card.innerHTML='<h2>👤 Player Profile</h2><p>View your stats, achievements and progress.</p><button class="premiumBtn">OPEN PROFILE</button>';
+      card.querySelector('button').onclick=function(){
+        if(typeof window.GKLOpenProfileV49==='function') window.GKLOpenProfileV49();
+        else{document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active")); const p=document.getElementById("profileScreenV49"); if(p)p.classList.add("active");}
+      };
+      const back=kingdom.querySelector('.back'); kingdom.insertBefore(card,back||null);
+    }catch(e){}
+  }
+  function polishMission(){try{const m=document.getElementById('mission');if(m){m.style.whiteSpace='nowrap';m.style.overflow='hidden';m.style.textOverflow='ellipsis'}}catch(e){}}
+  cleanup();
+  setTimeout(function(){cleanup();addProfileToKingdom();polishMission()},400);
+  setInterval(function(){cleanup();addProfileToKingdom();polishMission()},1500);
 })();
 
 
