@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
-<title>Gem Kingdom Legends v5.0.4 Clean Compact Layout</title>
+<title>Gem Kingdom Legends v5.1.3 Kingdom Cleanup</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
 html,body{margin:0;height:100%;overflow:hidden;background:#071326;color:white;font-family:Arial,Helvetica,sans-serif}
@@ -2625,205 +2625,277 @@ button:active{transform:scale(.95)!important}
 }
 
 
-/* v5.0.4 CLEAN COMPACT LAYOUT */
-/* Remove large square P-LV and LEVEL badges completely to save space */
-.pLevel,.playerLevel,.plv,.levelBadge{
-  display:none!important;
-  visibility:hidden!important;
-  pointer-events:none!important;
-}
-.rcBadge,.productionBadge,.publisherBadge{
-  display:none!important;
-  visibility:hidden!important;
-  pointer-events:none!important;
-}
 
-/* Top HUD clean */
-.topBars{
-  top:calc(3.9% + env(safe-area-inset-top))!important;
-  left:1%!important;
-  gap:4px!important;
-  z-index:50!important;
-}
-.pill{height:30px!important;min-width:132px!important;font-size:12px!important}
-.logo{
-  top:calc(4.0% + env(safe-area-inset-top))!important;
-  left:50%!important;
-  transform:translateX(-50%) scale(.80)!important;
-  transform-origin:top center!important;
-  z-index:38!important;
-}
-.questTopBtn{
-  top:calc(4.1% + env(safe-area-inset-top))!important;
-  right:13.2%!important;
-  transform:scale(.82)!important;
-  transform-origin:top right!important;
-  z-index:51!important;
-}
-.sideBtns{
-  top:calc(3.9% + env(safe-area-inset-top))!important;
-  right:1%!important;
-  gap:7px!important;
-  transform:scale(.80)!important;
-  transform-origin:top right!important;
-  z-index:51!important;
-}
-
-/* Merge XP and stats into same compact vertical area */
+/* v5.0.4 NO-OVERLAP HUD FIX - board size unchanged */
+/* Top merged XP + stats: smaller and separated */
 .metaHud{
-  top:calc(14.8% + env(safe-area-inset-top))!important;
-  left:7%!important;
-  right:7%!important;
-  height:32px!important;
-  min-height:32px!important;
-  z-index:39!important;
-  border-width:3px!important;
-  border-radius:16px!important;
-  padding:3px 10px!important;
+  top:calc(14.3% + env(safe-area-inset-top))!important;
+  left:8.5%!important;
+  right:8.5%!important;
+  height:42px!important;
+  min-height:42px!important;
+  display:grid!important;
+  grid-template-columns:46px 1fr!important;
+  align-items:center!important;
+  padding:0!important;
+  z-index:44!important;
+  pointer-events:none!important;
 }
-.xpTrack{height:12px!important;border-width:2px!important}
-.metaHud .xpLabel,.metaHud .xpText{font-size:10px!important}
+.metaLevel{
+  position:relative!important;
+  left:auto!important;top:auto!important;
+  width:48px!important;height:48px!important;
+  min-width:48px!important;min-height:48px!important;
+  border-radius:14px!important;
+  border:3px solid #ffcc31!important;
+  font-size:9px!important;line-height:10px!important;
+  transform:none!important;
+  z-index:45!important;
+}
+.metaLevel b{font-size:22px!important;line-height:21px!important}
+.xpHud{
+  position:relative!important;
+  left:auto!important;right:auto!important;top:auto!important;
+  margin-left:-6px!important;
+  height:30px!important;
+  border-radius:14px!important;
+  border:3px solid #ffcc31!important;
+  display:grid!important;
+  grid-template-columns:34px minmax(70px,1fr) 42px!important;
+  align-items:center!important;
+  gap:4px!important;
+  padding:0 6px 0 12px!important;
+  overflow:hidden!important;
+  pointer-events:none!important;
+}
+.xpLabel{font-size:9px!important;gap:1px!important;white-space:nowrap!important}
+.xpTrack{height:13px!important;min-width:0!important;width:100%!important;border-radius:10px!important;overflow:hidden!important}
+.xpHudText{font-size:9px!important;white-space:nowrap!important}
 
-/* Stats bar directly under XP, full width, no big side blocks */
+/* Remove the oversized separate level/crown circles that were colliding with stats */
+.levelBadge,.king{display:none!important;visibility:hidden!important;pointer-events:none!important}
+
 .stats{
-  top:calc(20.1% + env(safe-area-inset-top))!important;
-  left:7%!important;
-  right:7%!important;
-  height:46px!important;
-  min-height:46px!important;
-  z-index:38!important;
-  border-width:3px!important;
-  border-radius:18px!important;
+  top:calc(20.2% + env(safe-area-inset-top))!important;
+  left:7.5%!important;
+  right:7.5%!important;
+  height:48px!important;
+  min-height:48px!important;
+  border-radius:17px!important;
+  border:3px solid #d85aff!important;
+  padding:4px 10px!important;
+  z-index:40!important;
 }
-.stats .statLabel,.stats small{font-size:10px!important}
-.stats .statValue,.stats b{font-size:22px!important}
+.stat small,.stats small{font-size:10px!important;line-height:11px!important}
+.stat b,.stats b{font-size:22px!important;line-height:24px!important}
 
-/* Crown smaller and not overlapping */
-.king{
-  top:calc(20.0% + env(safe-area-inset-top))!important;
-  right:2.4%!important;
-  width:56px!important;
-  height:56px!important;
-  z-index:39!important;
-  transform:scale(.82)!important;
-  transform-origin:center!important;
-}
-
-/* Board restored and shifted up with no side vertical panels */
+/* IMPORTANT: keep exact v5.0.3 board size/position */
 .boardWrap{
-  top:calc(28.4% + env(safe-area-inset-top))!important;
-  height:44.2%!important;
+  top:calc(29.5% + env(safe-area-inset-top))!important;
+  height:42.6%!important;
   left:8.2%!important;
   right:8.2%!important;
   z-index:30!important;
 }
-.board{transform:none!important}
 
-/* Convert side panels to horizontal mini-buttons around Free Reward */
-.sidePanel{
-  top:auto!important;
-  bottom:17.75%!important;
-  width:78px!important;
-  height:38px!important;
-  min-height:38px!important;
-  border-radius:18px!important;
-  z-index:45!important;
-  font-size:8px!important;
-  line-height:.9!important;
-  padding:2px!important;
-}
-.sidePanel.left{
-  left:5.5%!important;
-  right:auto!important;
-}
-.sidePanel.right{
-  right:5.5%!important;
-  left:auto!important;
-}
-.sidePanel .icon,.sidePanel img{
-  width:20px!important;
-  height:20px!important;
-  display:inline-block!important;
-}
-.sidePanel b,.sidePanel .label,.sidePanel span{
-  font-size:8px!important;
-  line-height:.9!important;
-}
-.sidePanel .claim,.sidePanel button,.sidePanel .price{
-  font-size:8px!important;
-  line-height:1!important;
-  padding:1px 4px!important;
-  border-radius:8px!important;
-}
-
-/* Objective and Free Reward row */
-.mission{
-  top:calc(73.6% + env(safe-area-inset-top))!important;
-  height:34px!important;
-  left:6.5%!important;
-  right:6.5%!important;
-  z-index:42!important;
-  font-size:12px!important;
-  white-space:nowrap!important;
-  overflow:hidden!important;
-  text-overflow:ellipsis!important;
+/* Bottom reward row: three compact buttons, no overlap */
+.sidePanel.left{display:none!important;visibility:hidden!important;pointer-events:none!important}
+.profileNavBtn,#profileQuickBtnV49{
+  display:grid!important;visibility:visible!important;pointer-events:auto!important;
+  position:absolute!important;
+  left:8px!important;right:auto!important;top:auto!important;bottom:17.75%!important;
+  width:88px!important;min-width:88px!important;max-width:88px!important;
+  height:31px!important;min-height:31px!important;
+  border-radius:16px!important;border:2px solid #ffdf45!important;
+  background:linear-gradient(#ff6bef,#7d18cd)!important;color:#fff36b!important;
+  font-size:9px!important;font-weight:1000!important;line-height:10px!important;
+  padding:0 4px!important;text-align:center!important;place-items:center!important;
+  transform:none!important;animation:none!important;z-index:58!important;
+  box-shadow:0 3px 0 #4d0037,0 0 8px rgba(255,243,107,.45)!important;
 }
 .rewardChestFab{
-  bottom:17.80%!important;
-  left:50%!important;
-  transform:translateX(-50%)!important;
-  z-index:46!important;
-  font-size:10px!important;
-  padding:5px 12px!important;
-  min-width:135px!important;
-  text-align:center!important;
+  left:50%!important;right:auto!important;top:auto!important;bottom:17.75%!important;
+  width:158px!important;min-width:158px!important;height:31px!important;
+  padding:0 8px!important;border-radius:18px!important;
+  font-size:10.5px!important;line-height:11px!important;
+  display:grid!important;place-items:center!important;
+  transform:translateX(-50%)!important;animation:rewardPulse 1.25s ease-in-out infinite!important;
+  z-index:57!important;white-space:nowrap!important;
+}
+.sidePanel.right{
+  display:grid!important;visibility:visible!important;pointer-events:auto!important;
+  top:auto!important;bottom:17.75%!important;right:8px!important;left:auto!important;
+  width:88px!important;height:38px!important;
+  min-width:88px!important;min-height:38px!important;
+  padding:2px 4px!important;border-radius:18px!important;
+  border:3px solid #ffdf45!important;
+  grid-template-rows:auto auto!important;align-items:center!important;justify-items:center!important;
+  font-size:9px!important;line-height:9px!important;z-index:58!important;
+  overflow:hidden!important;text-align:center!important;
+}
+.sidePanel.right .big{font-size:17px!important;line-height:16px!important;margin:0!important;color:#fff45f!important}
+.sidePanel.right .greenBtn{
+  position:absolute!important;right:4px!important;bottom:3px!important;
+  width:32px!important;height:15px!important;min-width:32px!important;
+  padding:0!important;margin:0!important;border-radius:9px!important;
+  font-size:8px!important;line-height:8px!important;
 }
 
-/* Profile compact lower-left, not interfering */
-.profileNavBtn,#profileQuickBtnV49{
-  display:grid!important;
-  visibility:visible!important;
-  pointer-events:auto!important;
-  position:absolute!important;
-  left:6px!important;
-  bottom:20.95%!important;
-  top:auto!important;
-  transform:none!important;
-  z-index:58!important;
-  min-width:78px!important;
-  height:24px!important;
-  padding:0 7px!important;
-  border-radius:14px!important;
-  border:2px solid #ffdf45!important;
-  background:linear-gradient(#ff6bef,#7d18cd)!important;
-  color:#fff36b!important;
-  font-size:8.5px!important;
-  font-weight:1000!important;
-  text-shadow:0 2px #000!important;
-  box-shadow:0 3px 0 #4d0037,0 0 8px rgba(255,243,107,.45)!important;
-  place-items:center!important;
+/* Objective stays between board and reward row */
+.mission{
+  top:calc(73.15% + env(safe-area-inset-top))!important;
+  left:6.5%!important;right:6.5%!important;height:32px!important;
+  z-index:42!important;font-size:11.5px!important;padding:4px 10px!important;
+  white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
 }
-
-/* Bottom */
 .boosters{bottom:8.15%!important;height:9.2%!important;z-index:40!important}
 .nav{height:8.05%!important;z-index:41!important}
 
-/* Small device/Facebook browser */
 @media(max-height:790px){
-  .topBars{top:calc(3.4% + env(safe-area-inset-top))!important}
-  .pill{height:28px!important;min-width:125px!important;font-size:11px!important}
-  .logo{top:calc(3.7% + env(safe-area-inset-top))!important;transform:translateX(-50%) scale(.72)!important}
-  .questTopBtn{top:calc(3.8% + env(safe-area-inset-top))!important;transform:scale(.76)!important}
-  .sideBtns{top:calc(3.6% + env(safe-area-inset-top))!important;transform:scale(.74)!important;gap:6px!important}
-  .metaHud{top:calc(14.0% + env(safe-area-inset-top))!important;height:31px!important}
-  .stats{top:calc(19.3% + env(safe-area-inset-top))!important;height:44px!important}
-  .king{top:calc(19.25% + env(safe-area-inset-top))!important;width:52px!important;height:52px!important;transform:scale(.78)!important}
-  .boardWrap{top:calc(27.5% + env(safe-area-inset-top))!important;height:45.0%!important;left:7.8%!important;right:7.8%!important}
-  .mission{top:calc(73.5% + env(safe-area-inset-top))!important;height:32px!important;font-size:11px!important}
-  .rewardChestFab{bottom:17.55%!important;font-size:9.5px!important;min-width:125px!important;padding:4px 10px!important}
-  .sidePanel{bottom:17.55%!important;width:72px!important;height:35px!important;font-size:7.5px!important}
-  .profileNavBtn,#profileQuickBtnV49{bottom:20.65%!important;height:22px!important;min-width:70px!important;font-size:8px!important}
+  .metaHud{top:calc(13.8% + env(safe-area-inset-top))!important;height:38px!important;grid-template-columns:42px 1fr!important}
+  .metaLevel{width:44px!important;height:44px!important;min-width:44px!important;min-height:44px!important;font-size:8px!important}
+  .metaLevel b{font-size:20px!important;line-height:19px!important}
+  .xpHud{height:28px!important;grid-template-columns:30px minmax(56px,1fr) 36px!important;padding:0 5px 0 10px!important}
+  .xpLabel{font-size:8px!important}.xpTrack{height:12px!important}.xpHudText{font-size:8px!important}
+  .stats{top:calc(19.5% + env(safe-area-inset-top))!important;height:44px!important}
+  .stat b,.stats b{font-size:20px!important}.stat small,.stats small{font-size:9px!important}
+  .boardWrap{top:calc(29.2% + env(safe-area-inset-top))!important;height:43.0%!important;left:7.5%!important;right:7.5%!important}
+  .mission{top:calc(73.3% + env(safe-area-inset-top))!important;height:30px!important;font-size:10.5px!important}
+  .profileNavBtn,#profileQuickBtnV49{bottom:17.55%!important;width:80px!important;min-width:80px!important;height:28px!important;font-size:8px!important;left:7px!important}
+  .rewardChestFab{bottom:17.55%!important;width:145px!important;min-width:145px!important;height:28px!important;font-size:9.5px!important}
+  .sidePanel.right{bottom:17.55%!important;right:7px!important;width:80px!important;height:35px!important;font-size:8px!important}
+  .sidePanel.right .big{font-size:15px!important}.sidePanel.right .greenBtn{width:29px!important;height:14px!important;font-size:7px!important}
 }
+
+
+
+/* v5.1.2 CLEAN PROFILE + REMOVE EXTRA MOVES SIDE BUTTON */
+#profileQuickBtnV49,.profileNavBtn{
+  animation:none!important;
+  transition:none!important;
+  filter:none!important;
+  box-shadow:0 3px 0 #4d0037!important;
+}
+.metaHud,.metaLevel,#profileBadge,.xpHud{
+  animation:none!important;
+  transition:none!important;
+  filter:none!important;
+}
+#profileBadge{
+  background:linear-gradient(#ff6bef,#7d18cd)!important;
+  border:3px solid #ffdf45!important;
+  border-radius:18px!important;
+  box-shadow:0 4px 0 #7a3c00!important;
+}
+/* Hide broken right-side extra moves panel completely */
+.sidePanel.right,#extraMovesBtn{
+  display:none!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+/* Keep daily reward panel small and clean */
+.sidePanel.left{
+  width:10%!important;
+  height:14.5%!important;
+  font-size:8.5px!important;
+  line-height:.95!important;
+}
+.sidePanel.left .big{font-size:22px!important}
+.sidePanel.left .greenBtn{font-size:8px!important;padding:3px 1px!important}
+/* Reward button centered; board size untouched */
+.rewardChestFab{
+  left:50%!important;
+  right:auto!important;
+  transform:translateX(-50%)!important;
+  min-width:190px!important;
+  text-align:center!important;
+  animation:none!important;
+}
+/* Prevent JS tap-polish from leaving profile visually blinking */
+#profileQuickBtnV49:active,.profileNavBtn:active,#profileBadge:active{
+  transform:none!important;
+}
+
+
+
+/* v5.1.2 HARD CLEAN HUD - XP removed + steady static PLV */
+.metaHud,#metaHud,.xpHud,#xpHud,.xpTrack,.xpHudFill,#xpHudFill,.xpHudText,#xpHudText,.xpLabel{
+  display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;animation:none!important;transition:none!important;
+}
+.metaLevel,#profileBadge,.levelBadge{
+  display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;animation:none!important;transition:none!important;
+}
+#simplePlayerBadgeV512{
+  position:absolute!important;
+  left:50%!important;
+  top:calc(16.0% + env(safe-area-inset-top))!important;
+  transform:translateX(-50%)!important;
+  z-index:45!important;
+  min-width:118px!important;
+  height:36px!important;
+  border-radius:20px!important;
+  border:3px solid #ffdf45!important;
+  background:linear-gradient(#ff6bef,#7d18cd)!important;
+  color:#fff36b!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:6px!important;
+  font-size:15px!important;
+  font-weight:1000!important;
+  text-shadow:0 2px #000!important;
+  box-shadow:0 4px 0 #4d0037,0 7px 12px rgba(0,0,0,.45)!important;
+  animation:none!important;
+  transition:none!important;
+  filter:none!important;
+}
+#simplePlayerBadgeV512 *{animation:none!important;transition:none!important;filter:none!important}
+.profileNavBtn,#profileQuickBtnV49{
+  display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;animation:none!important;transition:none!important;
+}
+.sidePanel.right,#extraMovesBtn{
+  display:none!important;visibility:hidden!important;opacity:0!important;pointer-events:none!important;
+}
+.stats{
+  top:calc(22.8% + env(safe-area-inset-top))!important;
+  left:7.5%!important;right:7.5%!important;
+  height:54px!important;
+  z-index:39!important;
+}
+.king{
+  top:calc(22.2% + env(safe-area-inset-top))!important;
+  right:3%!important;
+  width:64px!important;height:64px!important;
+  z-index:40!important;
+}
+.boardWrap{
+  top:calc(31.8% + env(safe-area-inset-top))!important;
+  height:40.4%!important;
+  left:7.5%!important;right:7.5%!important;
+}
+.sidePanel.left{display:none!important;visibility:hidden!important;pointer-events:none!important}
+.mission{top:calc(73.5% + env(safe-area-inset-top))!important}
+.rewardChestFab{bottom:17.55%!important}
+.versionTag{font-size:10px!important}
+@media(max-height:790px){
+  #simplePlayerBadgeV512{top:calc(15.5% + env(safe-area-inset-top))!important;height:32px!important;font-size:13px!important;min-width:105px!important}
+  .stats{top:calc(22.2% + env(safe-area-inset-top))!important;height:50px!important}
+  .king{top:calc(21.8% + env(safe-area-inset-top))!important;width:60px!important;height:60px!important}
+  .boardWrap{top:calc(31.2% + env(safe-area-inset-top))!important;height:40.8%!important}
+}
+
+
+/* v5.1.3 KINGDOM CLEANUP - remove release tools and duplicate profile cards */
+#kingdomScreen #profileCardV49,
+#kingdomScreen #v502ProfileKingdomBtn,
+#kingdomScreen #playStoreReadyBtn,
+#kingdomScreen .publisherToolsCard,
+#kingdomScreen .productionToolsCard{
+  display:none!important;
+  visibility:hidden!important;
+  pointer-events:none!important;
+}
+#kingdomScreen .card{margin:10px 0!important;}
 
 </style>
 </head>
@@ -2845,7 +2917,7 @@ button:active{transform:scale(.95)!important}
     </div>
   </div>
   <div class="levelUpPop" id="levelUpPop">LEVEL UP!</div>
-  <div class="versionTag">v5.0.4</div>
+  <div class="versionTag">v5.1.3</div>
   <button class="profileNavBtn" id="profileQuickBtnV49">👤 PROFILE</button>
   <div class="publisherBadge">APK READY</div>
 <div class="castle">🏰</div>
@@ -3166,7 +3238,20 @@ button:active{transform:scale(.95)!important}
 
   <section class="screen" id="kingdomScreen">
     <h1>KINGDOM</h1>
-    <div class="card"><h2>Castle Upgrade</h2><p>Use stars to rebuild the kingdom.</p><button id="upgradeKingdom" class="greenBtn">Upgrade - 10⭐</button></div><div class="card"><h2>🚀 Publisher Tools</h2><p>Check Play Store readiness before packaging.</p><button id="playStoreReadyBtn" class="premiumBtn">OPEN CHECKLIST</button></div>
+    <div class="card" id="kingdomProfileCardClean">
+      <h2>👤 Player Profile</h2>
+      <p>View achievements, lifetime stats, and rewards.</p>
+      <button id="openProfileCleanBtn" class="premiumBtn">OPEN PROFILE</button>
+    </div>
+    <div class="card">
+      <h2>🏰 Castle Upgrade</h2>
+      <p>Use stars to rebuild the kingdom.</p>
+      <button id="upgradeKingdom" class="greenBtn">Upgrade - 10⭐</button>
+    </div>
+    <div class="card">
+      <h2>🏆 Kingdom Progress</h2>
+      <p>Stars collected, worlds unlocked, chests opened, and achievements are tracked here.</p>
+    </div>
     <button class="back">Back to Game</button>
   </section>
 
@@ -3264,7 +3349,7 @@ function render(){
   }
   updateTop();
 }
-function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v5.0.4 • Level '+profile.current)}
+function startLevel(n){profile.current=Math.max(1,Math.min(profile.unlocked,n||profile.current));score=0;collectCount=0;moves=lv().moves;selected=null;busy=false;ended=false;tool=null;modal.style.display='none';makeBoard();try{ensurePlayable()}catch(e){} render();resolve(false,true);drawPath();save();toast('v5.1.3 • Level '+profile.current)}
 function groups(){
   let gs=[];for(let y=0;y<H;y++){let run=[{x:0,y}];for(let x=1;x<W;x++){if(board[y][x]&&board[y][x-1]&&board[y][x].type===board[y][x-1].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
   for(let x=0;x<W;x++){let run=[{x,y:0}];for(let y=1;y<H;y++){if(board[y][x]&&board[y-1][x]&&board[y][x].type===board[y-1][x].type)run.push({x,y});else{if(run.length>=3)gs.push([...run]);run=[{x,y}]}}if(run.length>=3)gs.push([...run])}
@@ -5168,7 +5253,7 @@ try{
   setTimeout(function(){
     const quick=document.getElementById("profileQuickBtnV49"); if(quick)quick.onclick=openProfile;
     const kingdom=document.getElementById("kingdomScreen");
-    if(kingdom && !document.getElementById("profileCardV49")){
+    if(false && kingdom && !document.getElementById("profileCardV49")){
       const card=document.createElement("div");
       card.id="profileCardV49"; card.className="card";
       card.innerHTML="<h2>👤 Player Profile</h2><p>View achievements, lifetime stats, and rewards.</p><button id='openProfileBtnV49' class='premiumBtn'>OPEN PROFILE</button>";
@@ -5177,66 +5262,6 @@ try{
     }
     renderProfile();
   },1000);
-})();
-
-
-
-// v5.0.4 Clean Compact Layout
-(function(){
-  if(window.__GKL_V504_CLEAN_COMPACT__) return;
-  window.__GKL_V504_CLEAN_COMPACT__=true;
-
-  function cleanup(){
-    try{
-      document.querySelectorAll('.pLevel,.playerLevel,.plv,.levelBadge,.rcBadge,.productionBadge,.publisherBadge').forEach(e=>e.remove());
-    }catch(e){}
-  }
-
-  function ensureProfileButton(){
-    try{
-      let b=document.getElementById('profileQuickBtnV49');
-      if(!b){
-        b=document.createElement('button');
-        b.id='profileQuickBtnV49';
-        b.className='profileNavBtn';
-        b.textContent='👤 PROFILE';
-        document.body.appendChild(b);
-      }
-      b.textContent='👤 PROFILE';
-      b.onclick=function(){
-        if(typeof window.GKLOpenProfileV49==='function') window.GKLOpenProfileV49();
-        else{
-          document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-          const p=document.getElementById('profileScreenV49');
-          if(p)p.classList.add('active');
-        }
-      };
-    }catch(e){}
-  }
-
-  function fitSideButtons(){
-    try{
-      document.querySelectorAll('.sidePanel').forEach(p=>{
-        p.style.fontSize='8px';
-        p.style.lineHeight='.9';
-      });
-    }catch(e){}
-  }
-
-  function polishMission(){
-    try{
-      const m=document.getElementById('mission');
-      if(m){
-        m.style.whiteSpace='nowrap';
-        m.style.overflow='hidden';
-        m.style.textOverflow='ellipsis';
-      }
-    }catch(e){}
-  }
-
-  function tick(){cleanup();ensureProfileButton();fitSideButtons();polishMission();}
-  setTimeout(tick,300);
-  setInterval(tick,1200);
 })();
 
 
@@ -5291,7 +5316,7 @@ try{
   function addProfileToKingdom(){
     try{
       const kingdom=document.getElementById('kingdomScreen');
-      if(!kingdom || document.getElementById('v502ProfileKingdomBtn')) return;
+      if(true) return;
       const card=document.createElement('div');
       card.className='card'; card.id='v502ProfileKingdomBtn';
       card.innerHTML='<h2>👤 Player Profile</h2><p>View your stats, achievements and progress.</p><button class="premiumBtn">OPEN PROFILE</button>';
@@ -5461,6 +5486,139 @@ try{
   }
   ["pointerdown","touchstart","click"].forEach(ev=>window.addEventListener(ev,lock,{passive:true}));
   lock();
+})();
+
+
+
+// v5.1.2 final cleanup: profile steady + remove glitched extra moves side button
+(function(){
+  if(window.__GKL_V511_CLEAN_PROFILE__) return;
+  window.__GKL_V511_CLEAN_PROFILE__=true;
+  function clean(){
+    try{
+      var p=document.getElementById('profileQuickBtnV49');
+      if(p){
+        p.style.animation='none';
+        p.style.transition='none';
+        p.style.filter='none';
+        p.classList.remove('rewardGlow');
+      }
+      var badge=document.getElementById('profileBadge');
+      if(badge){
+        badge.style.animation='none';
+        badge.style.transition='none';
+        badge.style.filter='none';
+      }
+      var right=document.querySelector('.sidePanel.right');
+      if(right){right.style.display='none';right.style.visibility='hidden';right.style.pointerEvents='none';}
+      var extra=document.getElementById('extraMovesBtn');
+      if(extra){extra.style.display='none';extra.style.visibility='hidden';extra.style.pointerEvents='none';}
+      var tag=document.querySelector('.versionTag'); if(tag) tag.textContent='v5.1.2';
+    }catch(e){}
+  }
+  clean();
+  setTimeout(clean,300);
+  setInterval(clean,1000);
+})();
+
+
+
+// v5.1.2 hard cleanup: permanently remove XP bar and blinking profile
+(function(){
+  if(window.__GKL_V512_HARD_CLEAN__) return;
+  window.__GKL_V512_HARD_CLEAN__=true;
+  function getPLv(){
+    try{var p=JSON.parse(localStorage.getItem('gkl_v22')||'{}');return p.playerLevel||1;}catch(e){return 1;}
+  }
+  function ensureBadge(){
+    var game=document.getElementById('game'); if(!game) return;
+    var b=document.getElementById('simplePlayerBadgeV512');
+    if(!b){
+      b=document.createElement('div');
+      b.id='simplePlayerBadgeV512';
+      game.appendChild(b);
+    }
+    b.innerHTML='👤 <span>PLV '+getPLv()+'</span>';
+    b.style.animation='none'; b.style.transition='none'; b.style.filter='none';
+  }
+  function hardClean(){
+    try{
+      ['metaHud','xpHud','xpHudFill','xpHudText','profileBadge','profileQuickBtnV49','extraMovesBtn'].forEach(function(id){
+        var el=document.getElementById(id);
+        if(el){el.style.display='none';el.style.visibility='hidden';el.style.opacity='0';el.style.pointerEvents='none';el.style.animation='none';el.style.transition='none';}
+      });
+      document.querySelectorAll('.metaHud,.xpHud,.xpTrack,.xpHudFill,.xpHudText,.xpLabel,.metaLevel,.levelBadge,.profileNavBtn,.sidePanel.right').forEach(function(el){
+        el.style.display='none';el.style.visibility='hidden';el.style.opacity='0';el.style.pointerEvents='none';el.style.animation='none';el.style.transition='none';
+      });
+      ensureBadge();
+      var tag=document.querySelector('.versionTag'); if(tag) tag.textContent='v5.1.2';
+    }catch(e){}
+  }
+  var old=window.GKLRenderMeta;
+  window.GKLRenderMeta=function(){try{if(typeof old==='function')old();}catch(e){} hardClean();};
+  hardClean();
+  setTimeout(hardClean,100);
+  setTimeout(hardClean,500);
+  setInterval(hardClean,700);
+})();
+
+
+// v5.1.3 Kingdom release cleanup: remove Publisher Tools and duplicate Player Profile cards
+(function(){
+  if(window.__GKL_V513_KINGDOM_CLEAN__) return;
+  window.__GKL_V513_KINGDOM_CLEAN__ = true;
+
+  function openProfileClean(){
+    try{
+      document.querySelectorAll(".screen").forEach(function(s){s.classList.remove("active");});
+      var p=document.getElementById("profileScreenV49");
+      if(p)p.classList.add("active");
+      if(typeof window.GKLRenderProfileV49==="function") window.GKLRenderProfileV49();
+    }catch(e){}
+  }
+
+  function cleanKingdom(){
+    try{
+      var kingdom=document.getElementById("kingdomScreen");
+      if(!kingdom) return;
+
+      ["profileCardV49","v502ProfileKingdomBtn"].forEach(function(id){
+        var el=document.getElementById(id);
+        if(el) el.remove();
+      });
+
+      Array.from(kingdom.querySelectorAll(".card")).forEach(function(card){
+        var t=(card.textContent||"").toLowerCase();
+        if(t.includes("publisher tools") || t.includes("production check") || t.includes("play store readiness") || t.includes("open checklist") || t.includes("open monetization") || t.includes("open rc check")){
+          card.remove();
+        }
+      });
+
+      var clean=document.getElementById("kingdomProfileCardClean");
+      if(!clean){
+        clean=document.createElement("div");
+        clean.id="kingdomProfileCardClean";
+        clean.className="card";
+        clean.innerHTML='<h2>👤 Player Profile</h2><p>View achievements, lifetime stats, and rewards.</p><button id="openProfileCleanBtn" class="premiumBtn">OPEN PROFILE</button>';
+        var h=kingdom.querySelector("h1");
+        if(h && h.nextSibling) kingdom.insertBefore(clean,h.nextSibling);
+        else kingdom.insertBefore(clean,kingdom.firstChild);
+      }
+      var btn=document.getElementById("openProfileCleanBtn");
+      if(btn) btn.onclick=openProfileClean;
+
+      var backs=kingdom.querySelectorAll(".back");
+      backs.forEach(function(b,i){ if(i>0) b.remove(); });
+
+      var tag=document.querySelector(".versionTag");
+      if(tag) tag.textContent="v5.1.3";
+    }catch(e){}
+  }
+
+  cleanKingdom();
+  setTimeout(cleanKingdom,200);
+  setTimeout(cleanKingdom,1000);
+  setInterval(cleanKingdom,800);
 })();
 
 </script>
